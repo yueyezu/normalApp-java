@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.litu.app.dao.SysDictMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysDict">
+        <id column="f_id" property="fId" />
+        <result column="f_parentId" property="fParentid" />
+        <result column="f_layers" property="fLayers" />
+        <result column="f_code" property="fCode" />
+        <result column="f_name" property="fName" />
+        <result column="f_description" property="fDescription" />
+        <result column="f_sortNum" property="fSortnum" />
+        <result column="f_enableDelete" property="fEnabledelete" />
+        <result column="f_createBy" property="fCreateby" />
+        <result column="f_createTime" property="fCreatetime" />
+        <result column="f_modifyBy" property="fModifyby" />
+        <result column="f_modifyTime" property="fModifytime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        f_id, f_parentId, f_layers, f_code, f_name, f_description, f_sortNum, f_enableDelete, f_createBy, f_createTime, f_modifyBy, f_modifyTime
+    </sql>
+
+</mapper>

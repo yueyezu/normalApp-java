@@ -1,0 +1,113 @@
+server:
+  port: 8080
+  #   servlet: context-path: /             #项目开放接口访问的名称
+  error:
+    path: /core         # 错误界面的路径，根据错误号（404、500...）匹配,默认为/error
+
+# ** 系统自定义配置项内容 **
+ltsystem:
+  file:
+    basePath: file/ # 文件存储的跟路径,绝对路径-直接使用,相对路径-项目运行目录下
+    pattern: YYYY-MM/  # 存储目录的格式,日期格式YYYYMMddHHmmss,按照日期格式化来进行,为根目录下的一级
+  sysmsg:
+    code: normalApp #当前系统的编号，需要和数据库中的system表中的code对应起来，否则会发生不可预测的错误。
+  oauth:
+    tokenEnableTime: 24  #单位小时
+    refreshEnableTime: 30 # 单位天，如果为0，表示不会过期
+
+spring:
+  profiles:
+    # dev —开发环境；test —测试环境；prod —正式环境；
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+  mvc:
+    static-path-pattern: /static/**
+  freemarker:
+    template-loader-path: classpath:/templates/
+    cache: false
+    content-type: text/html
+    request-context-attribute: request
+    settings:
+      template_update_delay: 1000
+      default_encoding: UTF-8
+      classic_compatible: true
+      auto_import: core/mcserver.ftl as mc,core/mcweb.ftl as mcweb
+  transaction:
+    default-timeout: -1
+    rollback-on-commit-failure: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource    # 使用druid数据源
+    druid:
+      initial-size: 5      # 初始化 最小 最大
+      min-idle: 10
+      max-active: 20
+      max-wait: 60000      # 配置获取连接等待超时的时间
+      validation-query: select 'x'
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /monitor/druid/*
+        reset-enable: false          #  禁用HTML页面上的“Reset All”功能
+        login-username: admin        # 登录名
+        login-password: 123456       # 登录密码
+      filter:
+        wall:
+          config:
+            multi-statement-allow: true
+          enabled: true
+      filters: stat,slf4j
+  cache:
+    type: EHCACHE
+    ehcache:
+      config: classpath:ehcache.xml
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss    # 全局设置@JsonFormat的格式pattern
+    locale: zh    # 当地时区
+    time-zone: GMT+8    # 设置全局时区
+    default-property-inclusion: non_null # 常用，全局设置pojo或被@JsonInclude注解的属性的序列化方式
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false     # 常用,json中含pojo不存在属性时是否失败报错,默认true
+    parser:    # 枚举类JsonParser.Feature枚举类中的枚举属性为key，值为boolean设置jackson JsonParser特性
+      ALLOW_SINGLE_QUOTES: true # 是否允许出现单引号,默认false
+      ALLOW_UNQUOTED_CONTROL_CHARS: true      #允许出现特殊字符和转义符
+
+mybatis-plus:
+  mapper-locations: classpath:mybatis/*.xml
+  typeAliasesPackage: org.litu.*.entity
+  global-config:
+    banner: false
+    db-config:
+      db-type: mysql
+      field-strategy: not_null
+      id-type: id_worker_str
+  configuration:
+    local-cache-scope: statement
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /v2/api-docs
+
+shiro:
+  loginUrl: /login
+  successUrl: /index
+  rememberMeManager:
+    cookie:
+      maxAge: 604800
+      name: shiro-rememberMe
+  sessionManager:
+    cookie:
+      name: JSESSIONID
+    sessionIdUrlRewritingEnabled: false
+  userNativeSessionManager: true

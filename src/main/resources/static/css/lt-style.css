@@ -1,0 +1,13 @@
+/********* 以下为新添加内容 *******/
+.query-form {
+    margin: 5px 0px 10px 0px;
+}
+
+.query-form select {
+    min-width: 150px;
+}
+
+label.required:before {
+    content: '* ';
+    color: red;
+}

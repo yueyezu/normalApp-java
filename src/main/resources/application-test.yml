@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+# ** 系统自定义配置项内容 **
+ltsystem:
+  sysmsg:
+    title: 励图开发框架java-测试环境
+    desp: 本系统为励图高科公司java项目开发的框架，使用可以大大缩减简单系统的开发时间。
+    host: localhost:8080
+  swagger:
+    serviceUrl: localhost:8080/api/
+    serviceVersion: v1.2
+
+
+logging:
+  level:
+    root: info
+    org.litu: info
+  freemarker.cache: error
+  # config: classpath:logback-dev.xml
+
+spring:
+  datasource:
+    url: jdbc:mysql://47.94.198.207:3306/normalappdb_test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: sa
+    password: qazwsx123

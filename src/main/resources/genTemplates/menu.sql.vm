@@ -1,0 +1,18 @@
+-- 添加模块菜单 ** 该部分需要视实际情况查看是否需要执行，执行之前该sql请详细检查一下。
+-- INSERT INTO sys_menu(F_Id, F_ParentId, F_Layers, F_SystemCode, F_Type, F_Code, F_Name, F_Icon, F_Url, F_SortNum, F_Remark, F_CreateUserId, F_CreateTime, F_LastModifyUserId, F_LastModifyTime, F_Field1, F_Field2) VALUES ('mod${cfg.moduleCode}', '0', '#mod${cfg.moduleCode}#', '${cfg.systemCode}', 1, 'mod${cfg.moduleCode}', '${cfg.moduleName}', 'fa fa-money', '', 1, '', '${cfg.sqlCreator}', NOW(), '${cfg.sqlCreator}', NOW(), NULL, NULL);
+-- INSERT INTO sys_rolemenu(F_Id, F_RoleId, F_MenuId, F_SortNum) VALUES ('mod${cfg.moduleCode}', '${cfg.sqlCreator}', 'mod${cfg.moduleCode}', NULL);
+
+-- 添加菜单
+INSERT INTO sys_menu(F_Id, F_ParentId, F_Layers, F_SystemCode, F_Type, F_Code, F_Name, F_Icon, F_Url, F_SortNum, F_Remark, F_CreateUserId, F_CreateTime, F_LastModifyUserId, F_LastModifyTime, F_Field1, F_Field2) VALUES ('func${entity}', 'mod${cfg.moduleCode}', '#mod${cfg.moduleCode}#|#func${entity}#', '${cfg.systemCode}', 2, 'func${entity}', '${table.comment}', 'fa fa-flag', '${cfg.moduleCode}/${table.entityPath}/index', 1, '', '${cfg.sqlCreator}', NOW(), '${cfg.sqlCreator}', NOW(), NULL, NULL);
+-- 添加按钮
+INSERT INTO sys_menu(F_Id, F_ParentId, F_Layers, F_SystemCode, F_Type, F_Code, F_Name, F_Icon, F_Url, F_SortNum, F_Remark, F_CreateUserId, F_CreateTime, F_LastModifyUserId, F_LastModifyTime, F_Field1, F_Field2) VALUES ('func${entity}btnQuery', 'func${entity}', '#mod${cfg.moduleCode}#|#func${entity}#|#func${entity}btnQuery#', '${cfg.systemCode}', 3, 'btnQuery', '查询', 'fa fa-search', '', 1, '', '${cfg.sqlCreator}', NOW(), '${cfg.sqlCreator}', NOW(), NULL, NULL);
+INSERT INTO sys_menu(F_Id, F_ParentId, F_Layers, F_SystemCode, F_Type, F_Code, F_Name, F_Icon, F_Url, F_SortNum, F_Remark, F_CreateUserId, F_CreateTime, F_LastModifyUserId, F_LastModifyTime, F_Field1, F_Field2) VALUES ('func${entity}btnAdd', 'func${entity}', '#mod${cfg.moduleCode}#|#func${entity}#|#func${entity}btnAdd#', '${cfg.systemCode}', 3, 'btnAdd', '添加', 'fa fa-plus', '', 2, '', '${cfg.sqlCreator}', NOW(), '${cfg.sqlCreator}', NOW(), NULL, NULL);
+INSERT INTO sys_menu(F_Id, F_ParentId, F_Layers, F_SystemCode, F_Type, F_Code, F_Name, F_Icon, F_Url, F_SortNum, F_Remark, F_CreateUserId, F_CreateTime, F_LastModifyUserId, F_LastModifyTime, F_Field1, F_Field2) VALUES ('func${entity}btnDelete', 'func${entity}', '#mod${cfg.moduleCode}#|#func${entity}#|#func${entity}btnDelete#', '${cfg.systemCode}', 3, 'btnDelete', '删除', 'fa fa-remove', '', 4, '', '${cfg.sqlCreator}', NOW(), '${cfg.sqlCreator}', NOW(), NULL, NULL);
+INSERT INTO sys_menu(F_Id, F_ParentId, F_Layers, F_SystemCode, F_Type, F_Code, F_Name, F_Icon, F_Url, F_SortNum, F_Remark, F_CreateUserId, F_CreateTime, F_LastModifyUserId, F_LastModifyTime, F_Field1, F_Field2) VALUES ('func${entity}btnEdit', 'func${entity}', '#mod${cfg.moduleCode}#|#func${entity}#|#func${entity}btnEdit#', '${cfg.systemCode}', 3, 'btnEdit', '修改', 'fa fa-pencil', '', 3, '', '${cfg.sqlCreator}', NOW(), '${cfg.sqlCreator}', NOW(), NULL, NULL);
+
+-- 添加授权信息
+INSERT INTO sys_rolemenu(F_Id, F_RoleId, F_MenuId, F_SortNum) VALUES ('func${entity}', '${cfg.sqlCreator}', 'func${entity}', NULL);
+INSERT INTO sys_rolemenu(F_Id, F_RoleId, F_MenuId, F_SortNum) VALUES ('func${entity}btnAdd', '${cfg.sqlCreator}', 'func${entity}btnAdd', NULL);
+INSERT INTO sys_rolemenu(F_Id, F_RoleId, F_MenuId, F_SortNum) VALUES ('func${entity}btnDelete', '${cfg.sqlCreator}', 'func${entity}btnDelete', NULL);
+INSERT INTO sys_rolemenu(F_Id, F_RoleId, F_MenuId, F_SortNum) VALUES ('func${entity}btnEdit', '${cfg.sqlCreator}', 'func${entity}btnEdit', NULL);
+INSERT INTO sys_rolemenu(F_Id, F_RoleId, F_MenuId, F_SortNum) VALUES ('func${entity}btnQuery', '${cfg.sqlCreator}', 'func${entity}btnQuery', NULL)

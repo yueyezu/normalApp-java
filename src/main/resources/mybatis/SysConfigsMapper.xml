@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.litu.app.dao.SysConfigsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysConfigs">
+        <id column="f_id" property="fId" />
+        <result column="f_group" property="fGroup" />
+        <result column="f_name" property="fName" />
+        <result column="f_key" property="fKey" />
+        <result column="f_value" property="fValue" />
+        <result column="f_valueType" property="fValuetype" />
+        <result column="f_description" property="fDescription" />
+        <result column="f_remark" property="fRemark" />
+        <result column="f_sortNum" property="fSortnum" />
+        <result column="f_modifyBy" property="fModifyby" />
+        <result column="f_modifyTime" property="fModifytime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        f_id, f_group, f_name, f_key, f_value, f_valueType, f_description, f_remark, f_sortNum, f_modifyBy, f_modifyTime
+    </sql>
+
+</mapper>

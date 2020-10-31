@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.litu.app.dao.SysDictitemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysDictitem">
+        <id column="f_id" property="fId" />
+        <result column="f_dictId" property="fDictid" />
+        <result column="f_code" property="fCode" />
+        <result column="f_name" property="fName" />
+        <result column="f_description" property="fDescription" />
+        <result column="f_enabledFlag" property="fEnabledflag" />
+        <result column="f_isDefault" property="fIsdefault" />
+        <result column="f_sortNum" property="fSortnum" />
+        <result column="f_createBy" property="fCreateby" />
+        <result column="f_createTime" property="fCreatetime" />
+        <result column="f_modifyBy" property="fModifyby" />
+        <result column="f_modifyTime" property="fModifytime" />
+        <result column="f_field1" property="fField1" />
+        <result column="f_field2" property="fField2" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        f_id, f_dictId, f_code, f_name, f_description, f_enabledFlag, f_isDefault, f_sortNum, f_createBy, f_createTime, f_modifyBy, f_modifyTime, f_field1, f_field2
+    </sql>
+
+</mapper>

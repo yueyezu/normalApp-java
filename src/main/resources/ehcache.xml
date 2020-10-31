@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+
+	<cache name="user" maxEntriesLocalHeap="200"
+		timeToLiveSeconds="600">
+	</cache>
+
+	<cache name="shiro-activeSessionCache"
+		maxEntriesLocalHeap="10000" overflowToDisk="false" eternal="false"
+		diskPersistent="false" timeToLiveSeconds="0" timeToIdleSeconds="1800"
+		statistics="true" />
+
+</ehcache>

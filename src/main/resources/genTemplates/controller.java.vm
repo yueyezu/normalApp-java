@@ -1,0 +1,50 @@
+package ${package.Controller};
+
+#if(${swagger2})
+import io.swagger.annotations.Api;
+#end
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+import org.litu.core.annotation.LtLog;
+import org.litu.core.annotation.PageBasePath;
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+#if(${restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@LtLog(module = "$!{table.comment}" )
+@RequestMapping("/${cfg.moduleCode}/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end" )
+@PageBasePath(basePath = "${cfg.moduleCode}/${table.entityPath}" )
+#if(${swagger2})
+@Api(value = "$!{table.comment}", tags = {"$!{table.comment}"}, protocols = "http,https")
+#end
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+    #if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass}<${entity}, ${table.serviceName}> {
+    #else
+public class ${table.controllerName} {
+    #end
+
+}
+#end

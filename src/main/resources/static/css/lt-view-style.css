@@ -1,0 +1,106 @@
+/* web页面页头 */
+.web-navbar-header {
+    width: auto;
+}
+
+/* web页面页脚 */
+.web-footer {
+    background-color: #091723;
+    color: #6D8294;
+    height: 70px;
+    font-size: 14px;
+    line-height: 70px;
+    padding: 0;
+    text-align: center;
+}
+
+/* web页面内容 */
+.web-content {
+    min-height: 380px;
+}
+/**
+展示系统菜单栏部分
+ */
+.menuShowDiv{
+    width: 100%;
+    height: 64px;
+    background: #00478B;
+}
+.systemLogo{
+    width: 8%;
+    margin-left: 3%;
+    height: 60px;
+    line-height: 60px;
+    float: left;
+}
+.menuShow{
+    width: 69%;
+    height: 100%;
+    float: left;
+}
+.menuText{
+    padding: 0 20px;
+    color: #FEFEFE;
+    font-size: 14px;
+    height: 100%;
+    line-height: 60px;
+    display: block;
+}
+.userOperate{
+    width: 20%;
+    height: 100%;
+    float: left;
+}
+.userOperate ul{
+    width: 100%;
+    height: 60px;
+}
+.userOperate ul li{
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    margin-left: 15px;
+}
+.logo{
+    background: #00478B;
+    color: #fff;
+    padding: 0 25px !important;
+    font-weight: bold !important;
+    font-size: 30px !important;
+    display: block;
+    height: 60px !important;
+    line-height: 60px !important;
+}
+.pageSwitch{
+    width: 100%;
+    height: 26px;
+    line-height: 26px;
+    background: #FFFFFFFF;
+    display: inline-block;
+}
+.pageSwitch a{
+    color: #3187D9;
+    font-size: 14px;
+}
+.logout a{
+    color: #FEFEFE;
+}
+.liSelected{
+    border-bottom:4px solid #F9F9F9 !important;
+}
+.firstLevel{
+    float: left;
+}
+.firstLevel a:hover, .firstLevel a:focus {
+    color: #00E8D7;
+}
+ul{
+    margin-bottom: 0 !important;
+}
+.dropdown-menu li > a:hover,.dropdown-menu li > a:focus{
+    background: #00478B !important;
+    color: #FEFEFE;
+}
+.dropdown-menu{
+    min-width: 0 !important;
+}
