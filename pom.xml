@@ -16,9 +16,18 @@
     </parent>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <commons.text.version>1.6</commons.text.version>
+        <commons.collection.version>4.2</commons.collection.version>
+        <commons.net.version>3.6</commons.net.version>
+        <alibaba.druid.version>1.1.14</alibaba.druid.version>
+        <baomidou.mybatis-plus.version>3.1.0</baomidou.mybatis-plus.version>
+        <shiro.version>1.4.1</shiro.version>
+        <swagger2.version>2.9.2</swagger2.version>
+        <google.zxing.version>3.3.3</google.zxing.version>
+        <velocity.version>2.0</velocity.version>
+        <poi.version>4.0.1</poi.version>
+        <jxls.version>1.2.0</jxls.version>
     </properties>
 
     <dependencies>
@@ -52,19 +61,19 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.6</version>
+            <version>${commons.text.version}</version>
         </dependency>
         <!-- 集合工具 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
-            <version>4.2</version>
+            <version>${commons.collection.version}</version>
         </dependency>
         <!-- net工具 可以用来做ftp download等 -->
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.6</version>
+            <version>${commons.net.version}</version>
         </dependency>
         <!-- yml解析器 -->
         <dependency>
@@ -76,14 +85,9 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.14</version>
+            <version>${alibaba.druid.version}</version>
         </dependency>
         <!-- jdbc驱动 -->
-        <!-- SqlServer -->
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-        </dependency>
         <!-- mysql -->
         <dependency>
             <groupId>mysql</groupId>
@@ -94,12 +98,12 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.1.0</version>
+            <version>${baomidou.mybatis-plus.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.1.0</version>
+            <version>${baomidou.mybatis-plus.version}</version>
         </dependency>
 
         <!-- spring cache -->
@@ -116,49 +120,49 @@
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring-boot-web-starter</artifactId>
-            <version>1.4.1</version>
+            <version>${shiro.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-ehcache</artifactId>
-            <version>1.4.1</version>
+            <version>${shiro.version}</version>
         </dependency>
 
         <!-- swagger api文档自动生成 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger2.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger2.version}</version>
         </dependency>
 
         <!-- 二维码，条形码 -->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
-            <version>3.3.3</version>
+            <version>${google.zxing.version}</version>
         </dependency>
         <!--velocity-->
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
-            <version>2.0</version>
+            <version>${velocity.version}</version>
         </dependency>
 
         <!-- 导出Excel所需的jar包 -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>4.0.1</version>
+            <version>${poi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jxls</groupId>
             <artifactId>jxls-poi</artifactId>
-            <version>1.2.0</version>
+            <version>${jxls.version}</version>
         </dependency>
     </dependencies>
 
