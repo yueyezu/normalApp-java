@@ -54,14 +54,6 @@ public interface ISysFilesService extends IBaseService<SysFiles> {
     void download(String filePath, String fileName, HttpServletResponse response);
 
     /**
-     * 判断要删除的文件是否为头像
-     *
-     * @param id
-     * @return
-     */
-    boolean beforeDelete(String id);
-
-    /**
      * 根据文件路径删除文件记录
      *
      * @param location

@@ -1,4 +1,5 @@
 #set($noshowList = ['fId','fCreateuserid','fCreatetime','fLastmodifyuserid','fLastmodifytime'])
+#set($varStart = '${')
 
 <!doctype html>
 <html lang="en">
@@ -9,13 +10,13 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="view" class="form-horizontal m-t">
-            <input name="fId" id="fId" value="$ {data.fId!''}" type="hidden"/>
+            <input name="fId" id="fId" value="${varStart}data.fId!''}" type="hidden"/>
             #foreach($field in ${table.fields})
             #if(!$noshowList.contains( $field.propertyName))
             <div class="form-group">
                 <label class="col-sm-2 control-label">${field.comment}</label>
                 <div class="col-sm-10">
-                    <input id="${field.propertyName}" name="${field.propertyName}" value="$ {data.${field.propertyName}}" type="text" class="form-control" readonly/>
+                    <input id="${field.propertyName}" name="${field.propertyName}" value="${varStart}data.${field.propertyName}}" type="text" class="form-control" readonly/>
                 </div>
             </div>
             #end

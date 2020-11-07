@@ -16,12 +16,9 @@ import org.litu.core.enums.ErrorEnum;
 import org.litu.core.enums.LtLogOperationEnum;
 import org.litu.core.exception.LtParamException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 
 /**
@@ -77,12 +74,7 @@ public class SysFilesController extends BaseFormController<SysFiles, ISysFilesSe
     })
     public void loadFile(String file) {
         if (StringUtils.isBlank(file)) {
-            try {
-                response.setStatus(HttpStatus.NOT_FOUND.value());
-                response.getWriter().print("文件名称不能为空!");
-            } catch (IOException e) {
-            }
-            return;
+            throw new LtParamException("文件信息不能为空!");
         }
         sysFilesService.load(file, response);
     }
@@ -99,12 +91,7 @@ public class SysFilesController extends BaseFormController<SysFiles, ISysFilesSe
     })
     public void loadFileById(String fileId) {
         if (StringUtils.isBlank(fileId)) {
-            try {
-                response.setStatus(HttpStatus.NOT_FOUND.value());
-                response.getWriter().print("文件信息不能为空!");
-            } catch (IOException e) {
-            }
-            return;
+            throw new LtParamException("文件信息不能为空!");
         }
         SysFiles fileObj = sysFilesService.getById(fileId);
         sysFilesService.load(fileObj.getfLocation(), response);
@@ -175,17 +162,5 @@ public class SysFilesController extends BaseFormController<SysFiles, ISysFilesSe
             return false;
         }
         return true;
-    }
-
-    /**
-     * 判断要删除的文件是否为头像
-     *
-     * @param id
-     * @return
-     */
-    @PostMapping("/beforeDelete")
-    @ResponseBody
-    public BaseRes beforeDelete(String id) {
-        return BaseRes.ok(sysFilesService.beforeDelete(id));
     }
 }

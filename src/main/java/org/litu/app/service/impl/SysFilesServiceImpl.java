@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.dao.SysFilesMapper;
@@ -219,15 +220,6 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
         }
 
         return result;
-    }
-
-    @Override
-    public boolean beforeDelete(String id) {
-        SysFiles files = getById(id);
-        if (0 != files.getfField1()) {
-            return false;
-        }
-        return true;
     }
 
     @Override
