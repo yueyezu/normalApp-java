@@ -7,7 +7,7 @@ lt = {
             fn = msg;
             msg = "";
         }
-        layer.alert(msg || "执行成功！", {icon: 1, shadeClose: true, title: "成功"}, function (index) {
+        layer.alert(msg || "执行成功！", { icon: 1, shadeClose: true, title: "成功" }, function (index) {
             fn && fn();
             layer.close(index);
         });
@@ -17,28 +17,28 @@ lt = {
             fn = msg;
             msg = "";
         }
-        layer.msg(msg || "执行成功！", {icon: 1, time: 1000}, function (index) {
+        layer.msg(msg || "执行成功！", { icon: 1, time: 1000 }, function (index) {
             fn && fn();
         });
     },
     alertWarning: function (msg) {
-        layer.alert(msg || "警告！", {icon: 0, shadeClose: true, title: "警告"});
+        layer.alert(msg || "警告！", { icon: 0, shadeClose: true, title: "警告" });
     },
     msgWarning: function (msg) {
-        layer.msg(msg || "警告！", {icon: 0, time: 1000});
+        layer.msg(msg || "警告！", { icon: 0, time: 1000 });
     },
     alertError: function (msg, fn) {
         if (typeof msg == 'function') {
             fn = msg;
             msg = "";
         }
-        layer.alert(msg || "操作失败！", {icon: 2, shadeClose: true, title: "失败"}, function (index) {
+        layer.alert(msg || "操作失败！", { icon: 2, shadeClose: true, title: "失败" }, function (index) {
             fn && fn();
             layer.close(index);
         });
     },
     msgError: function (msg) {
-        layer.msg(msg || "执行失败！", {icon: 2, time: 1000});
+        layer.msg(msg || "执行失败！", { icon: 2, time: 1000 });
     },
     confirm: function (msg, fn) {
         layer.confirm(msg || "确认？", {
@@ -122,7 +122,7 @@ lt = {
         };
 
         if (typeof data == "string") {
-            photoJson.data.push({"src": data});
+            photoJson.data.push({ "src": data });
         } else {
             data.forEach(function (cv, index, arr) {
                 cv.pid = index;
@@ -329,15 +329,21 @@ $.fn.extend({
             });
         return serializeObj;
     },
-    // 选择框初始化
+    // 选择框初始化, 默认值可以在标签中用 defvalue 进行指定
     initSelect: function (resource, opt, defValue, fn) {
         if (!resource) return;
+        var $this = $(this);
 
+        // 排除没有默认值的影响
         if (typeof defValue == "function") {
             fn = defValue;
             defValue = null;
         }
-        var $this = $(this);
+        // 如果没有指定默认值的话，再标签中对默认值获取
+        if (!defValue) {
+            defValue = $this.attr("defvalue");
+        }
+
         var selHtml = "";
         if (typeof resource == "string") {   // 如果是字符串，则认为是url，通过远程获取
             $.get(resource, function (data) {
