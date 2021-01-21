@@ -18,7 +18,7 @@
     <properties>
         <java.version>1.8</java.version>
         <commons.text.version>1.6</commons.text.version>
-        <commons.collection.version>4.2</commons.collection.version>
+        <commons.collection.version>4.3</commons.collection.version>
         <commons.net.version>3.6</commons.net.version>
         <alibaba.druid.version>1.1.14</alibaba.druid.version>
         <baomidou.mybatis-plus.version>3.1.0</baomidou.mybatis-plus.version>
@@ -26,8 +26,8 @@
         <swagger2.version>2.9.2</swagger2.version>
         <google.zxing.version>3.3.3</google.zxing.version>
         <velocity.version>2.0</velocity.version>
-        <poi.version>4.0.1</poi.version>
-        <jxls.version>1.2.0</jxls.version>
+        <poitl.version>1.7.2</poitl.version>
+        <jxls.version>2.8.1</jxls.version>
     </properties>
 
     <dependencies>
@@ -153,12 +153,13 @@
             <version>${velocity.version}</version>
         </dependency>
 
-        <!-- 导出Excel所需的jar包 -->
+        <!-- word操作所需工具 -->
         <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>${poi.version}</version>
+            <groupId>com.deepoove</groupId>
+            <artifactId>poi-tl</artifactId>
+            <version>${poitl.version}</version>
         </dependency>
+        <!-- 导出Excel所需的jar包 -->
         <dependency>
             <groupId>org.jxls</groupId>
             <artifactId>jxls-poi</artifactId>

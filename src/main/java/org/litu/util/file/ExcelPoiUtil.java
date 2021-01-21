@@ -3,6 +3,7 @@ package org.litu.util.file;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxls.builder.xls.XlsCommentAreaBuilder;
@@ -13,6 +14,7 @@ import org.litu.util.file.jxlsEx.MergeCommand;
 
 import java.io.*;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 public class ExcelPoiUtil {
@@ -50,10 +52,35 @@ public class ExcelPoiUtil {
         String cellValue = null;
         switch (cell.getCellType()) {
             case NUMERIC:   //数字
-                Double doubleValue = cell.getNumericCellValue();
-                // 格式化科学计数法，取一位整数
-                DecimalFormat df = new DecimalFormat("0");
-                cellValue = df.format(doubleValue);
+                if (DateUtil.isCellDateFormatted(cell)) {
+//                    short format = cell.getCellStyle().getDataFormat();
+                    SimpleDateFormat sdf = null;
+//                    if (format == 20 || format == 32) {
+//                        sdf = new SimpleDateFormat("HH:mm");
+//                    } else if (format == 14 || format == 31 || format == 57 || format == 58) {
+//                        // 处理自定义日期格式：m月d日(通过判断单元格的格式id解决，id的值是58)
+//                        sdf = new SimpleDateFormat("yyyy-MM-dd");
+//                        double value = cell.getNumericCellValue();
+//                        Date date = DateUtil.getJavaDate(value);
+//                        cellValue = sdf.format(date);
+//                    } else {// 日期
+                    sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                    }
+                    try {
+                        cellValue = sdf.format(cell.getDateCellValue());// 日期
+                    } catch (Exception e) {
+                        try {
+                            throw new Exception("exception on get date data !".concat(e.toString()));
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                } else {
+                    Double doubleValue = cell.getNumericCellValue();
+                    // 格式化科学计数法，取一位整数
+                    DecimalFormat df = new DecimalFormat("0");
+                    cellValue = df.format(doubleValue);
+                }
                 break;
             case STRING:    //字符串
                 cellValue = cell.getStringCellValue();
@@ -72,7 +99,7 @@ public class ExcelPoiUtil {
             default:
                 break;
         }
-        return cellValue;
+        return cellValue == null ? null : cellValue.trim();
     }
 
 
