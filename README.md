@@ -14,7 +14,7 @@
 4. 数据库进行精简处理，无用的字段处理掉。
 5. mybatis的查询条件优化调整为lambda表达式的形式。
 6. json处理，排除fastjson，使用jackjson。
-7. 前端代码进行调整，又easy-ui 调整为使用 hplus，前端代码逻辑调整。**
+7. 前端代码进行调整，由easy-ui 调整为使用 hplus，前端代码逻辑调整。**
 8. freemarker-tags直接引用源码，不做maven引用了
 2. 系统日志输出进行优化，查询业务逻辑优化，bug修复。
 

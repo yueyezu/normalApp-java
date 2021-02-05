@@ -1,5 +1,4 @@
 server:
-  port: 8080
   #   servlet: context-path: /             #项目开放接口访问的名称
   error:
     path: /core         # 错误界面的路径，根据错误号（404、500...）匹配,默认为/error

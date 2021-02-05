@@ -4,10 +4,10 @@
 
     <groupId>org.litu</groupId>
     <artifactId>normalApp</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <packaging>jar</packaging>
     <name>normalApp</name>
-    <url>http://www.qdlimap.com</url>
+    <url>http://www.a.com</url>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

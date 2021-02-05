@@ -4,12 +4,12 @@ server:
 # ** 系统自定义配置项内容 **
 ltsystem:
   sysmsg:
-    title: 励图开发框架java
-    desp: 本系统为励图高科公司java项目开发的框架，使用可以大大缩减简单系统的开发时间。
+    title: 月夜开发框架java
+    desp: 本系统为月夜java项目开发的框架，使用可以大大缩减简单系统的开发时间。
     host: localhost:8080
   swagger:
     serviceUrl: localhost:8080/api/
-    serviceVersion: v1.2
+    serviceVersion: v1.2.1
 
 
 logging:
