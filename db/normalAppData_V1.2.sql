@@ -81,12 +81,6 @@ INSERT INTO Sys_Role(`F_Id`, `F_Code`, `F_Name`, `F_Description`, `F_Type`, `F_S
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcAccessToken', 'admin', 'funcAccessToken', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcAccessTokenbtnDisable', 'admin', 'funcAccessTokenbtnDisable', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcAccessTokenbtnQuery', 'admin', 'funcAccessTokenbtnQuery', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcDataType', 'admin', 'funcDataType', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcDataTypebtnAdd', 'admin', 'funcDataTypebtnAdd', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcDataTypebtnDisable', 'admin', 'funcDataTypebtnDisable', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcDataTypebtnEdit', 'admin', 'funcDataTypebtnEdit', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcDataTypebtnEnable', 'admin', 'funcDataTypebtnEnable', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcDataTypebtnQuery', 'admin', 'funcDataTypebtnQuery', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcDictItem', 'admin', 'funcDictItem', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcDictItembtnAdd', 'admin', 'funcDictItembtnAdd', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcDictItembtnAddDict', 'admin', 'funcDictItembtnAddDict', NULL);
@@ -110,14 +104,6 @@ INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('f
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcMenubtnEditButton', 'admin', 'funcMenubtnEditButton', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcMenubtnMenuManage', 'admin', 'funcMenubtnMenuManage', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcMenubtnQuery', 'admin', 'funcMenubtnQuery', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcModelInput', 'admin', 'funcModelInput', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcModelInputbtnAdd', 'admin', 'funcModelInputbtnAdd', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcModelInputbtnDisable', 'admin', 'funcModelInputbtnDisable', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcModelInputbtnEdit', 'admin', 'funcModelInputbtnEdit', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcModelInputbtnEnable', 'admin', 'funcModelInputbtnEnable', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcModelInputbtnModelHistory', 'admin', 'funcModelInputbtnModelHistory', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcModelInputbtnQuery', 'admin', 'funcModelInputbtnQuery', NULL);
-INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcModelShow', 'admin', 'funcModelShow', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcOrganize', 'admin', 'funcOrganize', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcOrganizebtnAdd', 'admin', 'funcOrganizebtnAdd', NULL);
 INSERT INTO Sys_RoleMenu(`f_id`, `f_roleId`, `f_menuId`, `f_sortNum`) VALUES ('funcOrganizebtnDelete', 'admin', 'funcOrganizebtnDelete', NULL);
