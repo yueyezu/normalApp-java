@@ -7,11 +7,11 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="form" class="form-horizontal m-t">
-            <input name="fId" id="fId" value="${data.fId!''}" type="hidden"/>
+            <input name="id" id="id" value="${data.id!''}" type="hidden"/>
             <div class="form-group">
                 <label class="col-sm-3 control-label">账号</label>
                 <div class="col-sm-8">
-                    <input id="fUserid" name="fUserid" value="${data.fUserid}" type="text" class="form-control" readonly>
+                    <input id="userId" name="userId" value="${data.userId}" type="text" class="form-control" readonly>
                 </div>
             </div>
             <div class="form-group">
@@ -35,32 +35,32 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">客户端机器码</label>
                 <div class="col-sm-8">
-                    <input id="fClientmcode" name="fClientmcode" value="${data.fClientmcode}" type="text" class="form-control" readonly>
+                    <input id="clientMcode" name="clientMcode" value="${data.clientMcode}" type="text" class="form-control" readonly>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">客户端IP</label>
                 <div class="col-sm-8">
-                    <input id="fClientip" name="fClientip" value="${data.fClientip}" type="text" class="form-control" readonly>
+                    <input id="clientIp" name="clientIp" value="${data.clientIp}" type="text" class="form-control" readonly>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">客户端MAC</label>
                 <div class="col-sm-8">
-                    <input id="fClientmac" name="fClientmac" value="${data.fClientmac}" type="text" class="form-control" readonly>
+                    <input id="clientMac" name="clientMac" value="${data.clientMac}" type="text" class="form-control" readonly>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">创建时间</label>
                 <div class="col-sm-8">
-                    <input id="fCreatetime" name="fCreatetime" value="${(data.fCreatetime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
+                    <input id="createTime" name="createTime" value="${(data.createTime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">刷新时间</label>
                 <div class="col-sm-8">
-                    <input id="fLastmodifytime" name="fLastmodifytime" value="${(data.fLastmodifytime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
+                    <input id="modifyTime" name="modifyTime" value="${(data.modifyTime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
                 </div>
             </div>
             <div class="form-group">
@@ -78,7 +78,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">备注</label>
                 <div class="col-sm-8">
-                    <textarea id="fRemark" name="fRemark" text="${data.fRemark}" class="form-control" readonly></textarea>
+                    <textarea id="remark" name="remark" text="${data.remark}" class="form-control" readonly></textarea>
                 </div>
             </div>
         </form>

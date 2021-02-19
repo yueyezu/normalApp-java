@@ -29,7 +29,7 @@
                 <!--系统列表显示位置-->
                 <ul id="systemPnl" class="nav nav-tabs m-b-sm">
                     <#list systemList as system>
-                        <li <#if system_index ==0>class="active"</#if>><a code="${system.fCode}" href="javascript:void(0)">${system.fName}</a></li>
+                        <li <#if system_index ==0>class="active"</#if>><a code="${system.code}" href="javascript:void(0)">${system.name}</a></li>
                     </#list>
                 </ul>
                 <!--菜单列表信息-->
@@ -83,31 +83,31 @@
                 height: 490,
                 exportDataType: 'all',               //导出checkbox选中的行数: all\selected\
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器
-                uniqueId: "fId",                     //每一行的唯一标识，一般为主键列
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
                 pagination: true,                    //是否显示分页（*）
                 queryParams: function (params) {
                     params.keyword = $('#queryKeyword').val();
                     params.startTime = $('#startTime').val();
                     params.endTime = $('#endTime').val();
-                    params.fSystemcode = nowSystem;
+                    params.systemCode = nowSystem;
                     return params;
                 },
                 columns: [{field: 'ck', checkbox: true},
                     {
-                        title: '系统', field: 'fSystemcode',
+                        title: '系统', field: 'systemCode',
                         formatter: function (value, row, index) {
-                            return '<a onclick="view(\'' + row.fId + '\')">' + value + '</a>';
+                            return '<a onclick="view(\'' + row.id + '\')">' + value + '</a>';
                         }
                     },
-                    {title: '功能模块', field: 'fModule'},
-                    {title: '操作类型', field: 'fOpttype'},
-                    {title: '操作内容', field: 'fOptcontent'},
-                    {title: 'IP地址', field: 'fIpaddress', visible: false},
-                    {title: 'IP城市', field: 'fIpcity', visible: false},
-                    {title: '操作人', field: 'fCreateuserid'},
-                    {title: '操作时间', field: 'fCreatetime', width: 150},
+                    {title: '功能模块', field: 'module'},
+                    {title: '操作类型', field: 'optType'},
+                    {title: '操作内容', field: 'optContent'},
+                    {title: 'IP地址', field: 'ipAddr', visible: false},
+                    {title: 'IP城市', field: 'ipCity', visible: false},
+                    {title: '操作人', field: 'createBy'},
+                    {title: '操作时间', field: 'createTime', width: 150},
                     {
-                        title: "操作", field: "fId",
+                        title: "操作", field: "id",
                         formatter: function (value, row) {
                             var d = '<a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a>';
                             return d;
@@ -183,7 +183,7 @@
                 var allSel = $('#dataTable').bootstrapTable('getAllSelections');
                 var ids = "";
                 for (var i = 0; i < allSel.length; i++) {
-                    ids = ids + allSel[i].fId + ',';
+                    ids = ids + allSel[i].id + ',';
                 }
                 ids = ids.substring(0, ids.length - 1);
                 $.post(prefix + '/batchDelete', {ids: ids}, function (res) {

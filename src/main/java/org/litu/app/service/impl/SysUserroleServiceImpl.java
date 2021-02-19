@@ -42,7 +42,7 @@ public class SysUserroleServiceImpl extends BaseServiceImpl<SysUserroleMapper, S
             return result;
         }
         LambdaQueryWrapper<SysUserrole> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysUserrole::getfUserid, userId);
+        queryWrapper.eq(SysUserrole::getUserId, userId);
         return list(queryWrapper);
     }
 
@@ -55,7 +55,7 @@ public class SysUserroleServiceImpl extends BaseServiceImpl<SysUserroleMapper, S
     public List<UserRole> userRoles(String userId) {
         //获取未删除的role
         LambdaQueryWrapper<SysRole> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysRole::getfType, SysContant.ROLETYPE_ROLE);
+        queryWrapper.eq(SysRole::getType, SysContant.ROLETYPE_ROLE);
         List<SysRole> roles = sysRoleMapper.selectList(queryWrapper);
 
         List<SysUserrole> userRoles = new ArrayList<SysUserrole>();
@@ -70,7 +70,7 @@ public class SysUserroleServiceImpl extends BaseServiceImpl<SysUserroleMapper, S
             userRole.init(role);
             result.add(userRole);
             for (SysUserrole ur : userRoles) {
-                if (ur.getfRoleid().equals(role.getfId())) {
+                if (ur.getRoleId().equals(role.getId())) {
                     userRole.setChecked(true);
                     continue out;
                 }
@@ -95,8 +95,8 @@ public class SysUserroleServiceImpl extends BaseServiceImpl<SysUserroleMapper, S
         List<SysUserrole> entityList = new ArrayList<SysUserrole>();
         for (String roleId : roleIds) {
             SysUserrole userRole = new SysUserrole();
-            userRole.setfRoleid(roleId);
-            userRole.setfUserid(userId);
+            userRole.setRoleId(roleId);
+            userRole.setUserId(userId);
             entityList.add(userRole);
         }
         return super.saveBatch(entityList);
@@ -113,7 +113,7 @@ public class SysUserroleServiceImpl extends BaseServiceImpl<SysUserroleMapper, S
             return false;
         }
         LambdaQueryWrapper<SysUserrole> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysUserrole::getfUserid, userId);
+        queryWrapper.eq(SysUserrole::getUserId, userId);
         return remove(queryWrapper);
     }
 
@@ -128,7 +128,7 @@ public class SysUserroleServiceImpl extends BaseServiceImpl<SysUserroleMapper, S
             return false;
         }
         LambdaQueryWrapper<SysUserrole> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysUserrole::getfRoleid, roleId);
+        queryWrapper.eq(SysUserrole::getRoleId, roleId);
         return remove(queryWrapper);
     }
 }

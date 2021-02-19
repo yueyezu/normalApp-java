@@ -159,7 +159,7 @@ lt.dataTable = {
         var defaults = {
             url: "",
             toolbar: '#tableToolbar',                //工具按钮用哪个容器
-            uniqueId: "fId",                     //每一行的唯一标识，一般为主键列
+            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             //searchAlign: 'left',
             search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
             showFullscreen: false,

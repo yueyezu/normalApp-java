@@ -4,22 +4,22 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.litu.app.entity.SysConfigs">
-        <id column="f_id" property="fId" />
-        <result column="f_group" property="fGroup" />
-        <result column="f_name" property="fName" />
-        <result column="f_key" property="fKey" />
-        <result column="f_value" property="fValue" />
-        <result column="f_valueType" property="fValuetype" />
-        <result column="f_description" property="fDescription" />
-        <result column="f_remark" property="fRemark" />
-        <result column="f_sortNum" property="fSortnum" />
-        <result column="f_modifyBy" property="fModifyby" />
-        <result column="f_modifyTime" property="fModifytime" />
+        <id column="id" property="id" />
+        <result column="groups" property="groups" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="value" property="value" />
+        <result column="value_type" property="valueType" />
+        <result column="description" property="description" />
+        <result column="remark" property="remark" />
+        <result column="sort_num" property="sortNum" />
+        <result column="modify_by" property="modifyBy" />
+        <result column="modify_time" property="modifyTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        f_id, f_group, f_name, f_key, f_value, f_valueType, f_description, f_remark, f_sortNum, f_modifyBy, f_modifyTime
+        id, groups, name, code, value, value_type, description, remark, sort_num, modify_by, modify_time
     </sql>
 
 </mapper>

@@ -6,7 +6,7 @@ server:
 # ** 系统自定义配置项内容 **
 ltsystem:
   file:
-    basePath: file/ # 文件存储的跟路径,绝对路径-直接使用,相对路径-项目运行目录下
+    basePath: E:/0Temp/file/ # 文件存储的跟路径,绝对路径-直接使用,相对路径-项目运行目录下
     pattern: YYYY-MM/  # 存储目录的格式,日期格式YYYYMMddHHmmss,按照日期格式化来进行,为根目录下的一级
   sysmsg:
     code: normalApp #当前系统的编号，需要和数据库中的system表中的code对应起来，否则会发生不可预测的错误。

@@ -7,39 +7,38 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="form" class="form-horizontal m-t">
-            <input name="fId" id="fId" value="${data.fId!''}" type="hidden"/>
-            <input name="fEnabledflag" id="fEnabledflag" value="${data.fEnabledflag!'1'}" type="hidden"/>
-            <input name="fSystemcode" id="fSystemcode" value="${sysCode!''}" type="hidden"/>
+            <input name="id" id="id" value="${data.id!''}" type="hidden"/>
+            <input name="systemCode" id="systemCode" value="${sysCode!''}" type="hidden"/>
             <div class="form-group">
             	<div class="validationArea">
 	                <label class="col-sm-2 control-label required">版本号</label>
 	                <div class="col-sm-4">
-	                    <input id="fVersion" name="fVersion" value="${data.fVersion}" type="text" class="form-control required"/>
+	                    <input id="version" name="version" value="${data.version}" type="text" class="form-control required"/>
 	                </div>
                 </div>
                 <div class="validationArea">
 	                <label class="col-sm-2 control-label required">更新时间</label>
 	                <div class="col-sm-4">
-	                    <input id="fUpdatedate" name="fUpdatedate" value="${(data.fUpdatedate?string('yyyy-MM-dd'))!''}" type="text" class="form-control required"/>
+	                    <input id="updateDate" name="updateDate" value="${(data.updateDate?string('yyyy-MM-dd'))!''}" type="text" class="form-control required"/>
 	                </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">下载地址</label>
                 <div class="col-sm-10">
-                    <input id="fDownloadpath" name="fDownloadpath" value="${data.fDownloadpath}" type="text" class="form-control"/>
+                    <input id="downloadPath" name="downloadPath" value="${data.downloadPath}" type="text" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">版本更新说明</label>
                 <div class="col-sm-10">
-                    <textarea id="fUpdatenote" name="fUpdatenote" class="form-control">${data.fUpdatenote}</textarea>
+                    <textarea id="updateNote" name="updateNote" class="form-control">${data.updateNote}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">备注</label>
                 <div class="col-sm-10">
-                    <textarea id="fRemark" name="fRemark" class="form-control">${data.fRemark}</textarea>
+                    <textarea id="remark" name="remark" class="form-control">${data.remark}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -67,14 +66,14 @@
 
         // 初始化数据表单
         function initForm() {
-            $('#fUpdatedate').datepicker({format: 'yyyy-mm-dd'});
+            $('#updateDate').datepicker({format: 'yyyy-mm-dd'});
         }
 
         // 提交添加和修改的信息
         function submit() {
             var data = $('#dataForm').serializeJson();
 
-            var url = data["fId"] == "" ? "/systemVersion/save" : "/systemVersion/update";
+            var url = data["id"] == "" ? "/systemVersion/save" : "/systemVersion/update";
             $.post(url, data, function (res) {
                 if (res.code == 200) {
                     lt.alertSuccess(res.msg, function () {

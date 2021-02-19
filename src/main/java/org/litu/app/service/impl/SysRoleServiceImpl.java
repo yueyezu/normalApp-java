@@ -37,16 +37,16 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     public void beforeList(SysRole entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysRole> query) {
-        query.eq(SysRole::getfType, entity.getfType());
-        query.and(i -> i.like(SysRole::getfCode, keyword).or().like(SysRole::getfName, keyword));
-        query.orderByAsc(SysRole::getfSortnum);
+        query.eq(SysRole::getType, entity.getType());
+        query.and(i -> i.like(SysRole::getCode, keyword).or().like(SysRole::getName, keyword));
+        query.orderByAsc(SysRole::getSortNum);
     }
 
     @Override
     public void beforePage(SysRole entity, String keyword, IPage<SysRole> page, Map<String, String> params, LambdaQueryWrapper<SysRole> query) {
-        query.eq(SysRole::getfType, entity.getfType());
-        query.and(i -> i.like(SysRole::getfCode, keyword).or().like(SysRole::getfName, keyword));
-        query.orderByAsc(SysRole::getfSortnum);
+        query.eq(SysRole::getType, entity.getType());
+        query.and(i -> i.like(SysRole::getCode, keyword).or().like(SysRole::getName, keyword));
+        query.orderByAsc(SysRole::getSortNum);
     }
 
 
@@ -57,7 +57,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         if (result) {
             // 校验没有使用中
             LambdaQueryWrapper<SysUserrole> userroleQueryWrapper = Wrappers.lambdaQuery();
-            userroleQueryWrapper.eq(SysUserrole::getfRoleid, id);
+            userroleQueryWrapper.eq(SysUserrole::getRoleId, id);
             int urNum = userRoleMapper.selectCount(userroleQueryWrapper);
             if (urNum > 0) {
                 throw new LtParamException("当前角色信息使用中，不允许删除!");
@@ -65,7 +65,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
             // 删除该角色对应的菜单关联信息
             LambdaQueryWrapper<SysRolemenu> rolemenuQueryWrapper = Wrappers.lambdaQuery();
-            rolemenuQueryWrapper.eq(SysRolemenu::getfRoleid, id);
+            rolemenuQueryWrapper.eq(SysRolemenu::getRoleId, id);
             result = roleMenuMapper.delete(rolemenuQueryWrapper) >= 0;
         }
 
@@ -73,7 +73,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     }
 
     /**
-     * 用户角色fcode
+     * 用户角色code
      *
      * @param userId
      * @return
@@ -82,7 +82,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         List<String> roleCodes = new ArrayList<String>();
         List<SysRole> roles = baseMapper.userRoles(userId);
         for (SysRole role : roles) {
-            roleCodes.add(role.getfCode());
+            roleCodes.add(role.getCode());
         }
         return roleCodes;
     }

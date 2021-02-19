@@ -46,7 +46,7 @@ public class DatabaseRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 
-        String account = ((SysUser) principals.getPrimaryPrincipal()).getfAccount();
+        String account = ((SysUser) principals.getPrimaryPrincipal()).getAccount();
         if (StringUtils.isBlank(account)) {
             return authorizationInfo;
         }
@@ -57,9 +57,9 @@ public class DatabaseRealm extends AuthorizingRealm {
             try {
                 SysUser user = userService.getByAccount(account);
                 // 用户角色
-                userRoles = sysRoleService.userRoles(user.getfId());
+                userRoles = sysRoleService.userRoles(user.getId());
                 // 用户权限
-                userPermissions = sysMenuService.userPrivileges(user.getfId(), SysContant.CURRENT_SYSTEM_CODE);
+                userPermissions = sysMenuService.userPrivileges(user.getId(), SysContant.CURRENT_SYSTEM_CODE);
                 ShiroSessionUtil.setLoginMsg(userRoles, userPermissions);
             } catch (LtServerException se) {
                 log.error(se.getMessage(), se);
@@ -94,8 +94,8 @@ public class DatabaseRealm extends AuthorizingRealm {
             // 获取用户名密码
             SysUser user = userService.getByAccount(userName);
             // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
-            SysUserlogin userLogin = sysUserLoginService.getByUserId(user.getfId());
-            simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, userLogin.getfPassword(), getName());
+            SysUserlogin userLogin = sysUserLoginService.getByUserId(user.getId());
+            simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, userLogin.getPassword(), getName());
 
         } catch (LtServerException se) {
             log.error(se.getMessage(), se);

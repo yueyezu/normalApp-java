@@ -1,4 +1,4 @@
-#set($noshowList = ['fId','fCreateuserid','fCreatetime','fLastmodifyuserid','fLastmodifytime','fField1','fField2','fField3','fField4','fField5','fField6'])
+#set($noshowList = ['id','createBy','createTime','modifyBy','modifyTime','fField1','fField2','fField3','fField4','fField5','fField6'])
 
 <!doctype html>
 <html lang="en">
@@ -59,11 +59,11 @@
                 columns: [
                     #foreach($field in ${table.fields})
                     #if(!$noshowList.contains( $field.propertyName))
-                    #if($field.propertyName == "fName")
+                    #if($field.propertyName == "name")
                    {
                         title: '${field.comment}', field: '${field.propertyName}', width: 150,
                         formatter: function (value, row, index) {
-                            return '<a onclick="view(\'' + row.fId + '\')">' + value + '</a>';
+                            return '<a onclick="view(\'' + row.id + '\')">' + value + '</a>';
                         }
                     },
                     #else
@@ -72,7 +72,7 @@
                     #end
                     #end
                    	{
-                        title: "操作", field: "fId", align: 'center', width: 100,
+                        title: "操作", field: "id", align: 'center', width: 100,
                         formatter: function (value, row) {
                             var e = '<@shiro.hasPermission name="func${entity}-btnEdit"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
                             var d = '<@shiro.hasPermission name="func${entity}-btnDelete"><a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a></@shiro.hasPermission>';

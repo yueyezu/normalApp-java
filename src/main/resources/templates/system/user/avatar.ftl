@@ -67,8 +67,8 @@
 	        }).on("fileuploaded", function (event, data, previewId, index) {  //异步上传返回结果处理
 	            var response = data.response;
 	            if (response.code === '200') {
-	                $('#avatarUrl').val(response.data.fLocation);
-	                uploaded.push(response.data.fLocation);
+	                $('#avatarUrl').val(response.data.location);
+	                uploaded.push(response.data.location);
 	            } else {
 	                layer.alert(response.msg, {icon: 2});
 	            }

@@ -25,11 +25,11 @@ public class SysOrganizeServiceImpl extends BaseTreeServiceImpl<SysOrganizeMappe
     @Override
     public void beforeTree(SysOrganize sysOrganize, String keyword, Map<String, String> params, LambdaQueryWrapper<SysOrganize> query) {
         if (!StringUtils.isBlank(keyword)) {
-            query.and(i -> i.like(SysOrganize::getfCode, keyword).or().like(SysOrganize::getfName, keyword));
+            query.and(i -> i.like(SysOrganize::getCode, keyword).or().like(SysOrganize::getName, keyword));
         }
-        if (!StringUtils.isBlank(sysOrganize.getfParentid())) {
+        if (!StringUtils.isBlank(sysOrganize.getParentId())) {
             // 如果根据父类来进行查询的话，需要使用layer来进行比较
-            query.like(SysOrganize::getfLayers, sysOrganize.getfParentid());
+            query.like(SysOrganize::getLayers, sysOrganize.getParentId());
         }
     }
 }

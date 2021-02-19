@@ -4,15 +4,15 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.litu.app.entity.SysRolemenu">
-        <id column="f_id" property="fId" />
-        <result column="f_roleId" property="fRoleid" />
-        <result column="f_menuId" property="fMenuid" />
-        <result column="f_sortNum" property="fSortnum" />
+        <id column="id" property="id" />
+        <result column="role_id" property="roleId" />
+        <result column="menu_id" property="menuId" />
+        <result column="sort_num" property="sortNum" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        f_id, f_roleId, f_menuId, f_sortNum
+        id, role_id, menu_id, sort_num
     </sql>
 
 </mapper>

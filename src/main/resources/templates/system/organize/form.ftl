@@ -7,12 +7,12 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="form" class="form-horizontal m-t">
-            <input id="fId" name="fId" value="${data.fId!''}" type="hidden"/>
+            <input id="id" name="id" value="${data.id!''}" type="hidden"/>
             <div class="form-group">
                 <label class="col-sm-2 control-label required">父级</label>
                 <div class="col-sm-4">
                     <div class="validationArea">
-                        <input id="fParentid" name="fParentid" value="${parentId!'0'}" type="hidden"/>
+                        <input id="parentId" name="parentId" value="${parentId!'0'}" type="hidden"/>
                         <input id="parentName" value="${parentName}" type="text" class="form-control required" readonly/>
                     </div>
                 </div>
@@ -21,42 +21,36 @@
                 <div class="validationArea">
                     <label class="col-sm-2 control-label required ">名称</label>
                     <div class="col-sm-4">
-                        <input id="fName" name="fName" value="${data.fName}" type="text" class="form-control required"/>
+                        <input id="name" name="name" value="${data.name}" type="text" class="form-control required"/>
                     </div>
                 </div>
                 <div class="validationArea">
                     <label class="col-sm-2 control-label required">编号</label>
                     <div class="col-sm-4">
-                        <input id="fCode" name="fCode" value="${data.fCode}" type="text" class="form-control required"/>
+                        <input id="code" name="code" value="${data.code}" type="text" class="form-control required"/>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">部门说明</label>
                 <div class="col-sm-10">
-                    <textarea id="fDescription" name="fDescription" class="form-control">${data.fDescription}</textarea>
+                    <textarea id="description" name="description" class="form-control">${data.description}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">负责人</label>
                 <div class="col-sm-4">
-                    <input id="fManager" value="${fManager}" type="text" class="form-control"/>
+                    <input id="manager" name="manager" value="${data.manager}" type="text" class="form-control"/>
                 </div>
                 <label class="col-sm-2 control-label">电话</label>
                 <div class="col-sm-4">
-                    <input id="fPhone" name="fPhone" value="${data.fPhone}" type="text" class="form-control"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">联系地址</label>
-                <div class="col-sm-10">
-                    <input id="fAddress" name="fAddress" value="${data.fAddress}" type="text" class="form-control"/>
+                    <input id="phone" name="phone" value="${data.phone}" type="text" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">排序码</label>
                 <div class="col-sm-4">
-                    <input id="fSortnum" name="fSortnum" value="${data.fSortnum!'1'}" type="number" class="form-control"/>
+                    <input id="sortNum" name="sortNum" value="${data.sortNum!'1'}" type="number" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
@@ -89,7 +83,7 @@
                 lt.openSelect("选择父级", "${rc.contextPath}/organize/selectView", function (win) {
                     var selDept = win.getSelected();
                     if (selDept) {
-                        $('#fParentid').val(selDept.id);
+                        $('#parentId').val(selDept.id);
                         $('#parentName').val(selDept.text);
                     }
                 });
@@ -100,7 +94,7 @@
         function submit() {
             var data = $('#dataForm').serializeJson();
 
-            var url = data["fId"] == "" ? "/organize/save" : "/organize/update";
+            var url = data["id"] == "" ? "/organize/save" : "/organize/update";
             $.post(url, data, function (res) {
                 if (res.code == 200) {
                     lt.msgSuccess(res.msg, function () {

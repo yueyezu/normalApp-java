@@ -72,19 +72,19 @@
                 singleSelect: selectType == 'single',
                 queryParams: function (params) {
                     if (!nowDept) return false; // 当部门未选择时，不进行查询操作
-                    params.fDepartmentid = nowDept;
+                    params.deptId = nowDept;
                     return params;
                 },
                 columns: [{field: 'ck', checkbox: true},
-                    {title: '帐号', field: 'fAccount'},
-                    {title: '姓名', field: 'fRealname'},
+                    {title: '帐号', field: 'account'},
+                    {title: '姓名', field: 'realName'},
                     {
-                        title: '性别', field: 'fSex', align: 'center',
+                        title: '性别', field: 'sex', align: 'center',
                         formatter: function (value, row, index) {
                             return value == 0 ? "女" : "男";
                         }
                     },
-                    {title: '联系方式', field: 'fPhone'}
+                    {title: '联系方式', field: 'phone'}
                 ]
             });
         }

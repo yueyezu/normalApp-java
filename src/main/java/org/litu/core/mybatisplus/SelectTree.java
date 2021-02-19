@@ -12,7 +12,7 @@ import org.litu.base.entity.BaseTreeEntity;
  * selectPage 加表别名
  */
 public class SelectTree extends AbstractMethod {
-    private static String treeSelect = "<script>\n SELECT %s FROM %s tb1 WHERE EXISTS (SELECT tb2.f_id FROM %s tb2 %s) ORDER BY f_sortnum ASC\n</script>";
+    private static String treeSelect = "<script>\n SELECT %s FROM %s tb1 WHERE EXISTS (SELECT tb2.id FROM %s tb2 %s) ORDER BY sort_num ASC\n</script>";
 
     /**
      * selectTree注入到mybatis-plus
@@ -43,9 +43,9 @@ public class SelectTree extends AbstractMethod {
         // 前置的AND的处理
         String treeWhereAnd = SqlScriptUtils.convertIf(" AND", String.format("(%s and %s) or %s", WRAPPER_NONEMPTYOFENTITY, WRAPPER_NONEMPTYOFNORMAL, WRAPPER_NONEMPTYOFWHERE), false);
         // 树状操作相关处理
-        String treeWhere = " f_layers like concat(tb1.f_layers,'%')";
+        String treeWhere = " layers like concat(tb1.layers,'%')";
         if (table.getDbType().equals(DbType.SQL_SERVER)) {
-            treeWhere = " f_layers like tb1.f_layers+'%'";
+            treeWhere = " layers like tb1.layers+'%'";
         }
         sqlScript += treeWhereAnd + treeWhere;
         sqlScript = SqlScriptUtils.convertWhere(sqlScript) + NEWLINE;

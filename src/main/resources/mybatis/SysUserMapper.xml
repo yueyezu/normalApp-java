@@ -4,82 +4,32 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.litu.app.entity.SysUser">
-        <id column="f_id" property="fId"/>
-        <result column="f_account" property="fAccount"/>
-        <result column="f_realName" property="fRealname"/>
-        <result column="f_nickName" property="fNickname"/>
-        <result column="f_photo" property="fPhoto"/>
-        <result column="f_sex" property="fSex"/>
-        <result column="f_weChat" property="fWechat"/>
-        <result column="f_phone" property="fPhone"/>
-        <result column="f_email" property="fEmail"/>
-        <result column="f_birthday" property="fBirthday"/>
-        <result column="f_departmentId" property="fDepartmentid"/>
-        <result column="f_roleId" property="fRoleid"/>
-        <result column="f_sortNum" property="fSortnum"/>
-        <result column="f_enableDelete" property="fEnabledelete"/>
-        <result column="f_remark" property="fRemark"/>
-        <result column="f_createBy" property="fCreateby"/>
-        <result column="f_createTime" property="fCreatetime"/>
-        <result column="f_modifyBy" property="fModifyby"/>
-        <result column="f_modifyTime" property="fModifytime"/>
-        <result column="f_deleteFlag" property="fDeleteflag"/>
-        <result column="f_deleteBy" property="fDeleteby"/>
-        <result column="f_deleteTime" property="fDeletetime"/>
-        <result column="f_field1" property="fField1"/>
-        <result column="f_field2" property="fField2"/>
-        <result column="f_field3" property="fField3"/>
-        <result column="f_field4" property="fField4"/>
-    </resultMap>
-
-    <resultMap id="BaseExResultMap" type="org.litu.app.entity.SysUserEx" extends="BaseResultMap">
-        <association property="role" resultMap="org.litu.app.dao.SysRoleMapper.BaseResultMap" columnPrefix="r_"/>
-        <association property="department" resultMap="org.litu.app.dao.SysOrganizeMapper.BaseResultMap" columnPrefix="d_"/>
+        <id column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="real_name" property="realName"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="photo" property="photo"/>
+        <result column="sex" property="sex"/>
+        <result column="wechat" property="wechat"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="birthday" property="birthday"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="role_id" property="roleId"/>
+        <result column="sort_num" property="sortNum"/>
+        <result column="enable_delete" property="enableDelete"/>
+        <result column="remark" property="remark"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_by" property="modifyBy"/>
+        <result column="modify_time" property="modifyTime"/>
+        <result column="delete_flag" property="deleteFlag"/>
+        <result column="delete_by" property="deleteBy"/>
+        <result column="delete_time" property="deleteTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        f_id, f_account, f_realName, f_nickName, f_photo, f_sex, f_weChat, f_phone, f_email, f_birthday, f_departmentId, f_roleId, f_sortNum, f_enableDelete, f_remark, f_createBy, f_createTime, f_modifyBy, f_modifyTime, f_deleteFlag, f_deleteBy, f_deleteTime, f_field1, f_field2,
-        f_field3, f_field4
+        id, account, real_name, nick_name, photo, sex, wechat, phone, email, birthday, dept_id, role_id, sort_num, enable_delete, remark, create_by, create_time, modify_by, modify_time, delete_flag, delete_by, delete_time
     </sql>
-
-    <select id="selectPageEx" parameterType="java.lang.String" resultMap="BaseExResultMap">
-        SELECT t.*,
-        r.f_id as r_f_id,
-        r.f_code as r_f_code,
-        r.f_name as r_f_name,
-        r.f_description as r_f_description,
-        r.f_type as r_f_type,
-        r.f_sortNum as r_f_sortNum,
-        r.f_remark as r_f_remark,
-        r.f_createBy as r_f_createBy,
-        r.f_createTime as r_f_createTime,
-        r.f_modifyBy as r_f_modifyBy,
-        r.f_modifyTime as r_f_modifyTime,
-        r.f_field1 as r_f_field1,
-        r.f_field2 as r_f_field2,
-        d.f_id as d_f_id,
-        d.f_parentId as d_f_parentId,
-        d.f_layers as d_f_layers,
-        d.f_code as d_f_code,
-        d.f_name as d_f_name,
-        d.f_description as d_f_description,
-        d.f_managerId as d_f_managerId,
-        d.f_phone as d_f_phone,
-        d.f_address as d_f_address,
-        d.f_sortNum as d_f_sortNum,
-        d.f_enabledFlag as d_f_enabledFlag,
-        d.f_createBy as d_f_createBy,
-        d.f_createTime as d_f_createTime,
-        d.f_modifyBy as d_f_modifyBy,
-        d.f_modifyTime as d_f_modifyTime,
-        d.f_field1 as d_f_field1,
-        d.f_field2 as d_f_field2
-        FROM Sys_User t
-        LEFT JOIN Sys_Role r ON t.f_roleId = r.f_id
-        LEFT JOIN Sys_Organize d ON t.f_departmentId = d.f_id
-        <where>
-            ${ew.sqlSegment}
-        </where>
-    </select>
 </mapper>

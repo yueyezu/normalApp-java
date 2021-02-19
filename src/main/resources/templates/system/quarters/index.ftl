@@ -51,24 +51,24 @@
                 showExport: true,
                 exportDataType: 'all',               //导出checkbox选中的行数: all\selected\
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器
-                uniqueId: "fId",                     //每一行的唯一标识，一般为主键列
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
                 pagination: false,                    //是否显示分页（*）
                 queryParams: function (params) {
                     params.keyword = $('#queryKeyword').val();
-                    params.fType = 2;
+                    params.type = 2;
                     return params;
                 },
                 columns: [{field: 'ck', checkbox: true},
                     {
-                        title: '岗位编号', field: 'fCode',
+                        title: '岗位编号', field: 'code',
                         formatter: function (value, row, index) {
-                            return '<a onclick="view(\'' + row.fId + '\')">' + value + '</a>';
+                            return '<a onclick="view(\'' + row.id + '\')">' + value + '</a>';
                         }
                     },
-                    {title: '岗位名称', field: 'fName'},
-                    {title: '排序码', field: 'fSortnum'},
+                    {title: '岗位名称', field: 'name'},
+                    {title: '排序码', field: 'sortNum'},
                     {
-                        title: "操作", field: "fId",
+                        title: "操作", field: "id",
                         formatter: function (value, row) {
                             var e = '<@shiro.hasPermission name="funcQuarters-btnEdit"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
                             var d = '<@shiro.hasPermission name="funcQuarters-btnDelete"><a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a></@shiro.hasPermission>';

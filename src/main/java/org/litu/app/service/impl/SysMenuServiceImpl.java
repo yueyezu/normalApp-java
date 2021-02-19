@@ -32,7 +32,7 @@ public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMe
 
     @Override
     public void beforeTree(SysMenu entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysMenu> query) {
-        query.eq(SysMenu::getfSystemcode, entity.getfSystemcode());
+        query.eq(SysMenu::getSystemCode, entity.getSystemCode());
 
         super.beforeTree(entity, keyword, params, query);
     }
@@ -45,8 +45,8 @@ public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMe
      */
     @Override
     public boolean beforeSave(SysMenu entity, Map<String, String> params) {
-        if (StringUtils.isBlank(entity.getfSystemcode())) {
-            entity.setfSystemcode(SysContant.CURRENT_SYSTEM_CODE);
+        if (StringUtils.isBlank(entity.getSystemCode())) {
+            entity.setSystemCode(SysContant.CURRENT_SYSTEM_CODE);
         }
         return super.beforeSave(entity, params);
     }
@@ -64,7 +64,7 @@ public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMe
         boolean result = super.beforeDelete(id, params, entity);
         if (result) {
             LambdaQueryWrapper<SysRolemenu> rolemenuQueryWrapper = Wrappers.lambdaQuery();
-            rolemenuQueryWrapper.eq(SysRolemenu::getfMenuid, id);
+            rolemenuQueryWrapper.eq(SysRolemenu::getMenuId, id);
             int rmNum = roleMenuMapper.selectCount(rolemenuQueryWrapper);
             if (rmNum > 0) {
                 throw new LtParamException("当前菜单在角色中已经设置，请检查后再删除！");
@@ -84,7 +84,7 @@ public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMe
     }
 
     /**
-     * 获取用户权限fcode
+     * 获取用户权限code
      *
      * @param userId
      * @return
@@ -93,7 +93,7 @@ public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMe
         List<SysMenu> menus = baseMapper.userPrivileges(userId, systemCode);
         List<String> menuCodes = new ArrayList<String>();
         for (SysMenu menu : menus) {
-            menuCodes.add(menu.getfCode());
+            menuCodes.add(menu.getCode());
         }
         return menuCodes;
     }

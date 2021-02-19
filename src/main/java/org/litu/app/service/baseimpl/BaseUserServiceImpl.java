@@ -21,6 +21,6 @@ public class BaseUserServiceImpl implements IBaseUserService {
     @Override
     public String getNameByUserId(String userId) {
         SysUser user = userMapper.selectById(userId);
-        return null == user ? "" : user.getfRealname();
+        return null == user ? "" : user.getRealName();
     }
 }

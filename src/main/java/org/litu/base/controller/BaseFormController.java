@@ -134,7 +134,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
             List<T> list = service.list(entity, keyword, params);
             return list;
         } catch (Exception e) {
-            log.warn("列表查询中出现异常", e);
+            logger.warn("列表查询中出现异常", e);
             return new ArrayList<>();
         }
     }
@@ -147,8 +147,8 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
      */
     protected void toSelect(T entity, SelectVo selectVo) {
         // 记录显示值
-        if (FieldUtil.hasProperty(entity, "fName")) {
-            String text = Objects.requireNonNull(FieldUtil.read(entity, "fName")).toString();
+        if (FieldUtil.hasProperty(entity, "name")) {
+            String text = Objects.requireNonNull(FieldUtil.read(entity, "name")).toString();
             selectVo.setText(text);
         }
     }
@@ -170,7 +170,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
         List<SelectVo> selectVos = new ArrayList<>();
         for (T node : list) {
             SelectVo selectVo = new SelectVo();
-            selectVo.setId(node.getfId());  // 对id赋值
+            selectVo.setId(node.getId());  // 对id赋值
             toSelect(node, selectVo);
 
             selectVos.add(selectVo);
@@ -221,7 +221,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
             IPage<T> pages = service.page(entity, keyword, page, params);
             return BaseRes.page(pages.getTotal(), pages.getRecords());
         } catch (Exception e) {
-            log.warn("分页查询中出现异常", e);
+            logger.warn("分页查询中出现异常", e);
             return BaseRes.error(ErrorEnum.SearchError);
         }
     }
@@ -356,7 +356,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
     @PostMapping("/logicalDelete")
     @ResponseBody
     @LtLogOperation(operation = LtLogOperationEnum.LOGICDELETE)
-    @ApiOperation(value = "逻辑删除", notes = "根据ID，逻辑删除对象，对象需要有字段:fEnabledelete、F_DeleteFlag、F_DeleteUserId、F_DeleteTime", httpMethod = "POST")
+    @ApiOperation(value = "逻辑删除", notes = "根据ID，逻辑删除对象，对象需要有字段:enableDelete、deleteFlag、deleteUserId、deleteTime", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "要获取的实体对象的主键", paramType = "query", required = true, dataType = "String")
     })
@@ -433,7 +433,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
     })
     public boolean notExists(String id, String value, @PathVariable(value = "field") String field) {
         if (StringUtils.isBlank(value)) {
-            log.warn("判断字段是否存在，传入参数为");
+            logger.warn("判断字段是否存在，传入参数为");
             return true;
         }
         boolean res = service.exists(id, value, field);

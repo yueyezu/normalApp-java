@@ -138,9 +138,9 @@ public class JsonUtil {
         try {
             return objectMapper.writeValueAsString(map);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("map to json error", e);
+            throw new RuntimeException(e);
         }
-        return "";
     }
 
     /**

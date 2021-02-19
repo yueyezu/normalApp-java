@@ -30,7 +30,7 @@ public abstract class BaseController extends SessionListenerAdapter implements S
     @Autowired
     protected HttpServletResponse response;
 
-    protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /* ***************** start 返回request参数处理的方法 **************** */
 

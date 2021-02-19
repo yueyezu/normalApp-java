@@ -5,38 +5,38 @@
 </head>
 <body class="gray-bg">
 <div class="wrapper wrapper-content">
-	<div class="row">
-	    <div class="col-sm-3">
-	        <div class="ibox float-e-margins">
-	            <div class="ibox-title" style="border-width:1px 0 0;">部门信息</div>
-	            <div class="ibox-content">
-	                <div id="deptTree"></div>
-	            </div>
-	        </div>
-	    </div>
-	    <div class="col-sm-9">
-	        <div class="ibox float-e-margins">
-	            <div class="ibox-content">
-	            	<@shiro.hasPermission name="funcUser-btnQuery">
-		                <form role="form" class="form-inline query-form">
-		                    <div class="input-group">
-		                        <input type="text" class="form-control" id="queryKeyword" placeholder="账号、姓名"/>
-		                        <span class="input-group-btn">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="border-width:1px 0 0;">部门信息</div>
+                <div class="ibox-content">
+                    <div id="deptTree"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <@shiro.hasPermission name="funcUser-btnQuery">
+                        <form role="form" class="form-inline query-form">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="queryKeyword" placeholder="账号、姓名"/>
+                                <span class="input-group-btn">
 			                        <button type="button" class="btn btn-primary" onclick="refreshTable()"><i class="fa fa-search"></i>查询</button>
 			                    </span>
-		                    </div>
-		                </form>
-	                </@shiro.hasPermission>
-	                <@shiro.hasPermission name="funcUser-btnAdd">
-		                <div id="tableToolbar" role="group" class="t-bar">
-		                    <a class="btn btn-primary" title="添加" onclick="add()">
-		                        <i class="fa fa-plus" aria-hidden="true"></i>添加
-		                    </a>
-		                </div>
-	                </@shiro.hasPermission>
-	                <table id="dataTable" data-mobile-responsive="true"></table>
-	            </div>
-	        </div>
+                            </div>
+                        </form>
+                    </@shiro.hasPermission>
+                    <@shiro.hasPermission name="funcUser-btnAdd">
+                        <div id="tableToolbar" role="group" class="t-bar">
+                            <a class="btn btn-primary" title="添加" onclick="add()">
+                                <i class="fa fa-plus" aria-hidden="true"></i>添加
+                            </a>
+                        </div>
+                    </@shiro.hasPermission>
+                    <table id="dataTable" data-mobile-responsive="true"></table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -80,30 +80,30 @@
                     if (!nowDept) return false; // 当部门未选择时，不进行查询操作
 
                     params.keyword = $('#queryKeyword').val();
-                    params.fDepartmentid = nowDept;
+                    params.deptId = nowDept;
 
                     return params;
                 },
                 columns: [{field: 'ck', checkbox: true},
                     {
-                        title: '帐号', field: 'fAccount',
+                        title: '帐号', field: 'account',
                         formatter: function (value, row, index) {
-                            return '<a href="javascript:view(\'' + row.fId + '\')" >' + value + '</a>';
+                            return '<a href="javascript:view(\'' + row.id + '\')" >' + value + '</a>';
                         }
                     },
-                    {title: '姓名', field: 'fRealname'},
-                    {title: '呢称', field: 'fNickname'},
+                    {title: '姓名', field: 'realName'},
+                    {title: '呢称', field: 'nickName'},
                     {
-                        title: '性别', field: 'fSex', align: 'center',
+                        title: '性别', field: 'sex', align: 'center',
                         formatter: function (value, row, index) {
                             //TODO 性别改到字典表中
                             return value == 2 ? "女" : "男";
                         }
                     },
-                    {title: '联系方式', field: 'fPhone'},
-                    {title: '岗位', field: 'fRoleid'},
+                    {title: '联系方式', field: 'phone'},
+                    // {title: '岗位', field: 'roleId'},
                     {
-                        title: "操作", field: "fId",
+                        title: "操作", field: "id",
                         formatter: function (value, row) {
                             var e = '<@shiro.hasPermission name="funcUser-btnEdit"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
                             var d = '<@shiro.hasPermission name="funcUser-btnDelete"><a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a></@shiro.hasPermission>';
@@ -167,9 +167,7 @@
             lt.confirm("确定要重置选择项的密码信息吗？", function () {
                 $.post(prefix + '/resetPwd', {userId: id}, function (res) {
                     if (res.code == 200) {
-                        lt.alertSuccess(res.msg, function () {
-                            refreshTable();
-                        });
+                        lt.alertSuccess(res.msg);
                     } else {
                         lt.alertError(res.msg);
                     }
@@ -179,7 +177,7 @@
 
         //赋予角色的操作
         function role(userId) {
-            lt.open("赋予用户角色", prefix + "/userRole?userId=" + userId, {width: '400px'});
+            lt.open("赋予用户角色", prefix + "/userRole?userId=" + userId, {width: '400px', height: '400px'});
         }
     </script>
 </@mc.ltfooter>

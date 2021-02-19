@@ -15,23 +15,23 @@ import java.util.List;
 @ApiModel(value = "用户登陆信息")
 public class LoginUserMsg {
     @ApiModelProperty(value = "id", required = true)
-    private String fId;
+    private String id;
     @ApiModelProperty(value = "账号", required = true)
-    private String fAccount; // 帐号
+    private String account; // 帐号
     @ApiModelProperty(value = "真实姓名", required = true)
-    private String fRealname; // 真实姓名
+    private String realName; // 真实姓名
     @ApiModelProperty(value = "昵称", required = true)
-    private String fNickname; // 昵称
+    private String nickName; // 昵称
     @ApiModelProperty(value = "性别", required = true)
-    private String fSex; // 性别：1男， 0女
+    private String sex; // 性别：1男， 0女
     @ApiModelProperty(value = "手机", required = true)
-    private String fPhone; // 手机
+    private String phone; // 手机
     @ApiModelProperty(value = "微信", required = true)
-    private String fWechat; // 微信
+    private String wechat; // 微信
     @ApiModelProperty(value = "邮箱", required = true)
-    private String fEmail; // 邮箱
+    private String email; // 邮箱
     @ApiModelProperty(value = "生日", required = true)
-    private Date fBirthday; // 生日
+    private Date birthday; // 生日
     @ApiModelProperty(value = "头像")
     private String fHeadicon; // 头像
     @ApiModelProperty(value = "角色列表", required = true)
@@ -47,16 +47,16 @@ public class LoginUserMsg {
      * @param roles    角色
      */
     public LoginUserMsg(SysUser sysUser, List<SysMenu> sysMenus, List<String> roles) {
-        this.fId = sysUser.getfId();
-        this.fAccount = sysUser.getfAccount();
-        this.fRealname = sysUser.getfRealname();
-        this.fNickname = sysUser.getfNickname();
-        this.fSex = sysUser.getfSex();
-        this.fPhone = sysUser.getfPhone();
-        this.fWechat = sysUser.getfWechat();
-        this.fEmail = sysUser.getfEmail();
-        this.fBirthday = sysUser.getfBirthday();
-        this.fHeadicon = sysUser.getfPhone();
+        this.id = sysUser.getId();
+        this.account = sysUser.getAccount();
+        this.realName = sysUser.getRealName();
+        this.nickName = sysUser.getNickName();
+        this.sex = sysUser.getSex();
+        this.phone = sysUser.getPhone();
+        this.wechat = sysUser.getWechat();
+        this.email = sysUser.getEmail();
+        this.birthday = sysUser.getBirthday();
+        this.fHeadicon = sysUser.getPhone();
 
         this.roles = roles;
         for (SysMenu sysMenu : sysMenus) {
@@ -69,8 +69,8 @@ public class LoginUserMsg {
      *
      * @return id
      */
-    public String getfId() {
-        return fId;
+    public String getId() {
+        return id;
     }
 
     /**
@@ -78,8 +78,8 @@ public class LoginUserMsg {
      *
      * @return 账号
      */
-    public String getfAccount() {
-        return fAccount;
+    public String getAccount() {
+        return account;
     }
 
     /**
@@ -87,8 +87,8 @@ public class LoginUserMsg {
      *
      * @return 真实姓名
      */
-    public String getfRealname() {
-        return fRealname;
+    public String getRealName() {
+        return realName;
     }
 
     /**
@@ -96,8 +96,8 @@ public class LoginUserMsg {
      *
      * @return 昵称
      */
-    public String getfNickname() {
-        return fNickname;
+    public String getNickName() {
+        return nickName;
     }
 
     /**
@@ -105,8 +105,8 @@ public class LoginUserMsg {
      *
      * @return 性别
      */
-    public String getfSex() {
-        return fSex;
+    public String getSex() {
+        return sex;
     }
 
     /**
@@ -114,8 +114,8 @@ public class LoginUserMsg {
      *
      * @return 手机号
      */
-    public String getfPhone() {
-        return fPhone;
+    public String getPhone() {
+        return phone;
     }
 
     /**
@@ -123,8 +123,8 @@ public class LoginUserMsg {
      *
      * @return 微信
      */
-    public String getfWechat() {
-        return fWechat;
+    public String getWechat() {
+        return wechat;
     }
 
     /**
@@ -132,8 +132,8 @@ public class LoginUserMsg {
      *
      * @return 邮箱
      */
-    public String getfEmail() {
-        return fEmail;
+    public String getEmail() {
+        return email;
     }
 
     /**
@@ -141,8 +141,8 @@ public class LoginUserMsg {
      *
      * @return 生日
      */
-    public Date getfBirthday() {
-        return fBirthday;
+    public Date getBirthday() {
+        return birthday;
     }
 
     /**
@@ -177,15 +177,15 @@ public class LoginUserMsg {
 @ApiModel(value = "角色")
 class SsoRole {
     @ApiModelProperty(value = "Id", required = true)
-    private String fId;
+    private String id;
 
     /**
      * 获取ID
      *
      * @return ID
      */
-    public String getfId() {
-        return fId;
+    public String getId() {
+        return id;
     }
 
 }
@@ -193,25 +193,25 @@ class SsoRole {
 @ApiModel(value = "菜单")
 class SsoMenu {
     @ApiModelProperty(value = "Id", required = true)
-    private String fId;
+    private String id;
     @ApiModelProperty(value = "父节点id")
-    private String fParentid;
+    private String parentId;
     @ApiModelProperty(value = "层", required = true)
-    private String fLayers;
+    private String layers;
     @ApiModelProperty(value = "类型", required = true)
-    private Integer fType;
+    private Integer type;
     @ApiModelProperty(value = "号码", required = true)
-    private String fCode;
+    private String code;
     @ApiModelProperty(value = "名字", required = true)
-    private String fName;
+    private String name;
     @ApiModelProperty(value = "图标", required = true)
-    private String fIcon;
+    private String icon;
     @ApiModelProperty(value = "Url地址", required = true)
-    private String fUrl;
+    private String url;
     @ApiModelProperty(value = "类别编号", required = true)
-    private Integer fSortnum;
+    private Integer sortNum;
     @ApiModelProperty(value = "系统编号", required = true)
-    private String fSystemcode;
+    private String systemCode;
 
     /**
      * 系统菜单的构造方法
@@ -219,16 +219,16 @@ class SsoMenu {
      * @param sysMenu 系统菜单
      */
     public SsoMenu(SysMenu sysMenu) {
-        this.fId = sysMenu.getfId();
-        this.fParentid = sysMenu.getfParentid();
-        this.fLayers = sysMenu.getfLayers();
-        this.fType = sysMenu.getfType();
-        this.fCode = sysMenu.getfCode();
-        this.fName = sysMenu.getfName();
-        this.fIcon = sysMenu.getfIcon();
-        this.fUrl = sysMenu.getfUrl();
-        this.fSortnum = sysMenu.getfSortnum();
-        this.fSystemcode = sysMenu.getfSystemcode();
+        this.id = sysMenu.getId();
+        this.parentId = sysMenu.getParentId();
+        this.layers = sysMenu.getLayers();
+        this.type = sysMenu.getType();
+        this.code = sysMenu.getCode();
+        this.name = sysMenu.getName();
+        this.icon = sysMenu.getIcon();
+        this.url = sysMenu.getUrl();
+        this.sortNum = sysMenu.getSortNum();
+        this.systemCode = sysMenu.getSystemCode();
     }
 
     /**
@@ -236,8 +236,8 @@ class SsoMenu {
      *
      * @return ID
      */
-    public String getfId() {
-        return fId;
+    public String getId() {
+        return id;
     }
 
     /**
@@ -245,8 +245,8 @@ class SsoMenu {
      *
      * @return ID
      */
-    public String getfParentid() {
-        return fParentid;
+    public String getParentId() {
+        return parentId;
     }
 
     /**
@@ -254,8 +254,8 @@ class SsoMenu {
      *
      * @return 层
      */
-    public String getfLayers() {
-        return fLayers;
+    public String getLayers() {
+        return layers;
     }
 
     /**
@@ -263,8 +263,8 @@ class SsoMenu {
      *
      * @return 类型
      */
-    public Integer getfType() {
-        return fType;
+    public Integer getType() {
+        return type;
     }
 
     /**
@@ -272,8 +272,8 @@ class SsoMenu {
      *
      * @return 编号
      */
-    public String getfCode() {
-        return fCode;
+    public String getCode() {
+        return code;
     }
 
     /**
@@ -281,8 +281,8 @@ class SsoMenu {
      *
      * @return 名字
      */
-    public String getfName() {
-        return fName;
+    public String getName() {
+        return name;
     }
 
     /**
@@ -290,8 +290,8 @@ class SsoMenu {
      *
      * @return 图标
      */
-    public String getfIcon() {
-        return fIcon;
+    public String getIcon() {
+        return icon;
     }
 
     /**
@@ -299,8 +299,8 @@ class SsoMenu {
      *
      * @return Url
      */
-    public String getfUrl() {
-        return fUrl;
+    public String getUrl() {
+        return url;
     }
 
     /**
@@ -308,8 +308,8 @@ class SsoMenu {
      *
      * @return 列别编号
      */
-    public Integer getfSortnum() {
-        return fSortnum;
+    public Integer getSortNum() {
+        return sortNum;
     }
 
     /**
@@ -317,7 +317,7 @@ class SsoMenu {
      *
      * @return 系统编号
      */
-    public String getfSystemcode() {
-        return fSystemcode;
+    public String getsystemCode() {
+        return systemCode;
     }
 }

@@ -94,7 +94,7 @@ public class SysFilesController extends BaseFormController<SysFiles, ISysFilesSe
             throw new LtParamException("文件信息不能为空!");
         }
         SysFiles fileObj = sysFilesService.getById(fileId);
-        sysFilesService.load(fileObj.getfLocation(), response);
+        sysFilesService.load(fileObj.getLocation(), response);
     }
 
     /**
@@ -132,8 +132,8 @@ public class SysFilesController extends BaseFormController<SysFiles, ISysFilesSe
             throw new LtParamException("文件信息不能为空!");
         }
         SysFiles fileObj = sysFilesService.getById(fileId);
-        String filePath = fileObj.getfLocation();
-        sysFilesService.download(filePath, fileObj.getfOriginname(), response);
+        String filePath = fileObj.getLocation();
+        sysFilesService.download(filePath, fileObj.getOriginName(), response);
     }
 
     /**
@@ -158,7 +158,7 @@ public class SysFilesController extends BaseFormController<SysFiles, ISysFilesSe
                 }
             }
         } catch (Exception e) {
-            log.error("文件删除执行错误", e);
+            logger.error("文件删除执行错误", e);
             return false;
         }
         return true;

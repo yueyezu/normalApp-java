@@ -23,7 +23,7 @@ public interface ISysMenuService extends IBaseTreeService<SysMenu> {
     public List<SysMenu> userMenus(String userId, String systemCode, List<String> menuTypes);
 
     /**
-     * 获取用户权限fcode
+     * 获取用户权限code
      *
      * @param userId
      * @return

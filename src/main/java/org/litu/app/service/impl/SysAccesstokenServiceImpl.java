@@ -41,11 +41,11 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
     @Override
     public SysAccesstokenEx detailEx(String id) {
         SysAccesstoken sysAccesstoken = super.detail(id);
-        SysUser sysUser = sysUserService.getById(sysAccesstoken.getfUserid());
+        SysUser sysUser = sysUserService.getById(sysAccesstoken.getUserId());
 
         SysAccesstokenEx accesstokenEx = new SysAccesstokenEx(sysAccesstoken);
-        accesstokenEx.setAccount(null == sysUser ? "" : sysUser.getfAccount());
-        accesstokenEx.setRealName(null == sysUser ? "" : sysUser.getfRealname());
+        accesstokenEx.setAccount(null == sysUser ? "" : sysUser.getAccount());
+        accesstokenEx.setRealName(null == sysUser ? "" : sysUser.getRealName());
         return accesstokenEx;
     }
 
@@ -57,7 +57,7 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
      */
     @Override
     public boolean enable(String id) {
-        return changeValue(id, "1", "F_EnabledFlag");
+        return changeValue(id, "1", "enable_flag");
     }
 
     /**
@@ -68,7 +68,7 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
      */
     @Override
     public boolean disable(String id) {
-        return changeValue(id, "0", "F_EnabledFlag");
+        return changeValue(id, "0", "enable_flag");
     }
 
     /*----------------- 以上为授权码管理的方法  ---------------------*/
@@ -83,8 +83,8 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
     @Override
     public boolean checkClient(String clientId, String clientSecret) {
         LambdaQueryWrapper<SysSystem> query = Wrappers.lambdaQuery();
-        query.eq(SysSystem::getfCode, clientId);
-        query.eq(SysSystem::getfSecret, clientSecret);
+        query.eq(SysSystem::getCode, clientId);
+        query.eq(SysSystem::getSecret, clientSecret);
 
         SysSystem client = sysSystemService.getOne(query);
 
@@ -101,21 +101,21 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
     public SysAccesstoken createToken(SysAccesstoken accessToken) {
         // 创建新的授权码
         accessToken = CreateAccessToken(accessToken);
-        accessToken.setfEnabledflag(SysContant.FLAG_TRUE);
+        accessToken.setEnableFlag(SysContant.FLAG_TRUE);
         Date nowTime = new Date();
-        accessToken.setfCreatetime(nowTime);
-        accessToken.setfModifytime(nowTime);
+        accessToken.setCreateTime(nowTime);
+        accessToken.setModifyTime(nowTime);
 
         // 保存数据库操作
         LambdaQueryWrapper<SysAccesstoken> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysAccesstoken::getfClienttype, accessToken.getfClienttype());
-        queryWrapper.eq(SysAccesstoken::getfUserid, accessToken.getfUserid());
+        queryWrapper.eq(SysAccesstoken::getClientType, accessToken.getClientType());
+        queryWrapper.eq(SysAccesstoken::getUserId, accessToken.getUserId());
         SysAccesstoken tempToken = baseMapper.selectOne(queryWrapper);
         int rc = 0;
         if (tempToken == null) { // 如果temptoken为null，表示为第一次获取授权码，直接创建即可
             rc = baseMapper.insert(accessToken);
         } else {
-            accessToken.setfId(tempToken.getfId());
+            accessToken.setId(tempToken.getId());
             rc = baseMapper.updateById(accessToken);
         }
 
@@ -135,18 +135,18 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
     @Override
     public SysAccesstoken refreshToken(String clientType, String refreshToken) {
         LambdaQueryWrapper<SysAccesstoken> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysAccesstoken::getfRefreshtoken, refreshToken);
-        queryWrapper.eq(SysAccesstoken::getfClienttype, clientType);
+        queryWrapper.eq(SysAccesstoken::getRefreshToken, refreshToken);
+        queryWrapper.eq(SysAccesstoken::getClientType, clientType);
         SysAccesstoken accessToken = baseMapper.selectOne(queryWrapper);
         if (accessToken == null) {
             throw new LtServerException("未找到当前刷新码信息。", ErrorEnum.GetRefreshTokenError);
         }
 
         // 判断刷新码是否过期
-        Integer refreshSpan = accessToken.getfEnablerefreshtime();
+        Integer refreshSpan = accessToken.getEnableRefreshTime();
         Date nowTime = new Date();
         if (refreshSpan != 0) {
-            Date createTime = accessToken.getfCreatetime();
+            Date createTime = accessToken.getCreateTime();
             long cha = nowTime.getTime() - createTime.getTime();
             long days = (refreshSpan * 24 * 60 * 60 * 1000); // 将时间调整到毫秒 天
 
@@ -157,13 +157,13 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
 
         // 刷新获取新的授权码信息
         accessToken = CreateAccessToken(accessToken);
-        accessToken.setfEnabledflag(SysContant.FLAG_TRUE);
-        accessToken.setfModifytime(nowTime);
+        accessToken.setEnableFlag(SysContant.FLAG_TRUE);
+        accessToken.setModifyTime(nowTime);
 
         // 存储到数据库
         LambdaUpdateWrapper<SysAccesstoken> updateWrapper = Wrappers.lambdaUpdate();
-        queryWrapper.eq(SysAccesstoken::getfRefreshtoken, refreshToken);
-        queryWrapper.eq(SysAccesstoken::getfClienttype, clientType);
+        queryWrapper.eq(SysAccesstoken::getRefreshToken, refreshToken);
+        queryWrapper.eq(SysAccesstoken::getClientType, clientType);
         int rc = baseMapper.update(accessToken, updateWrapper);
 
         if (rc > 0) {
@@ -184,24 +184,24 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
     @Override
     public SysAccesstoken checkToken(String clientType, String token, String mcode) {
         LambdaQueryWrapper<SysAccesstoken> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysAccesstoken::getfClienttype, clientType);
-        queryWrapper.eq(SysAccesstoken::getfToken, token);
+        queryWrapper.eq(SysAccesstoken::getClientType, clientType);
+        queryWrapper.eq(SysAccesstoken::getToken, token);
         SysAccesstoken accessToken = baseMapper.selectOne(queryWrapper);
         if (accessToken == null) {
             return null;
         }
 
         // 判断授权码码是否过期
-        Integer tokenSpan = accessToken.getfEnabletime();
-        Integer enableFlag = accessToken.getfEnabledflag();
+        Integer tokenSpan = accessToken.getEnableTime();
+        Integer enableFlag = accessToken.getEnableFlag();
         if (enableFlag == SysContant.FLAG_TRUE && tokenSpan != 0) {
             Date nowTime = new Date();
-            Date createTime = accessToken.getfCreatetime();
+            Date createTime = accessToken.getCreateTime();
             long cha = nowTime.getTime() - createTime.getTime();
             long hours = (tokenSpan * 60 * 60 * 1000); // 将时间调整到毫秒 天
 
             if (hours < cha) { // 如果是超期，则在数据库标记已经不可用
-                accessToken.setfEnabledflag(SysContant.FLAG_FALSE);
+                accessToken.setEnableFlag(SysContant.FLAG_FALSE);
                 baseMapper.updateById(accessToken);
             }
         }
@@ -230,13 +230,13 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
      * @return
      */
     private SysAccesstoken CreateAccessToken(SysAccesstoken accessToken) {
-        String token = LoginTokenUtil.getToken(accessToken.getfClienttype(), accessToken.getfClientmac(), accessToken.getfClientmcode());
-        accessToken.setfToken(token);
-        accessToken.setfEnabletime(tokenEnableTime);
+        String token = LoginTokenUtil.getToken(accessToken.getClientType(), accessToken.getClientMac(), accessToken.getClientMcode());
+        accessToken.setToken(token);
+        accessToken.setEnableTime(tokenEnableTime);
 
-        String refreshToken = LoginTokenUtil.getToken(accessToken.getfClienttype(), accessToken.getfClientmac(), accessToken.getfClientmcode());
-        accessToken.setfRefreshtoken(refreshToken);
-        accessToken.setfEnablerefreshtime(refreshEnableTime);
+        String refreshToken = LoginTokenUtil.getToken(accessToken.getClientType(), accessToken.getClientMac(), accessToken.getClientMcode());
+        accessToken.setRefreshToken(refreshToken);
+        accessToken.setEnableRefreshTime(refreshEnableTime);
 
         return accessToken;
     }

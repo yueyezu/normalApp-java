@@ -11,7 +11,7 @@
                 <!--系统列表显示位置-->
                 <ul id="systemPnl" class="nav nav-tabs m-b-sm">
                     <#list systemList as system>
-                        <li <#if system_index ==0>class="active"</#if>><a code="${system.fCode}" href="javascript:void(0)">${system.fName}</a></li>
+                        <li <#if system_index ==0>class="active"</#if>><a code="${system.code}" href="javascript:void(0)">${system.name}</a></li>
                     </#list>
                 </ul>
                 <!--菜单列表信息-->
@@ -78,47 +78,47 @@
                 showExport: false,
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器
                 pagination: false,                    //是否显示分页（*）
-                idField: "fId",                     //每一行的唯一标识，一般为主键列
-                treeShowField: 'fName',
-                parentIdField: 'fParentid',
+                idField: "id",                     //每一行的唯一标识，一般为主键列
+                treeShowField: 'name',
+                parentIdField: 'parentId',
                 queryParams: function (params) {
                     params.keyword = $('#queryKeyword').val();
-                    params.fSystemcode = nowSystem;
+                    params.systemCode = nowSystem;
                     return params;
                 },
                 columns: [{field: 'ck', checkbox: true},
                     {
-                        title: '名称', field: 'fName',
+                        title: '名称', field: 'name',
                         formatter: function (value, row, index) {
-                            return '<a onclick="view(\'' + row.fId + '\')">' + value + '</a>';
+                            return '<a onclick="view(\'' + row.id + '\')">' + value + '</a>';
                         }
                     },
-                    {title: '编号', field: 'fCode'},
+                    {title: '编号', field: 'code'},
                     {
-                        title: '图标', field: 'fIcon', align: 'center',
+                        title: '图标', field: 'icon', align: 'center',
                         formatter: function (value, row, index) {
                             return '<i class="' + value + '"></i>';
                         }
                     },
-                    {title: '连接', field: 'fUrl'},
+                    {title: '连接', field: 'url'},
                     {
-                        title: '类型', field: 'fType',
+                        title: '类型', field: 'type',
                         formatter: function (value, row, index) {
                             return top.lt.cache.dictItems["menuType"][value];
                         }
                     },
-                    {title: '排序码', field: 'fSortnum'},
+                    {title: '排序码', field: 'sortNum'},
                     {
-                        title: "操作", field: "fId",
+                        title: "操作", field: "id",
                         formatter: function (value, row) {
                             var e = '';
-                            if (row.fType == 3) { //按钮
+                            if (row.type == 3) { //按钮
                                 e += '<@shiro.hasPermission name="funcMenu-btnEditButton"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
                             } else { //模块和功能
                                 e += '<@shiro.hasPermission name="funcMenu-btnEdit"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
                             }
                             var d = '';
-                            if (row.fType == 3) { //按钮
+                            if (row.type == 3) { //按钮
                                 d += '<@shiro.hasPermission name="funcMenu-btnDeleteButton"><a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a></@shiro.hasPermission>';
                             } else { //模块和功能
                                 d += '<@shiro.hasPermission name="funcMenu-btnDelete"><a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a></@shiro.hasPermission>';
@@ -126,9 +126,9 @@
                             var af = '<@shiro.hasPermission name="funcMenu-btnAdd"><a class="btn btn-info btn-xs m-r-xs" onclick="add(2,\'' + value + '\');return false;"><i class="fa fa-plus"></i>添加菜单</a></@shiro.hasPermission>';
                             var ab = '<@shiro.hasPermission name="funcMenu-btnAddButton"><a class="btn btn-info btn-xs m-r-xs" onclick="add(3,\'' + value + '\');return false;"><i class="fa fa-plus"></i>添加按钮</a></@shiro.hasPermission>';
 
-                            if (row.fType == 1)
+                            if (row.type == 1)
                                 return e + d + af;
-                            else if (row.fType == 2)
+                            else if (row.type == 2)
                                 return e + d + ab;
                             else
                                 return e + d;

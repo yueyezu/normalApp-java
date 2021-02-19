@@ -25,18 +25,18 @@ public class SysLogsServiceImpl extends BaseServiceImpl<SysLogsMapper, SysLogs> 
     @Override
     public void beforePage(SysLogs sysLogs, String keyword, IPage<SysLogs> page, Map<String, String> params, LambdaQueryWrapper<SysLogs> query) {
         if (StringUtils.isNotBlank(params.get("startTime"))) {
-            query.ge(SysLogs::getfCreatetime, params.get("startTime"));
+            query.ge(SysLogs::getCreateTime, params.get("startTime"));
         }
         if (StringUtils.isNotBlank(params.get("endTime"))) {
-            query.le(SysLogs::getfCreatetime, params.get("endTime"));
+            query.le(SysLogs::getCreateTime, params.get("endTime"));
         }
 
-        if (sysLogs.getfSystemcode() != null) {
-            query.and(i -> i.like(SysLogs::getfModule, keyword).or().like(SysLogs::getfOpttype, keyword));
-            query.eq(SysLogs::getfSystemcode, sysLogs.getfSystemcode());
+        if (sysLogs.getSystemCode() != null) {
+            query.and(i -> i.like(SysLogs::getModule, keyword).or().like(SysLogs::getOptType, keyword));
+            query.eq(SysLogs::getSystemCode, sysLogs.getSystemCode());
         } else {
-            query.and(i -> i.like(SysLogs::getfModule, keyword).or().like(SysLogs::getfOpttype, keyword));
+            query.and(i -> i.like(SysLogs::getModule, keyword).or().like(SysLogs::getOptType, keyword));
         }
-        query.orderByDesc(SysLogs::getfCreatetime);
+        query.orderByDesc(SysLogs::getCreateTime);
     }
 }

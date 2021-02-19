@@ -12,10 +12,10 @@
                 <ul id="roleList" class="list-group">
                     <#list  roleList as role >
                         <li class="list-group-item">
-                            <#if userRoleIds?seq_contains("${role.fId}")>
-                                <input type="checkbox" value="${role.fId}" class="i-checks" checked/><span class="m-l-xs">${role.fName}</span>
+                            <#if userRoleIds?seq_contains("${role.id}")>
+                                <input type="checkbox" value="${role.id}" class="i-checks" checked/><span class="m-l-xs">${role.name}</span>
                             <#else >
-                                <input type="checkbox" value="${role.fId}" class="i-checks"/><span class="m-l-xs">${role.fName}</span>
+                                <input type="checkbox" value="${role.id}" class="i-checks"/><span class="m-l-xs">${role.name}</span>
                             </#if>
                         </li>
                     </#list>
@@ -41,7 +41,7 @@
                 });
 
                 var userId = $('#userId').val();
-                $.post(userRolePrefix + '/saveUserRole', {'fRoleIds': roleIds.join(','), 'fUserId': userId}, function (res) {
+                $.post(userRolePrefix + '/saveUserRole', {'roleIds': roleIds.join(','), 'userId': userId}, function (res) {
                     if (res.code == 200) {
                         lt.alertSuccess(res.msg, function () {
                             lt.closeThis();

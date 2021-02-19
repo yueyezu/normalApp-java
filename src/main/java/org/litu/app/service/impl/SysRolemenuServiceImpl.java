@@ -1,7 +1,6 @@
 package org.litu.app.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.dao.SysRolemenuMapper;
@@ -39,8 +38,8 @@ public class SysRolemenuServiceImpl extends BaseServiceImpl<SysRolemenuMapper, S
         List<SysRolemenu> entityList = new ArrayList<SysRolemenu>();
         for (String menuId : menuIds) {
             SysRolemenu roleMenu = new SysRolemenu();
-            roleMenu.setfRoleid(roleId);
-            roleMenu.setfMenuid(menuId);
+            roleMenu.setRoleId(roleId);
+            roleMenu.setMenuId(menuId);
             entityList.add(roleMenu);
         }
         return super.saveBatch(entityList);
@@ -58,9 +57,9 @@ public class SysRolemenuServiceImpl extends BaseServiceImpl<SysRolemenuMapper, S
             return result;
         }
         LambdaQueryWrapper<SysRolemenu> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysRolemenu::getfRoleid, roleId);
+        queryWrapper.eq(SysRolemenu::getRoleId, roleId);
         for (SysRolemenu roleMenu : list(queryWrapper)) {
-            result.add(roleMenu.getfMenuid());
+            result.add(roleMenu.getMenuId());
         }
         return result;
     }
@@ -75,8 +74,8 @@ public class SysRolemenuServiceImpl extends BaseServiceImpl<SysRolemenuMapper, S
         if (StringUtils.isBlank(roleId)) {
             return false;
         }
-        QueryWrapper<SysRolemenu> queryWrapper = new QueryWrapper<SysRolemenu>();
-        queryWrapper.eq("F_RoleId", roleId);
+        LambdaQueryWrapper<SysRolemenu> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(SysRolemenu::getRoleId, roleId);
         return remove(queryWrapper);
     }
 }

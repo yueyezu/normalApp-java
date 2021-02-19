@@ -55,7 +55,7 @@ public class SysUserRoleController extends BaseController {
     @LtLogOperation(operation = LtLogOperationEnum.ADD)
     @PostMapping(value = "/saveUserRole")
     @ResponseBody
-    public BaseRes assign(@RequestParam(value = "fUserId") String userId, @RequestParam(value = "fRoleIds") String roleIds) {
+    public BaseRes assign(@RequestParam(value = "userId") String userId, @RequestParam(value = "roleIds") String roleIds) {
         if (StringUtils.isBlank(userId)) {
             return BaseRes.error(ErrorEnum.ParamError, "roleId不能为空！");
         }

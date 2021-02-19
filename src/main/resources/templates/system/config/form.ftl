@@ -7,28 +7,28 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="form" class="form-horizontal m-t">
-            <input name="fId" id="fId" value="${data.fId!''}" type="hidden"/>
-            <input name="fName" id="fName" value="${data.fName!''}" type="hidden"/>
-            <input name="fGroup" id="fGroup" value="${data.fGroup!''}" type="hidden"/>
-            <input name="fValuetype" id="fValuetype" value="${data.fValuetype!''}" type="hidden"/>
-            <input name="fKey" id="fKey" value="${data.fKey!''}" type="hidden"/>
-            <input name="fSortnum" id="fSortnum" value="${data.fSortnum!''}" type="hidden"/>
+            <input name="id" id="id" value="${data.id!''}" type="hidden"/>
+            <input name="name" id="name" value="${data.name!''}" type="hidden"/>
+            <input name="groups" id="groups" value="${data.groups!''}" type="hidden"/>
+            <input name="valueType" id="valueType" value="${data.valueType!''}" type="hidden"/>
+            <#--            <input name="code" id="code" value="${data.code!''}" type="hidden"/>-->
+            <input name="sortNum" id="sortNum" value="${data.sortNum!''}" type="hidden"/>
             <div class="form-group">
                 <label class="col-sm-3 control-label required">属性值</label>
                 <div class="col-sm-8">
-                    <input id="fValue" name="fValue" value="${data.fValue}" type="text" class="form-control required"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注</label>
-                <div class="col-sm-8">
-                    <textarea id="fRemark" name="fRemark" class="form-control">${data.fRemark}</textarea>
+                    <input id="value" name="value" value="${data.value}" type="text" class="form-control required"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">描述</label>
                 <div class="col-sm-8">
-                    <textarea id="fDescription" name="fDescription" class="form-control">${data.fDescription}</textarea>
+                    <textarea id="description" name="description" class="form-control">${data.description}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注</label>
+                <div class="col-sm-8">
+                    <textarea id="remark" name="remark" class="form-control">${data.remark}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -57,12 +57,12 @@
 
         // 初始化数据表单
         function initForm() {
-            var defVal = $('#fType').attr("defValue");
-            $("#fType").initSelect(top.lt.cache.dictItemArr.systemType, {
+            var defVal = $('#type').attr("defValue");
+            $("#type").initSelect(top.lt.cache.dictItemArr.systemType, {
                 disable_search: true
             }, defVal);
 
-            $('#fDevtime').datepicker({format: 'yyyy-mm-dd'});
+            $('#devTime').datepicker({format: 'yyyy-mm-dd'});
         }
 
         // 提交添加和修改的信息

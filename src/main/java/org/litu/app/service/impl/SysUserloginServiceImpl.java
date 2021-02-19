@@ -32,7 +32,7 @@ public class SysUserloginServiceImpl extends BaseServiceImpl<SysUserloginMapper,
         }
 
         LambdaQueryWrapper<SysUserlogin> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysUserlogin::getfUserid, userId);
+        queryWrapper.eq(SysUserlogin::getUserId, userId);
         SysUserlogin sysUserLogin = getOne(queryWrapper);
 
         return sysUserLogin;

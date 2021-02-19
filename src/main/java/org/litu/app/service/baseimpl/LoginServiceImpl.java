@@ -48,7 +48,7 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public boolean checkSystemCode(String systemCode) {
         LambdaQueryWrapper<SysSystem> query = Wrappers.lambdaQuery();
-        query.eq(SysSystem::getfCode, systemCode);
+        query.eq(SysSystem::getCode, systemCode);
         SysSystem client = SysSystemService.getOne(query);
 
         return client != null;
@@ -72,20 +72,20 @@ public class LoginServiceImpl implements ILoginService {
             throw new LtServerException(ErrorEnum.UserPwdError);
         }
         // 用户被禁用
-        if (user.getfDeleteflag().intValue() == SysContant.FLAG_TRUE) {
+        if (user.getDeleteFlag().intValue() == SysContant.FLAG_TRUE) {
             throw new LtServerException(ErrorEnum.UserNotEnable);
         }
         // 验证密码
-        String userId = user.getfId();
+        String userId = user.getId();
         SysUserlogin sysUserLogin = sysUserLoginService.getByUserId(userId);
 
         // 是否允许登录
-        if (sysUserLogin.getfEnablelogin().intValue() == SysContant.FLAG_FALSE) {
+        if (sysUserLogin.getEnableLogin().intValue() == SysContant.FLAG_FALSE) {
             throw new LtServerException(ErrorEnum.UserNotEnable);
         }
         // 验证密码是否正确
-        String nowPwd = LoginTokenUtil.GetDbPassword(sysUserLogin.getfSecretkey(), password);
-        if (!nowPwd.equals(sysUserLogin.getfPassword())) {
+        String nowPwd = LoginTokenUtil.GetDbPassword(sysUserLogin.getSecretKey(), password);
+        if (!nowPwd.equals(sysUserLogin.getPassword())) {
             throw new LtServerException(ErrorEnum.UserPwdError);
         }
         // 是否有菜单,只看是否有功能权限即可
@@ -118,39 +118,39 @@ public class LoginServiceImpl implements ILoginService {
             throw new LtServerException(ErrorEnum.UserPwdError);
         }
         // 用户被禁用
-        if (user.getfDeleteflag() == SysContant.FLAG_TRUE) {
+        if (user.getDeleteFlag() == SysContant.FLAG_TRUE) {
             throw new LtServerException(ErrorEnum.UserNotEnable);
         }
         // 验证密码
-        SysUserlogin sysUserLogin = sysUserLoginService.getByUserId(user.getfId());
+        SysUserlogin sysUserLogin = sysUserLoginService.getByUserId(user.getId());
         // 是否允许登录
-        if (sysUserLogin.getfEnablelogin().intValue() == SysContant.FLAG_FALSE) {
+        if (sysUserLogin.getEnableLogin().intValue() == SysContant.FLAG_FALSE) {
             throw new LtServerException(ErrorEnum.UserNotEnable);
         }
         // 是否有菜单,只看是否有功能权限即可
         List<String> menuTypes = new ArrayList<String>();
         menuTypes.add(SysContant.MENUTYPE_FUNCTION);
-        List<SysMenu> menus = sysMenuService.userMenus(user.getfId(), systemCode, menuTypes);
+        List<SysMenu> menus = sysMenuService.userMenus(user.getId(), systemCode, menuTypes);
         if (menus == null || menus.size() == 0) {
             throw new LtServerException(ErrorEnum.UserHasNoAuth);
         }
 
         // 是否多点登录
-        boolean mulitiLogin = sysUserLogin.getfMultiuserlogin().intValue() == SysContant.FLAG_TRUE;
+        boolean mulitiLogin = sysUserLogin.getMultiuserLogin().intValue() == SysContant.FLAG_TRUE;
         try {
             // 登录
-            String nowPwd = LoginTokenUtil.GetDbPassword(sysUserLogin.getfSecretkey(), password);
+            String nowPwd = LoginTokenUtil.GetDbPassword(sysUserLogin.getSecretKey(), password);
             shiroLoginUtil.login(account, nowPwd, !mulitiLogin);
         } catch (Exception e) {
             return null;
         }
 
         // 用户登陆验证成功后，对session操作,存储用户的信息
-        ShiroSessionUtil.session(SysContant.SESSION_CURRENT_USERID, user.getfId()); // 用户ID
+        ShiroSessionUtil.session(SysContant.SESSION_CURRENT_USERID, user.getId()); // 用户ID
         Boolean isDefaultPwd = LoginTokenUtil.isDefaultPwd(password);
         ShiroSessionUtil.session(SysContant.SESSION_IS_DEFAULT_PWD, isDefaultPwd.toString());   // 用户是否默认密码
-        List<String> userRoles = sysRoleService.userRoles(user.getfId());
-        List<String> userPermissions = sysMenuService.userPrivileges(user.getfId(), SysContant.CURRENT_SYSTEM_CODE);
+        List<String> userRoles = sysRoleService.userRoles(user.getId());
+        List<String> userPermissions = sysMenuService.userPrivileges(user.getId(), SysContant.CURRENT_SYSTEM_CODE);
         UserUtil.setLoginMsg(userRoles, userPermissions); // 用户权限信息
 
         return user;
@@ -180,13 +180,13 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public LoginUserMsg getSsoUserMsg(SysUser user, String systemCode) {
         // 获取用户的角色信息
-        List<String> roles = sysRoleService.userRoles(user.getfId());
+        List<String> roles = sysRoleService.userRoles(user.getId());
         // 返回用户信息以及菜单信息
         List<String> menuTypes = new ArrayList<String>();
         menuTypes.add(SysContant.MENUTYPE_MODULE);
         menuTypes.add(SysContant.MENUTYPE_FUNCTION);
         menuTypes.add(SysContant.MENUTYPE_BUTTON);
-        List<SysMenu> menus = sysMenuService.userMenus(user.getfId(), systemCode, menuTypes);
+        List<SysMenu> menus = sysMenuService.userMenus(user.getId(), systemCode, menuTypes);
 
         LoginUserMsg userMsg = new LoginUserMsg(user, menus, roles);
 
@@ -204,10 +204,10 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public boolean ChangeLoginStatus(String userId, Integer loginStatus) {
         SysUserlogin sysUserLogin = sysUserLoginService.getByUserId(userId);
-        sysUserLogin.setfLoginstatus(loginStatus);
+        sysUserLogin.setLoginStatus(loginStatus);
         if (loginStatus.equals(SysContant.FLAG_TRUE)) {
-            sysUserLogin.setfLastvisittime(new Date());
-            sysUserLogin.setfLogoncount(sysUserLogin.getfLogoncount() + 1);
+            sysUserLogin.setLastVisitTime(new Date());
+            sysUserLogin.setLogonCount(sysUserLogin.getLogonCount() + 1);
         }
 
         sysUserLoginService.updateById(sysUserLogin);

@@ -7,68 +7,68 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="form" class="form-horizontal m-t">
-            <input name="fId" id="fId" value="${data.fId}" type="hidden"/>
-            <input name="fEnabledflag" id="fEnabledflag" type="hidden" value="${data.fEnabledflag}"/>
+            <input name="id" id="id" value="${data.id}" type="hidden"/>
+            <input name="enableFlag" id="enableFlag" type="hidden" value="${data.enableFlag}"/>
             <div class="form-group">
                 <label class="col-sm-2 control-label">系统编号</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="fCode" name="fCode" value="${data.fCode}" required="required" readonly/>
+                    <input type="text" class="form-control" id="code" name="code" value="${data.code}" required="required" readonly/>
                 </div>
                 <label class="col-sm-2 control-label">系统名称</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="fName" name="fName" value="${data.fName}" required="required" readonly/>
+                    <input type="text" class="form-control" id="name" name="name" value="${data.name}" required="required" readonly/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">系统类型</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="fType" name="fType" defValue="${data.fType!''}" readonly/>
+                    <input type="text" class="form-control" id="type" name="type" defValue="${data.type!''}" readonly/>
                 </div>
                 <label class="col-sm-2 control-label">当前版本</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="fVersion" name="fVersion" value="${data.fVersion}" readonly/>
+                    <input type="text" class="form-control" id="version" name="version" value="${data.version}" readonly/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">访问密码</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="fSecret" name="fSecret" value="${data.fSecret}" readonly/>
+                    <input type="text" class="form-control" id="secret" name="secret" value="${data.secret}" readonly/>
                 </div>
                 <label class="col-sm-2 control-label">建设时间</label>
                 <div class="col-sm-4">
-                    <input id="fDevtime" name="fDevtime" value="${(data.fDevtime?string('yyyy-MM-dd'))!''}" type="text" class="form-control" readonly/>
+                    <input id="devTime" name="devTime" value="${(data.devTime?string('yyyy-MM-dd'))!''}" type="text" class="form-control" readonly/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">建设单位</label>
                 <div class="col-sm-10">
-                    <input id="fDevorg" name="fDevorg" value="${data.fDevorg}" type="text" class="form-control" readonly/>
+                    <input id="devOrg" name="devOrg" value="${data.devOrg}" type="text" class="form-control" readonly/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">备注</label>
                 <div class="col-sm-10">
-                    <textarea id="fRemark" name="fRemark" class="form-control" readonly>${data.fRemark}</textarea>
+                    <textarea id="remark" name="remark" class="form-control" readonly>${data.remark}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">创建人</label>
                 <div class="col-sm-4">
-                    <input id="fCreateUserid" name="fCreateUserid" value="${data.fCreateuserid}" type="text" class="form-control" readonly/>
+                    <input id="createBy" name="createBy" value="${data.createBy}" type="text" class="form-control" readonly/>
                 </div>
                 <label class="col-sm-2 control-label">创建时间</label>
                 <div class="col-sm-4">
-                    <input id="fCreatetime" name="fCreatetime" value="${(data.fCreatetime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
+                    <input id="createTime" name="createTime" value="${(data.createTime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">修改人</label>
                 <div class="col-sm-4">
-                    <input id="fLastModifyUserid" name="fLastModifyUserid" value="${data.fLastmodifyuserid}" type="text" class="form-control" readonly/>
+                    <input id="modifyBy" name="modifyBy" value="${data.modifyBy}" type="text" class="form-control" readonly/>
                 </div>
                 <label class="col-sm-2 control-label">修改时间</label>
                 <div class="col-sm-4">
-                    <input id="fLastmodifytime" name="fLastModifytime" value="${(data.fLastmodifytime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
+                    <input id="modifyTime" name="modifyTime" value="${(data.modifyTime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
                 </div>
             </div>
         </form>
@@ -79,8 +79,8 @@
 <@mc.ltfooter  type="view">
     <script type="text/javascript">
         $(function () {
-            var defVal = $('#fType').attr("defValue");
-            $('#fType').val(top.lt.cache.dictItems["systemType"][defVal]);
+            var defVal = $('#type').attr("defValue");
+            $('#type').val(top.lt.cache.dictItems["systemType"][defVal]);
         });
     </script>
 </@mc.ltfooter>

@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.litu.app.entity.SysUserrole">
-        <id column="f_id" property="fId" />
-        <result column="f_userId" property="fUserid" />
-        <result column="f_roleId" property="fRoleid" />
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="role_id" property="roleId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        f_id, f_userId, f_roleId
+        id, user_id, role_id
     </sql>
 
 </mapper>

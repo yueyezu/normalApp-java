@@ -7,38 +7,38 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="form" class="form-horizontal m-t">
-            <input name="fId" id="fId" value="${data.fId!''}" type="hidden"/>
-            <input name="fType" id="fType" type="hidden" value="1"/>
+            <input name="id" id="id" value="${data.id!''}" type="hidden"/>
+            <input name="type" id="type" type="hidden" value="1"/>
             <div class="form-group">
             	<div class="validationArea">
             		<label class="col-sm-2 control-label required">角色编号</label>
 	                <div class="col-sm-4">
-	                    <input id="fCode" name="fCode" value="${data.fCode}" type="text" class="form-control required"/>
+	                    <input id="code" name="code" value="${data.code}" type="text" class="form-control required"/>
 	                </div>
             	</div>
                 <div class="validationArea">
                 	<label class="col-sm-2 control-label required">角色名称</label>
 	                <div class="col-sm-4">
-	                    <input id="fName" name="fName" value="${data.fName}" type="text" class="form-control required"/>
+	                    <input id="name" name="name" value="${data.name}" type="text" class="form-control required"/>
 	                </div>
                 </div>                
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">角色说明</label>
                 <div class="col-sm-10">
-                    <input id="fDescription" name="fDescription" value="${data.fDescription}" type="text" class="form-control"/>
+                    <input id="description" name="description" value="${data.description}" type="text" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">排序码</label>
                 <div class="col-sm-4">
-                    <input id="fSortnum" name="fSortnum" value="${data.fSortnum}" type="number" class="form-control"/>
+                    <input id="sortNum" name="sortNum" value="${data.sortNum}" type="number" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">备注</label>
                 <div class="col-sm-10">
-                    <textarea id="fRemark" name="fRemark" class="form-control">${data.fRemark}</textarea>
+                    <textarea id="remark" name="remark" class="form-control">${data.remark}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -66,14 +66,14 @@
 
         // 初始化数据表单
         function initForm() {
-            $('#fUpdatedate').datepicker({format: 'yyyy-mm-dd'});
+            $('#updateDate').datepicker({format: 'yyyy-mm-dd'});
         }
 
         // 提交添加和修改的信息
         function submit() {
             var data = $('#dataForm').serializeJson();
 
-            var url = data["fId"] == "" ? "/role/save" : "/role/update";
+            var url = data["id"] == "" ? "/role/save" : "/role/update";
             $.post(url, data, function (res) {
                 if (res.code == 200) {
                     lt.alertSuccess(res.msg, function () {

@@ -11,6 +11,8 @@ import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.litu.util.file.jxlsEx.ImageCommand;
 import org.litu.util.file.jxlsEx.MergeCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.text.DecimalFormat;
@@ -18,6 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 public class ExcelPoiUtil {
+
+    static Logger logger = LoggerFactory.getLogger(ExcelPoiUtil.class);
+
     private static final String XLS = "xls";
     private static final String XLSX = "xlsx";
 
@@ -69,11 +74,7 @@ public class ExcelPoiUtil {
                     try {
                         cellValue = sdf.format(cell.getDateCellValue());// 日期
                     } catch (Exception e) {
-                        try {
-                            throw new Exception("exception on get date data !".concat(e.toString()));
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
+                        throw new RuntimeException("exception on get date data !", e);
                     }
                 } else {
                     Double doubleValue = cell.getNumericCellValue();

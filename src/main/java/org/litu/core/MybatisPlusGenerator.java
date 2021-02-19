@@ -21,8 +21,8 @@ import java.util.Map;
  */
 public class MybatisPlusGenerator {
     private static String generatPath = "E:/Geanetate/code";
-    private static String author = "ltgk";
-    private static String systemCode = "HaierResearch";
+    private static String author = "yueye";
+    private static String systemCode = "NormalApp";
     private static String sqlCreator = "admin";
 
     public static void generatorMoudleCode(GlobalConfig gc) {
@@ -30,13 +30,16 @@ public class MybatisPlusGenerator {
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUrl("jdbc:mysql://47.94.198.207:3306/normalappdb?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
+        dsc.setUrl("jdbc:mysql://47.94.198.207:3306/normalappdb2?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
         dsc.setUsername("root");
         dsc.setPassword("qazwsx123");
 
         // 所有要进行生成的表和模块信息
         List<moduleConfig> moduleConfigs = new ArrayList<>();
-        moduleConfigs.add(new moduleConfig("系统管理", "", new String[]{"Sys_DictItem", "Sys_Dict", "Sys_AccessToken", "Sys_DbBackup", "Sys_RoleMenu", "Sys_UserLogin", "Sys_User", "Sys_UserRole", "Sys_System", "Sys_Logs", "Sys_SystemVersion", "Sys_Menu", "Sys_Configs", "Sys_Files", "Sys_RoleOrganize", "Sys_Organize", "Sys_Role"}));
+        moduleConfigs.add(new moduleConfig("系统管理", "system",
+                new String[]{"Sys_DictItem", "Sys_Dict", "Sys_AccessToken", "Sys_RoleMenu",
+                        "Sys_UserLogin", "Sys_User", "Sys_UserRole", "Sys_System", "Sys_SystemVersion", "Sys_Logs",
+                        "Sys_Menu", "Sys_Configs", "Sys_Files", "Sys_RoleOrganize", "Sys_Organize", "Sys_Role"}));
 
         for (moduleConfig module : moduleConfigs) {
             AutoGenerator mpg = new AutoGenerator();
@@ -120,8 +123,9 @@ public class MybatisPlusGenerator {
     private static StrategyConfig getStrategyConfig() {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
+        strategy.setEntityLombokModel(true);    // 是否启用lombok模式
         strategy.setSuperEntityClass("org.litu.base.entity.BaseEntity");
-        strategy.setSuperEntityColumns("f_id");
+        strategy.setSuperEntityColumns("id");
         strategy.setSuperMapperClass("org.litu.base.dao.BaseMapper");
         strategy.setSuperServiceClass("org.litu.base.service.IBaseService");
         strategy.setSuperServiceImplClass("org.litu.base.service.impl.BaseServiceImpl");

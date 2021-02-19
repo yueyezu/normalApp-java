@@ -1,7 +1,7 @@
 package org.litu.util.common;
 
 import com.sun.management.OperatingSystemMXBean;
-import org.litu.app.controller.IndexController;
+import org.litu.Application;
 import org.litu.util.configs.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -171,7 +171,7 @@ public class SysMsgUtil {
      * 结果为：D:\编码实现\HaierResearch
      */
     public static String JarPath() {
-        ApplicationHome home = new ApplicationHome(IndexController.class);
+        ApplicationHome home = new ApplicationHome(Application.class);
         String homePath = home.getDir().toString();
         homePath = homePath.replace("\\", "/");
         return homePath;

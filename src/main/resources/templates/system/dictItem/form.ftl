@@ -7,33 +7,33 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="form" class="form-horizontal m-t">
-            <input name="fId" id="fId" value="${data.fId!''}" type="hidden"/>
-            <input name="fDictid" id="fDictid" value="${data.fDictid!''}" type="hidden"/>
-            <input id="fEnabledelete" name="fEnabledelete" value="${data.fEnabledelete!'1'}" type="hidden"/>
+            <input name="id" id="id" value="${data.id!''}" type="hidden"/>
+            <input name="dictId" id="dictId" value="${data.dictId!''}" type="hidden"/>
+            <input id="enableDelete" name="enableDelete" value="${data.enableDelete!'1'}" type="hidden"/>
             <div class="form-group">
             	<div class="validationArea">
             		<label class="col-sm-2 control-label required">编号</label>
 	                <div class="col-sm-4">
-	                    <input id="fCode" name="fCode" value="${data.fCode}" type="text" class="form-control required"/>
+	                    <input id="code" name="code" value="${data.code}" type="text" class="form-control required"/>
 	                </div>
             	</div>
                 <div class="validationArea">
                 	<label class="col-sm-2 control-label required">名称</label>
 	                <div class="col-sm-4">
-	                    <input id="fName" name="fName" value="${data.fName}" type="text" class="form-control required"/>
+	                    <input id="name" name="name" value="${data.name}" type="text" class="form-control required"/>
 	                </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">排序码</label>
                 <div class="col-sm-4">
-                    <input id="fSortnum" name="fSortnum" value="${data.fSortnum}" type="number" class="form-control"/>
+                    <input id="sortNum" name="sortNum" value="${data.sortNum}" type="number" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">描述</label>
                 <div class="col-sm-10">
-                    <textarea id="fDescription" name="fDescription" class="form-control">${data.fDescription}</textarea>
+                    <textarea id="description" name="description" class="form-control">${data.description}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -47,8 +47,8 @@
 <@mc.ltfooter  type="form">
     <script type="text/javascript">
         $(function () {
-            if ($.requestParams().fDictid) {
-                $('#fDictid').val($.requestParams().fDictid);
+            if ($.requestParams().dictId) {
+                $('#dictId').val($.requestParams().dictId);
             }
 
             // 表单提交方法确定
@@ -63,7 +63,7 @@
         function submit() {
             var data = $('#dataForm').serializeJson();
 
-            var url = data["fId"] == "" ? "/dictItem/save" : "/dictItem/update";
+            var url = data["id"] == "" ? "/dictItem/save" : "/dictItem/update";
             $.post(url, data, function (res) {
                 if (res.code == 200) {
                     lt.alertSuccess(res.msg, function () {

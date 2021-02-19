@@ -81,11 +81,11 @@ public class SsoController extends BaseApiController {
             String ip = NetUtil.getIp(request);
 
             // 登录在cookie的顶级加入登录的token信息。 这里在跨域的情况下，很难获取到，所以就需要第三方系统自行处理了。
-            String loginToken = LoginTokenUtil.getSSOToken(user.getfId(), account, ip);
+            String loginToken = LoginTokenUtil.getSSOToken(user.getId(), account, ip);
             CookieUtil.addCookie(response, SysContant.SSO_COOKIE_KEY, loginToken, 240, "/");
 
             // 记录登录日志(异步)
-            optLogService.setLogs("用户模块", "单点登录", "首次单点登录", ip, user.getfId(), systemCode).addOptLogsRunnable();
+            optLogService.setLogs("用户模块", "单点登录", "首次单点登录", ip, user.getId(), systemCode).addOptLogsRunnable();
 
             // LoginUserMsg userMsg = loginService.getSsoUserMsg(user, systemCode);
             result = ApiRes.ok(loginToken);
@@ -131,7 +131,7 @@ public class SsoController extends BaseApiController {
             }
 
             // 记录登录日志(异步)
-            optLogService.setLogs("用户模块", "单点登录", "再次登录", ip, user.getfId(), systemCode).addOptLogsRunnable();
+            optLogService.setLogs("用户模块", "单点登录", "再次登录", ip, user.getId(), systemCode).addOptLogsRunnable();
 
             LoginUserMsg userMsg = loginService.getSsoUserMsg(user, systemCode);
             return ApiRes.ok(userMsg);
@@ -223,7 +223,7 @@ public class SsoController extends BaseApiController {
         } catch (LtServerException lex) {
             return ApiRes.error(lex.getErrorMsg(), lex.getMessage());
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             return ApiRes.error(ErrorEnum.ServerError, "二维码生成失败！");
         }
         return null;
@@ -290,7 +290,7 @@ public class SsoController extends BaseApiController {
             SysUser user = loginService.getUserByAccount(account);
 
             // 记录登录日志(异步)
-            optLogService.setLogs("用户模块", "扫码登录", "扫描二维码登录", ip, user.getfId(), systemCode).addOptLogsRunnable();
+            optLogService.setLogs("用户模块", "扫码登录", "扫描二维码登录", ip, user.getId(), systemCode).addOptLogsRunnable();
 
             LoginUserMsg userMsg = loginService.getSsoUserMsg(user, systemCode);
             return ApiRes.ok(userMsg);

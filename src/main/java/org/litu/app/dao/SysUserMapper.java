@@ -19,12 +19,4 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-	/**
-	 * 连表查询
-	 * 
-	 * @param queryWrapper
-	 * @return
-	 */
-	public IPage<SysUserEx> selectPageEx(IPage<SysUserEx> page, @Param(Constants.WRAPPER) Wrapper<SysUserEx> queryWrapper);
-
 }

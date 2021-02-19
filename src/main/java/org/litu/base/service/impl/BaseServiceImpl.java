@@ -42,9 +42,9 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * 列表查询参数的处理方法
      */
     public void beforeList(T entity, String keyword, Map<String, String> params, LambdaQueryWrapper<T> query) {
-        // query.eq("F_DeleteFlag", BaseConstant.FLAG_FALSE);
-        // query.like("F_Code", keyword);
-        // query.like("F_Name", keyword);
+        // query.eq("deleteFlag", BaseConstant.FLAG_FALSE);
+        // query.like("code", keyword);
+        // query.like("name", keyword);
     }
 
     /**
@@ -67,9 +67,9 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * 分页查询前的处理方法
      */
     public void beforePage(T entity, String keyword, IPage<T> page, Map<String, String> params, LambdaQueryWrapper<T> query) {
-        // query.eq("F_DeleteFlag", BaseConstant.FLAG_FALSE);
-        // query.like("F_Code", keyword);
-        // query.like("F_Name", keyword);
+        // query.eq("deleteFlag", BaseConstant.FLAG_FALSE);
+        // query.like("code", keyword);
+        // query.like("name", keyword);
     }
 
     /**
@@ -108,16 +108,16 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
 
         // 这里转化只有在查询时才会使用到
         // 将创建人ID转为名称
-        if (FieldUtil.hasProperty(one.getClass(), "fCreateby")) {
-            String uid = FieldUtil.read(one, "fCreateby");
+        if (FieldUtil.hasProperty(one.getClass(), "createBy")) {
+            String uid = FieldUtil.read(one, "createBy");
             String name = baseUserService.getNameByUserId(uid);
-            FieldUtil.write(one, "fCreateby", name);
+            FieldUtil.write(one, "createBy", name);
         }
         // 将修改人ID转为名称
-        if (FieldUtil.hasProperty(one.getClass(), "fModifyby")) {
-            String uid = FieldUtil.read(one, "fModifyby");
+        if (FieldUtil.hasProperty(one.getClass(), "modifyBy")) {
+            String uid = FieldUtil.read(one, "modifyBy");
             String name = baseUserService.getNameByUserId(uid);
-            FieldUtil.write(one, "fModifyby", name);
+            FieldUtil.write(one, "modifyBy", name);
         }
         return one;
     }
@@ -130,19 +130,19 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return true表示信息保存成功
      */
     public boolean beforeSave(T entity, Map<String, String> params) {
-        if (FieldUtil.hasProperty(entity.getClass(), "fCreatetime")) {
-            FieldUtil.write(entity, "fCreatetime", new Date());
-            FieldUtil.write(entity, "fCreateby", UserUtil.getUserId());
+        if (FieldUtil.hasProperty(entity.getClass(), "createTime")) {
+            FieldUtil.write(entity, "createBy", UserUtil.getUserId());
+            FieldUtil.write(entity, "createTime", new Date());
         }
-        if (FieldUtil.hasProperty(entity.getClass(), "fModifytime")) {
-            FieldUtil.write(entity, "fModifytime", new Date());
-            FieldUtil.write(entity, "fModifyby", UserUtil.getUserId());
+        if (FieldUtil.hasProperty(entity.getClass(), "modifyTime")) {
+            FieldUtil.write(entity, "modifyBy", UserUtil.getUserId());
+            FieldUtil.write(entity, "modifyTime", new Date());
         }
-        if (FieldUtil.hasProperty(entity.getClass(), "fEnabledelete")) {
-            FieldUtil.write(entity, "fEnabledelete", BaseConstant.FLAG_TRUE);
+        if (FieldUtil.hasProperty(entity.getClass(), "enableDelete")) {
+            FieldUtil.write(entity, "enableDelete", BaseConstant.FLAG_TRUE);
         }
-        if (FieldUtil.hasProperty(entity.getClass(), "fDeleteflag")) {
-            FieldUtil.write(entity, "fDeleteflag", BaseConstant.FLAG_FALSE);
+        if (FieldUtil.hasProperty(entity.getClass(), "deleteFlag")) {
+            FieldUtil.write(entity, "deleteFlag", BaseConstant.FLAG_FALSE);
         }
         return true;
     }
@@ -173,9 +173,9 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return true表示成功更新之前的操作
      */
     public boolean beforeUpdate(T entity, Map<String, String> params, LambdaUpdateWrapper<T> updateWrapper) {
-        if (FieldUtil.hasProperty(entity.getClass(), "fModifytime")) {
-            FieldUtil.write(entity, "fModifytime", new Date());
-            FieldUtil.write(entity, "fModifyby", UserUtil.getUserId());
+        if (FieldUtil.hasProperty(entity.getClass(), "modifyTime")) {
+            FieldUtil.write(entity, "modifyTime", new Date());
+            FieldUtil.write(entity, "modifyBy", UserUtil.getUserId());
         }
 
         return true;
@@ -190,7 +190,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      */
     @Override
     public boolean update(T entity, Map<String, String> params) {
-        if (getById(entity.getfId()) == null) {
+        if (getById(entity.getId()) == null) {
             throw new LtParamException("无效的ID!");
         }
 
@@ -220,8 +220,8 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return true则表明允许删除
      */
     public boolean beforeDelete(String id, Map<String, String> params, T entity) {
-        if (FieldUtil.hasProperty(entity.getClass(), "fEnabledelete")) {
-            if (FieldUtil.<Integer>read(entity, "fEnabledelete").equals(BaseConstant.FLAG_FALSE)) {
+        if (FieldUtil.hasProperty(entity.getClass(), "enableDelete")) {
+            if (FieldUtil.<Integer>read(entity, "enableDelete").equals(BaseConstant.FLAG_FALSE)) {
                 throw new LtParamException("当前对象，不允许删除!");
             }
         }
@@ -261,7 +261,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return true表明允许删除
      */
     public boolean beforeBatchDelete(List<String> idList, Map<String, String> params, LambdaQueryWrapper<T> queryWrapper) {
-        queryWrapper.in(T::getfId, idList);
+        queryWrapper.in(T::getId, idList);
 
         return true;
     }
@@ -292,16 +292,16 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return true则表明允许逻辑删除
      */
     public boolean beforeLogicalDelete(String id, Map<String, String> params, T entity, UpdateWrapper<T> updateWrapper) {
-        if (FieldUtil.hasProperty(entity.getClass(), "fEnabledelete")) {
-            if (FieldUtil.<Integer>read(entity, "fEnabledelete").equals(BaseConstant.FLAG_FALSE)) {
+        if (FieldUtil.hasProperty(entity.getClass(), "enableDelete")) {
+            if (FieldUtil.<Integer>read(entity, "enableDelete").equals(BaseConstant.FLAG_FALSE)) {
                 throw new LtParamException("当前对象，不允许删除!");
             }
         }
 
-        updateWrapper.eq("F_id", id);
-        updateWrapper.set("F_DeleteFlag", BaseConstant.FLAG_TRUE);
-        updateWrapper.set("F_DeleteUserId", UserUtil.getUserId());
-        updateWrapper.set("F_DeleteTime", new Date());
+        updateWrapper.eq("id", id);
+        updateWrapper.set("deleteFlag", BaseConstant.FLAG_TRUE);
+        updateWrapper.set("deleteUserId", UserUtil.getUserId());
+        updateWrapper.set("deleteTime", new Date());
 
         return true;
     }
@@ -343,10 +343,10 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return
      */
     public boolean beforeLogicalRestore(String id, Map<String, String> params, T entity, UpdateWrapper<T> updateWrapper) {
-        updateWrapper.eq("F_id", id);
-        updateWrapper.set("F_DeleteFlag", BaseConstant.FLAG_FALSE);
-        updateWrapper.set("F_DeleteUserId", null);
-        updateWrapper.set("F_DeleteTime", null);
+        updateWrapper.eq("id", id);
+        updateWrapper.set("deleteFlag", BaseConstant.FLAG_FALSE);
+        updateWrapper.set("deleteUserId", null);
+        updateWrapper.set("deleteTime", null);
         return true;
     }
 
@@ -390,7 +390,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         // 排除掉当前数据
         if (StringUtils.isNotBlank(id)) {
-            queryWrapper.ne("F_Id", id);
+            queryWrapper.ne("id", id);
         }
         queryWrapper.eq(field, value);
         T entity = getOne(queryWrapper);
@@ -417,11 +417,11 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
         }
 
         UpdateWrapper<T> query = new UpdateWrapper<>();
-        query.eq("F_Id", id);
+        query.eq("id", id);
         query.set(field, value);
-        if (FieldUtil.hasProperty(entity.getClass(), "fModifytime")) {
-            FieldUtil.write(entity, "fModifytime", new Date());
-            FieldUtil.write(entity, "fModifyby", UserUtil.getUserId());
+        if (FieldUtil.hasProperty(entity.getClass(), "modifyTime")) {
+            FieldUtil.write(entity, "modifyTime", new Date());
+            FieldUtil.write(entity, "modifyBy", UserUtil.getUserId());
         }
 
         return update(query);

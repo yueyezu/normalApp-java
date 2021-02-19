@@ -19,11 +19,9 @@ import java.util.List;
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
-    public List<SysRole> showRoleList(@Param("keyword") String keyword, @Param("fType") Integer fType);
-
     @Select(" select r.* from Sys_Role r " +
-            " inner join Sys_UserRole ur on r.F_Id = ur.F_RoleId" +
-            " where ur.F_UserId = #{userId}")
+            " inner join Sys_UserRole ur on r.id = ur.role_id" +
+            " where ur.user_id = #{userId}")
     @ResultMap("BaseResultMap")
     public List<SysRole> userRoles(@Param("userId") String userId);
 }

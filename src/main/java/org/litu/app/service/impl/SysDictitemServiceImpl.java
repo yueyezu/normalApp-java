@@ -22,8 +22,8 @@ public class SysDictitemServiceImpl extends BaseServiceImpl<SysDictitemMapper, S
 
     @Override
     public void beforeList(SysDictitem entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysDictitem> query) {
-        query.eq(SysDictitem::getfDictid, entity.getfDictid());
-        query.and(i -> i.like(SysDictitem::getfCode, keyword).or().like(SysDictitem::getfName, keyword));
-        query.orderByAsc(SysDictitem::getfSortnum);
+        query.eq(SysDictitem::getDictId, entity.getDictId());
+        query.and(i -> i.like(SysDictitem::getCode, keyword).or().like(SysDictitem::getName, keyword));
+        query.orderByAsc(SysDictitem::getSortNum);
     }
 }

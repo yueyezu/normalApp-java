@@ -47,19 +47,19 @@
                 exportDataType: 'all',               //导出checkbox选中的行数: all\selected\
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器
                 pagination: false,
-                idField: "fId",                     //每一行的唯一标识，一般为主键列
-                treeShowField: 'fName',
-                parentIdField: 'fParentid',
+                idField: "id",                     //每一行的唯一标识，一般为主键列
+                treeShowField: 'name',
+                parentIdField: 'parentId',
                 queryParams: function (params) {
                     params.keyword = $('#queryKeyword').val();
                     return params;
                 },
                 columns: [{field: 'ck', checkbox: true},
-                    {title: '名称', field: 'fName'},
-                    {title: '编号', field: 'fCode'},
-                    {title: '排序码', field: 'fSortnum', align: 'center'},
+                    {title: '名称', field: 'name'},
+                    {title: '编号', field: 'code'},
+                    {title: '排序码', field: 'sortNum', align: 'center'},
                     {
-                        title: "操作", field: "fId",
+                        title: "操作", field: "id",
                         formatter: function (value, row) {
                             var e = '<@shiro.hasPermission name="funcDictItem-btnEditDict"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
                             var d = '<@shiro.hasPermission name="funcDictItem-btnDeleteDict"><a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a></@shiro.hasPermission>';

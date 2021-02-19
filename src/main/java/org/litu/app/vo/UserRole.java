@@ -30,8 +30,8 @@ public class UserRole extends SysRole {
 		if (role != null) {
 			try {
 				BeanUtils.copyProperties(this, role);
-				setRoleId(getfId());
-				setRoleName(getfName());
+				setRoleId(getId());
+				setRoleName(getName());
 			} catch (IllegalAccessException | InvocationTargetException e) {
 			}
 		}

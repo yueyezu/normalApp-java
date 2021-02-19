@@ -25,13 +25,13 @@ public abstract class BaseTreeController<T extends BaseTreeEntity, S extends IBa
     @Override
     protected void beforeForm(Model model, T obj) {
         super.beforeForm(model, obj);
-        if (obj == null || StringUtils.isBlank(obj.getfParentid()) || obj.getfParentid().equals("0")) {
+        if (obj == null || StringUtils.isBlank(obj.getParentId()) || obj.getParentId().equals("0")) {
             model.addAttribute("parentId", "0");
             model.addAttribute("parentName", "根节点");
         } else {
-            T parent = service.getById(obj.getfParentid());
-            model.addAttribute("parentId", parent.getfId());
-            model.addAttribute("parentName", parent.getfName());
+            T parent = service.getById(obj.getParentId());
+            model.addAttribute("parentId", parent.getId());
+            model.addAttribute("parentName", parent.getName());
         }
     }
 
@@ -39,13 +39,13 @@ public abstract class BaseTreeController<T extends BaseTreeEntity, S extends IBa
     protected void beforeView(Model model, T obj) {
         super.beforeView(model, obj);
 
-        if (StringUtils.isBlank(obj.getfParentid()) || obj.getfParentid().equals("0")) {
+        if (StringUtils.isBlank(obj.getParentId()) || obj.getParentId().equals("0")) {
             model.addAttribute("parentId", "0");
             model.addAttribute("parentName", "根节点");
         } else {
-            T parent = service.detail(obj.getfParentid());
-            model.addAttribute("parentId", parent.getfId());
-            model.addAttribute("parentName", parent.getfName());
+            T parent = service.detail(obj.getParentId());
+            model.addAttribute("parentId", parent.getId());
+            model.addAttribute("parentName", parent.getName());
         }
     }
 
@@ -69,13 +69,13 @@ public abstract class BaseTreeController<T extends BaseTreeEntity, S extends IBa
         List<TreeVo> trees = new ArrayList<>();
         for (T node : list) {
             TreeVo treeVo = new TreeVo();
-            treeVo.setId(node.getfId());
-            if (node.getfParentid().equals("0")) {
+            treeVo.setId(node.getId());
+            if (node.getParentId().equals("0")) {
                 treeVo.setParent("#");
             } else {
-                treeVo.setParent(node.getfParentid());
+                treeVo.setParent(node.getParentId());
             }
-            treeVo.setText(node.getfName());
+            treeVo.setText(node.getName());
             trees.add(treeVo);
         }
         return trees;

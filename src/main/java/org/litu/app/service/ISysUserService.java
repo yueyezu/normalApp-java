@@ -27,10 +27,10 @@ public interface ISysUserService extends IBaseService<SysUser> {
     /**
      * 获取用户的树列表信息
      *
-     * @param fDepartmentid
+     * @param deptId
      * @return
      */
-    List<Map<String, String>> userTree(String fDepartmentid);
+    List<Map<String, String>> userTree(String deptId);
 
     /**
      * 更换当前登陆用户头像

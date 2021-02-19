@@ -8,15 +8,15 @@
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-content">
-            	<@shiro.hasPermission name="funSet-btnQuery">
-	                <form role="form" class="form-inline query-form">
-	                    <div class="input-group">
-	                        <input type="text" class="form-control" id="queryKeyword" placeholder="关键词"/>
-	                        <span class="input-group-btn">
+                <@shiro.hasPermission name="funSet-btnQuery">
+                    <form role="form" class="form-inline query-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="queryKeyword" placeholder="关键词"/>
+                            <span class="input-group-btn">
 	                            <button type="button" class="btn btn-primary" onclick="refreshTable()"><i class="fa fa-search"></i>查询</button>
 	                        </span>
-	                    </div>
-	                </form>
+                        </div>
+                    </form>
                 </@shiro.hasPermission>
                 <table id="dataTable" data-mobile-responsive="true"></table>
             </div>
@@ -47,28 +47,28 @@
                 showExport: true,
                 exportDataType: 'all',               //导出checkbox选中的行数: all\selected\
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器
-                uniqueId: "fId",                     //每一行的唯一标识，一般为主键列
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
                 pagination: false,                    //是否显示分页（*）
                 queryParams: function (params) {
                     params.keyword = $('#queryKeyword').val();
                     return params;
                 },
                 columns: [{field: 'ck', checkbox: true},
-                    {title: '属性', field: 'fName'},
-                    {title: '配置分组', field: 'fGroup'},
-                    {title: '属性值', field: 'fValue'},
-                    {title: '属性值类型', field: 'fValuetype'},
-                    {title: '描述', field: 'fDescription'},
-                    {title: '备注', field: 'fRemark'},
-                    {title: 'Key', field: 'fKey'},
-                    {title: '最后修改人', field: 'fLastmodifyuserid'},
-                    {title: '最后修改时间', field: 'fLastmodifytime'},
-                    {title: '排序码', field: 'fSortnum'},
+                    {title: '属性', field: 'name'},
+                    {title: '配置分组', field: 'groups'},
+                    {title: '属性值', field: 'value'},
+                    {title: '属性值类型', field: 'valueType'},
+                    {title: '描述', field: 'description'},
+                    {title: '备注', field: 'remark'},
+                    // {title: 'Code', field: 'code'},
+                    {title: '最后修改人', field: 'modifyBy'},
+                    {title: '最后修改时间', field: 'modifyTime'},
+                    {title: '排序码', field: 'sortNum'},
                     {
-                        title: "操作", field: "fId",
+                        title: "操作", field: "id",
                         formatter: function (value, row) {
                             var e = '<@shiro.hasPermission name="funSet-btnSubmit"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
-                            return e ;
+                            return e;
                         }
                     }
                 ]
@@ -88,6 +88,7 @@
         // 修改的代码
         function edit(id) {
             lt.open("修改配置信息", prefix + "/form/" + id, {
+                height: '400px',
                 end: function () {
                     refreshTable();
                 }

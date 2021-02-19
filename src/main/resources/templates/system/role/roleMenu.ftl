@@ -11,7 +11,7 @@
                 <!--系统列表显示位置-->
                 <ul id="systemPnl" class="nav nav-tabs m-b-sm">
                     <#list systemList as system>
-                        <li <#if system_index ==0>class="active"</#if>><a code="${system.fCode}" href="javascript:void(0)">${system.fName}</a></li>
+                        <li <#if system_index ==0>class="active"</#if>><a code="${system.code}" href="javascript:void(0)">${system.name}</a></li>
                     </#list>
                 </ul>
                 <div class="tab-content">
@@ -57,7 +57,7 @@
         });
 
         function initTree() {
-            $.get(menuPrefix + "/tree", {'fSystemcode': nowSystem}, function (data) {
+            $.get(menuPrefix + "/tree", {'systemCode': nowSystem}, function (data) {
                 lt.tree.destroy();
                 $('#menuTree').empty();
                 if (data.length > 0) {

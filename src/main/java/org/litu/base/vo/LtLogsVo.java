@@ -11,7 +11,7 @@ import java.util.Date;
 @ApiModel(value = "操作日志")
 public class LtLogsVo {
     @ApiModelProperty(value = "创建日期",required = true)
-    private Date createtime = new Date();
+    private Date createTime = new Date();
     @ApiModelProperty(value = "模块",required = true)
     private String module = "";
     @ApiModelProperty(value = "用户ID",required = true)
@@ -48,15 +48,15 @@ public class LtLogsVo {
      * @return 创建时间
      */
     public Date getCreatetime() {
-        return createtime;
+        return createTime;
     }
 
     /**
      * 创建时间的set方法
-     * @param createtime 填入的创建时间
+     * @param createTime 填入的创建时间
      */
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setCreatetime(Date createTime) {
+        this.createTime = createTime;
     }
 
     /**
@@ -95,7 +95,7 @@ public class LtLogsVo {
      * 系统编号的get方法
      * @return 系统编号
      */
-    public String getSystemCode() {
+    public String getsystemCode() {
         return systemCode;
     }
 

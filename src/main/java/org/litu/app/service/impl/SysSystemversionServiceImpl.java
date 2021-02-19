@@ -24,10 +24,10 @@ public class SysSystemversionServiceImpl extends BaseServiceImpl<SysSystemversio
 
     @Override
     public void beforePage(SysSystemversion entity, String keyword, IPage<SysSystemversion> page, Map<String, String> params, LambdaQueryWrapper<SysSystemversion> query) {
-        query.eq(SysSystemversion::getfSystemcode, params.get("versionCode"));//查询相应系统的不同版本数据
-        if (StringUtils.isNotBlank(params.get("fVersion"))) {
-            query.like(SysSystemversion::getfVersion, params.get("fVersion"));
+        query.eq(SysSystemversion::getSystemCode, params.get("versionCode"));//查询相应系统的不同版本数据
+        if (StringUtils.isNotBlank(params.get("version"))) {
+            query.like(SysSystemversion::getVersion, params.get("version"));
         }
-        query.orderByDesc(SysSystemversion::getfCreatetime);
+        query.orderByDesc(SysSystemversion::getCreateTime);
     }
 }

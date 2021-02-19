@@ -53,7 +53,7 @@
                         <span><img alt="image" width="64" height="64" class="img-circle" id="userHeadPortrait" src="${userPhoto}"/></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
-                                <span class="block m-t-xs"><strong class="font-bold">${userMsg.fNickname}</strong></span>
+                                <span class="block m-t-xs"><strong class="font-bold">${userMsg.nickName}</strong></span>
                                 <span class="text-muted text-xs block">修改用户<b class="caret"></b></span>
                             </span>
                         </a>
@@ -90,18 +90,18 @@
                                             <ul class="nav nav-third-level">
                                                 <#list menu.children as submenu>
                                                     <li>
-                                                        <a class="J_menuItem" href="${submenu.data.fUrl}"><i class="${submenu.icon}"></i>${submenu.text}</a>
+                                                        <a class="J_menuItem" href="${submenu.data.url}"><i class="${submenu.icon}"></i>${submenu.text}</a>
                                                     </li>
                                                 </#list>
                                             </ul>
                                         <#else>
-                                            <a class="J_menuItem" href="${menu.data.fUrl}"><i class="${menu.icon}"></i>${menu.text}</a>
+                                            <a class="J_menuItem" href="${menu.data.url}"><i class="${menu.icon}"></i>${menu.text}</a>
                                         </#if>
                                     </li>
                                 </#list>
                             </ul>
                         <#else>
-                            <a class="J_menuItem" href="${menu.data.fUrl}"><i class="fa fa-columns"></i> <span class="nav-label">${menu.text}</span></a>
+                            <a class="J_menuItem" href="${menu.data.url}"><i class="fa fa-columns"></i> <span class="nav-label">${menu.text}</span></a>
                         </#if>
                     </li>
                 </#list>

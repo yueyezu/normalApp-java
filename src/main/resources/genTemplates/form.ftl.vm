@@ -1,4 +1,4 @@
-#set($noshowList = ['fId','fCreateuserid','fCreatetime','fLastmodifyuserid','fLastmodifytime'])
+#set($noshowList = ['id','createBy','createTime','modifyBy','modifyTime'])
 #set($varStart = '${')
 
 <!doctype html>
@@ -10,7 +10,7 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="form" class="form-horizontal m-t">
-            <input id="fId" name="fId" value="${varStart}data.fId!''}" type="hidden"/>
+            <input id="id" name="id" value="${varStart}data.id!''}" type="hidden"/>
             #foreach($field in ${table.fields})
             #if(!$noshowList.contains( $field.propertyName))
             <div class="form-group">
@@ -57,7 +57,7 @@
         function submit() {
             var data = $('#dataForm').serializeJson();
 
-            var url = data["fId"] ? "/update" : "/save";
+            var url = data["id"] ? "/update" : "/save";
             $.post(prefix + url, data, function (res) {
                 if (res.code == 200) {
                     lt.msgSuccess(res.msg, function () {

@@ -16,7 +16,7 @@ import java.util.List;
 public interface ISysRoleService extends IBaseService<SysRole> {
 
     /**
-     * 用户角色fcode
+     * 用户角色code
      *
      * @param userId
      * @return

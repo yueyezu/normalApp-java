@@ -7,49 +7,49 @@
 <div class="ibox float-e-margins">
     <div class="ibox-content">
         <form id="dataForm" role="form" class="form-horizontal m-t">
-            <input name="fId" id="fId" value="${data.fId!''}" type="hidden"/>
-            <input name="fType" id="fType" type="hidden" value="2"/>
-            <input id="fEnabledelete" name="fEnabledelete" value="${data.fEnabledelete!'1'}" type="hidden"/>
+            <input name="id" id="id" value="${data.id!''}" type="hidden"/>
+            <input name="type" id="type" type="hidden" value="2"/>
+            <input id="enableDelete" name="enableDelete" value="${data.enableDelete!'1'}" type="hidden"/>
             <div class="form-group">
                 <label class="col-sm-2 control-label">岗位编号</label>
                 <div class="col-sm-4">
-                    <input id="fCode" name="fCode" value="${data.fCode}" type="text" class="form-control" readonly/>
+                    <input id="code" name="code" value="${data.code}" type="text" class="form-control" readonly/>
                 </div>
                 <label class="col-sm-2 control-label">岗位名称</label>
                 <div class="col-sm-4">
-                    <input id="fName" name="fName" value="${data.fName}" type="text" class="form-control" readonly/>
+                    <input id="name" name="name" value="${data.name}" type="text" class="form-control" readonly/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">排序码</label>
                 <div class="col-sm-4">
-                    <input id="fSortnum" name="fSortnum" value="${data.fSortnum}" type="number" class="form-control" readonly/>
+                    <input id="sortNum" name="sortNum" value="${data.sortNum}" type="number" class="form-control" readonly/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">备注</label>
                 <div class="col-sm-10">
-                    <textarea id="fRemark" name="fRemark" class="form-control" readonly>${data.fRemark}</textarea>
+                    <textarea id="remark" name="remark" class="form-control" readonly>${data.remark}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">创建人</label>
                 <div class="col-sm-4">
-                    <input id="fCreateUserid" name="fCreateUserid" value="${data.fCreateuserid}" type="text" class="form-control" readonly/>
+                    <input id="createBy" name="createBy" value="${data.createBy}" type="text" class="form-control" readonly/>
                 </div>
                 <label class="col-sm-2 control-label">创建时间</label>
                 <div class="col-sm-4">
-                    <input id="fCreatetime" name="fCreatetime" value="${(data.fCreatetime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
+                    <input id="createTime" name="createTime" value="${(data.createTime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">修改人</label>
                 <div class="col-sm-4">
-                    <input id="fLastModifyUserid" name="fLastModifyUserid" value="${data.fLastmodifyuserid}" type="text" class="form-control" readonly/>
+                    <input id="modifyBy" name="modifyBy" value="${data.modifyBy}" type="text" class="form-control" readonly/>
                 </div>
                 <label class="col-sm-2 control-label">修改时间</label>
                 <div class="col-sm-4">
-                    <input id="fLastmodifytime" name="fLastModifytime" value="${(data.fLastmodifytime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
+                    <input id="modifyTime" name="modifyTime" value="${(data.modifyTime?string('yyyy-MM-dd HH:mm:ss'))!''}" type="text" class="form-control" readonly/>
                 </div>
             </div>
         </form>

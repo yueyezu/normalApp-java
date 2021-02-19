@@ -30,9 +30,9 @@ public class TreeNodeVo<T extends BaseTreeEntity> extends TreeVo implements Seri
      */
     public void initNoData(T node) {
         if (node != null) {
-            id = node.getfId();
-            parent = node.getfParentid();
-            text = node.getfName();
+            id = node.getId();
+            parent = node.getParentId();
+            text = node.getName();
         }
     }
 
@@ -43,9 +43,9 @@ public class TreeNodeVo<T extends BaseTreeEntity> extends TreeVo implements Seri
      */
     public void init(T node) {
         if (node != null) {
-            id = node.getfId();
-            parent = node.getfParentid();
-            text = node.getfName();
+            id = node.getId();
+            parent = node.getParentId();
+            text = node.getName();
             data = node;
         }
     }

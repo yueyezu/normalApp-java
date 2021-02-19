@@ -38,11 +38,11 @@ public abstract class BaseTreeServiceImpl<M extends BaseTreeMapper<T>, T extends
      */
     public void beforeTree(T entity, String keyword, Map<String, String> params, LambdaQueryWrapper<T> query) {
         if (!StringUtils.isBlank(keyword)) {
-            query.like(T::getfName, keyword);
+            query.like(T::getName, keyword);
         }
-        if (!StringUtils.isBlank(entity.getfParentid())) {
+        if (!StringUtils.isBlank(entity.getParentId())) {
             // 如果根据父类来进行查询的话，需要使用layer来进行比较
-            query.like(T::getfLayers, entity.getfParentid());
+            query.like(T::getLayers, entity.getParentId());
         }
     }
 
@@ -72,8 +72,8 @@ public abstract class BaseTreeServiceImpl<M extends BaseTreeMapper<T>, T extends
      */
     @Override
     public boolean save(T entity, Map<String, String> params) {
-        if ("".equals(entity.getfParentid())) {
-            entity.setfParentid("0");
+        if ("".equals(entity.getParentId())) {
+            entity.setParentId("0");
         }
 
         boolean res = super.save(entity, params);
@@ -94,8 +94,8 @@ public abstract class BaseTreeServiceImpl<M extends BaseTreeMapper<T>, T extends
      */
     @Override
     public boolean update(T entity, Map<String, String> params) {
-        if ("".equals(entity.getfParentid())) {
-            entity.setfParentid("0");
+        if ("".equals(entity.getParentId())) {
+            entity.setParentId("0");
         }
 
         boolean res = super.update(entity, params);
@@ -121,8 +121,8 @@ public abstract class BaseTreeServiceImpl<M extends BaseTreeMapper<T>, T extends
         boolean result = super.beforeDelete(id, params, entity);
 
         LambdaQueryWrapper<T> query = Wrappers.lambdaQuery();
-        query.like(T::getfLayers, entity.getfLayers() + "%");
-        query.ne(T::getfId, id);
+        query.like(T::getLayers, entity.getLayers() + "%");
+        query.ne(T::getId, id);
         if (CollectionUtils.isNotEmpty(list(query))) {
             throw new LtParamException("当前对象存在下级，请检查后再删除!");
         }
@@ -144,9 +144,9 @@ public abstract class BaseTreeServiceImpl<M extends BaseTreeMapper<T>, T extends
         boolean result = super.beforeLogicalDelete(id, params, entity, updateWrapper);
 
         QueryWrapper<T> wrapper = new QueryWrapper<>();
-        wrapper.like("F_Layers", entity.getfLayers() + "%");
-        wrapper.eq("F_DeleteFlag", BaseConstant.FLAG_FALSE);
-        wrapper.ne("F_Id", id);
+        wrapper.like("layers", entity.getLayers() + "%");
+        wrapper.eq("delete_flag", BaseConstant.FLAG_FALSE);
+        wrapper.ne("id", id);
         if (CollectionUtils.isNotEmpty(list(wrapper))) {
             throw new LtParamException("当前对象存在下级，请检查后再删除!");
         }
@@ -161,26 +161,26 @@ public abstract class BaseTreeServiceImpl<M extends BaseTreeMapper<T>, T extends
      * @return true为更新成功
      */
     protected boolean updateLayers(T entity) {
-        String oldLayers = FieldUtil.read(entity, "fLayers");
+        String oldLayers = FieldUtil.read(entity, "layers");
         String layers = "";
-        if (StringUtils.isNotBlank(FieldUtil.read(entity, "fParentid"))) {
-            T parent = getById(FieldUtil.read(entity, "fParentid"));
+        if (StringUtils.isNotBlank(FieldUtil.read(entity, "parentId"))) {
+            T parent = getById(FieldUtil.read(entity, "parentId"));
             if (parent != null) {
-                layers = FieldUtil.read(parent, "fLayers");
+                layers = FieldUtil.read(parent, "layers");
             }
         }
         if (StringUtils.isBlank(layers)) {
-            layers = "#" + entity.getfId() + "#";
+            layers = "#" + entity.getId() + "#";
         } else {
-            layers += "|#" + entity.getfId() + "#";
+            layers += "|#" + entity.getId() + "#";
         }
         LambdaUpdateWrapper<T> updateWrapper = Wrappers.lambdaUpdate();
         if (StringUtils.isNotBlank(oldLayers)) {
-            updateWrapper.setSql(MessageFormat.format("F_Layers = REPLACE(F_Layers,''{0}'',''{1}'')", oldLayers, layers));
-            updateWrapper.like(T::getfLayers, oldLayers + "%");
+            updateWrapper.setSql(MessageFormat.format("layers = REPLACE(layers,''{0}'',''{1}'')", oldLayers, layers));
+            updateWrapper.like(T::getLayers, oldLayers + "%");
         } else {
-            updateWrapper.set(T::getfLayers, layers);
-            updateWrapper.eq(T::getfId, entity.getfId());
+            updateWrapper.set(T::getLayers, layers);
+            updateWrapper.eq(T::getId, entity.getId());
         }
         try {
             return update(getEntityClass().newInstance(), updateWrapper);

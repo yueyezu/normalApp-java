@@ -8,12 +8,12 @@
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-content">
-            	<@shiro.hasPermission name="funcSystem-btnAddVersion">
-	                <div id="tableToolbar" role="group" class="t-bar">
-	                    <a class="btn btn-primary" title="添加" onclick="add()">
-	                        <i class="fa fa-plus" aria-hidden="true"></i>添加
-	                    </a>
-	                </div>
+                <@shiro.hasPermission name="funcSystem-btnAddVersion">
+                    <div id="tableToolbar" role="group" class="t-bar">
+                        <a class="btn btn-primary" title="添加" onclick="add()">
+                            <i class="fa fa-plus" aria-hidden="true"></i>添加
+                        </a>
+                    </div>
                 </@shiro.hasPermission>
                 <table id="dataTable" data-mobile-responsive="true"></table>
             </div>
@@ -38,22 +38,22 @@
         // 初始化查询列表
         function initTable() {
             lt.dataTable.init("#dataTable", {
-                url: prefix + "/list?fSystemcode=" + sysCode,
+                url: prefix + "/list?systemCode=" + sysCode,
                 showRefresh: true,
                 search: false,
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器
                 pagination: false,                    //是否显示分页（*）
                 columns: [{field: 'ck', checkbox: true},
                     {
-                        title: '版本号', field: 'fVersion',
+                        title: '版本号', field: 'version',
                         formatter: function (value, row, index) {
-                            return '<a onclick="view(\'' + row.fId + '\')">' + value + '</a>';
+                            return '<a onclick="view(\'' + row.id + '\')">' + value + '</a>';
                         }
                     },
-                    {title: '更新时间', field: 'fUpdatedate'},
-                    {title: '更新地址', field: 'fDownloadpath'},
-                   {
-                        title: "操作", field: "fId",
+                    {title: '更新时间', field: 'updateDate'},
+                    {title: '下载地址', field: 'downloadPath'},
+                    {
+                        title: "操作", field: "id",
                         formatter: function (value, row) {
                             var e = '<@shiro.hasPermission name="funcSystem-btnEditVersion"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
                             var d = '<@shiro.hasPermission name="funcSystem-btnDeleteVersion"><a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a></@shiro.hasPermission>';

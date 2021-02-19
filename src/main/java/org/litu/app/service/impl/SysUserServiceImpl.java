@@ -2,6 +2,7 @@ package org.litu.app.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
@@ -49,8 +50,18 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Override
     public void beforeList(SysUser entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysUser> query) {
         super.beforeList(entity, keyword, params, query);
-        query.eq(SysUser::getfDeleteflag, SysContant.FLAG_FALSE);
-        query.orderByAsc(SysUser::getfSortnum);
+        query.eq(SysUser::getDeleteFlag, SysContant.FLAG_FALSE);
+        query.orderByAsc(SysUser::getSortNum);
+    }
+
+    @Override
+    public boolean beforeSave(SysUser entity, Map<String, String> params) {
+        SysUser user = getByAccount(entity.getAccount());
+        if (user == null) {
+            return super.beforeSave(entity, params);
+        }
+
+        throw new LtParamException("当前帐号已注册！");
     }
 
     /**
@@ -64,19 +75,32 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 创建用户的密码信息
         SysUserlogin sysUserLogin = new SysUserlogin();
         String sKey = LoginTokenUtil.GetSecretkey();
-        sysUserLogin.setfSecretkey(sKey);
+        sysUserLogin.setSecretKey(sKey);
         try {
-            sysUserLogin.setfPassword(LoginTokenUtil.GetDbPassword(sKey));
+            sysUserLogin.setPassword(LoginTokenUtil.GetDbPassword(sKey));
         } catch (Exception e) {
             throw new LtParamException("生成用户密码错误！");
         }
-        sysUserLogin.setfEnablelogin(SysContant.FLAG_TRUE);
+        sysUserLogin.setEnableLogin(SysContant.FLAG_TRUE);
         // TODO 这里默认用户都是允许多点登陆的。
-        sysUserLogin.setfMultiuserlogin(0);
-        sysUserLogin.setfUserid(entity.getfId());
-        sysUserLogin.setfLogoncount(0);
-        sysUserLogin.setfLoginstatus(SysContant.FLAG_TRUE);
+        sysUserLogin.setMultiuserLogin(0);
+        sysUserLogin.setUserId(entity.getId());
+        sysUserLogin.setLogonCount(0);
+        sysUserLogin.setLoginStatus(SysContant.FLAG_TRUE);
         return retBool(sysUserloginMapper.insert(sysUserLogin));
+    }
+
+    @Override
+    public boolean beforeUpdate(SysUser entity, Map<String, String> params, LambdaUpdateWrapper<SysUser> updateWrapper) {
+        LambdaQueryWrapper<SysUser> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(SysUser::getAccount, entity.getAccount());
+        queryWrapper.ne(SysUser::getId, entity.getId());
+        SysUser user = getOne(queryWrapper);
+        if (user == null) {
+            return super.beforeUpdate(entity, params, updateWrapper);
+        }
+
+        throw new LtParamException("当前帐号已注册！");
     }
 
     /**
@@ -87,7 +111,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      */
     public SysUser getByAccount(String account) {
         LambdaQueryWrapper<SysUser> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysUser::getfAccount, account);
+        queryWrapper.eq(SysUser::getAccount, account);
         SysUser user = getOne(queryWrapper);
 
         return user;
@@ -96,21 +120,21 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     /**
      * 获取用户的树列表信息
      *
-     * @param fDepartmentid
+     * @param deptId
      * @return
      */
     @Override
-    public List<Map<String, String>> userTree(String fDepartmentid) {
+    public List<Map<String, String>> userTree(String deptId) {
         List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<SysUser>();
-        queryWrapper.eq("F_DeleteFlag", 0);
-        queryWrapper.eq("F_DepartmentId", fDepartmentid);
+        queryWrapper.eq("deleteFlag", 0);
+        queryWrapper.eq("deptId", deptId);
         List<SysUser> userList = list(queryWrapper);
         //封装成前端树结构需要的数据形式
         for (SysUser sysUser : userList) {
             Map<String, String> mapTemp = new HashMap<String, String>();
-            mapTemp.put("id", sysUser.getfId());
-            mapTemp.put("text", sysUser.getfRealname());
+            mapTemp.put("id", sysUser.getId());
+            mapTemp.put("text", sysUser.getRealName());
             mapTemp.put("parent", "#");
             resultList.add(mapTemp);
         }
@@ -129,7 +153,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public boolean updatePhoto(String userId, String photoId) {
         SysUser sysUser = getById(userId);
         //原头像删除
-        String oldPhotoId = sysUser.getfPhoto();
+        String oldPhotoId = sysUser.getPhoto();
         if (StringUtils.isNotBlank(oldPhotoId)) {
             // 删除这部分的异常忽略掉。
             try {
@@ -137,7 +161,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             } catch (Exception e) {
             }
         }
-        sysUser.setfPhoto(photoId);
+        sysUser.setPhoto(photoId);
         return updateById(sysUser);
     }
 }

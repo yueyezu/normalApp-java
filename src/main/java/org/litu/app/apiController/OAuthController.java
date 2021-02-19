@@ -85,20 +85,20 @@ public class OAuthController extends BaseApiController {
 
             // 组建授权Token对象信息
             SysAccesstoken accessToken = new SysAccesstoken();
-            accessToken.setfClienttype(client_id);
-            accessToken.setfUserid(user.getfId());
-            accessToken.setfClientmcode(m_code);
-            accessToken.setfClientip(ip);
-            accessToken.setfClientmac(mac);
+            accessToken.setClientType(client_id);
+            accessToken.setUserId(user.getId());
+            accessToken.setClientMcode(m_code);
+            accessToken.setClientIp(ip);
+            accessToken.setClientMac(mac);
             accessToken = tokenService.createToken(accessToken);
 
             // 记录登录日志(异步)
-            optLogService.setLogs("用户模块", "授权登录", "第三方授权登录，获取授权码", ip, user.getfId(), client_id).addOptLogsRunnable();
+            optLogService.setLogs("用户模块", "授权登录", "第三方授权登录，获取授权码", ip, user.getId(), client_id).addOptLogsRunnable();
 
             AccessTokenVo accessTokenVo = new AccessTokenVo();
-            accessTokenVo.setAccess_token(accessToken.getfToken());
-            accessTokenVo.setRefresh_token(accessToken.getfRefreshtoken());
-            accessTokenVo.setExpires_in(accessToken.getfEnabletime());
+            accessTokenVo.setAccess_token(accessToken.getToken());
+            accessTokenVo.setRefresh_token(accessToken.getRefreshToken());
+            accessTokenVo.setExpires_in(accessToken.getEnableTime());
 
             return ApiRes.ok(accessTokenVo);
         } catch (LtServerException se) {
@@ -138,9 +138,9 @@ public class OAuthController extends BaseApiController {
         SysAccesstoken accessToken = tokenService.refreshToken(client_id, refresh_token);
 
         AccessTokenVo accessTokenVo = new AccessTokenVo();
-        accessTokenVo.setAccess_token(accessToken.getfToken());
-        accessTokenVo.setRefresh_token(accessToken.getfRefreshtoken());
-        accessTokenVo.setExpires_in(accessToken.getfEnabletime());
+        accessTokenVo.setAccess_token(accessToken.getToken());
+        accessTokenVo.setRefresh_token(accessToken.getRefreshToken());
+        accessTokenVo.setExpires_in(accessToken.getEnableTime());
 
         return ApiRes.ok(accessTokenVo);
     }
@@ -181,15 +181,15 @@ public class OAuthController extends BaseApiController {
             return ApiRes.error(ErrorEnum.TokenError, "授权码错误,请重新获取。");
         }
         // 授权码超时的错误
-        if (accesstoken.getfEnabledflag() == 0) {
+        if (accesstoken.getEnableFlag() == 0) {
             return ApiRes.error(ErrorEnum.TokenTimeout, "授权码已超时，请刷新或重新获取。");
         }
 
         // 记录登录日志(异步)
         String ip = NetUtil.getIp(request);
-        optLogService.setLogs("用户模块", "授权登录", "第三方授权登录，验证码登录", ip, accesstoken.getfUserid(), client_id).addOptLogsRunnable();
+        optLogService.setLogs("用户模块", "授权登录", "第三方授权登录，验证码登录", ip, accesstoken.getUserId(), client_id).addOptLogsRunnable();
 
-        LoginUserMsg userMsg = loginService.getLoginUserMsg(accesstoken.getfUserid(), client_id);
+        LoginUserMsg userMsg = loginService.getLoginUserMsg(accesstoken.getUserId(), client_id);
         return ApiRes.ok(userMsg);
     }
 }

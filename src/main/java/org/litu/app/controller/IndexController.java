@@ -1,6 +1,7 @@
 package org.litu.app.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.entity.*;
@@ -53,10 +54,10 @@ public class IndexController extends BaseController {
         SysUser user = sysUserService.getById(userId);
         model.addAttribute("userMsg", user);
 
-        if (StringUtils.isBlank(user.getfPhoto()))
+        if (StringUtils.isBlank(user.getPhoto()))
             model.addAttribute("userPhoto", "/static/img/defaultPhoto.jpg");
         else
-            model.addAttribute("userPhoto", "/sysFiles/loadFile?file=" + user.getfPhoto());
+            model.addAttribute("userPhoto", "/sysFiles/loadFile?file=" + user.getPhoto());
 
         List<TreeNodeVo<SysMenu>> menus = getMenus(userId);
         model.addAttribute("menuList", menus);
@@ -77,7 +78,7 @@ public class IndexController extends BaseController {
             for (SysMenu sysMenu : tempMenus) {
                 TreeNodeVo<SysMenu> menuTreeNode = new TreeNodeVo<>();
                 menuTreeNode.init(sysMenu);
-                menuTreeNode.setIcon(sysMenu.getfIcon());
+                menuTreeNode.setIcon(sysMenu.getIcon());
                 menuTreeNodes.add(menuTreeNode);
             }
             menus = TreeUtil.buildWithStack(menuTreeNodes);
@@ -115,12 +116,12 @@ public class IndexController extends BaseController {
         SysUser user = sysUserService.getById(userId);
         model.addAttribute("data", user);
 
-        SysOrganize organize = sysOrganizeService.getById(user.getfDepartmentid());
-        model.addAttribute("departmentId", user.getfDepartmentid());
-        model.addAttribute("departmentName", organize.getfName());
+        SysOrganize organize = sysOrganizeService.getById(user.getDeptId());
+        model.addAttribute("deptId", user.getDeptId());
+        model.addAttribute("departmentName", organize.getName());
 
-        SysRole role = sysRoleService.getById(user.getfRoleid());
-        model.addAttribute("roleName", role == null ? "无" : role.getfName());
+        SysRole role = sysRoleService.getById(user.getRoleId());
+        model.addAttribute("roleName", role == null ? "无" : role.getName());
 
         return "main/userinfo";
     }
@@ -139,12 +140,12 @@ public class IndexController extends BaseController {
         data.setIsDefaultPwd(UserUtil.session(SysContant.SESSION_IS_DEFAULT_PWD));
 
         // 字典信息获取
-        QueryWrapper<SysDict> dictQueryWrapper = new QueryWrapper<>();
-        dictQueryWrapper.orderByAsc("F_SortNum");
-        List<SysDict> dicts = sysDictService.list(dictQueryWrapper);
-        QueryWrapper<SysDictitem> dictitemQueryWrapper = new QueryWrapper<>();
-        dictitemQueryWrapper.orderByAsc("F_SortNum");
-        List<SysDictitem> alldictitems = sysDictitemService.list(dictitemQueryWrapper);
+        LambdaQueryWrapper<SysDict> dictWrapper = Wrappers.lambdaQuery();
+        dictWrapper.orderByAsc(SysDict::getSortNum);
+        List<SysDict> dicts = sysDictService.list(dictWrapper);
+        LambdaQueryWrapper<SysDictitem> dictitemWrapper = Wrappers.lambdaQuery();
+        dictitemWrapper.orderByAsc(SysDictitem::getSortNum);
+        List<SysDictitem> alldictitems = sysDictitemService.list(dictitemWrapper);
         // 转化为需要返回的实体类
         Map<String, List<SelectVo>> dictArrCache = new LinkedHashMap<>();
         Map<String, Map<String, String>> dictCache = new LinkedHashMap<>();
@@ -152,15 +153,15 @@ public class IndexController extends BaseController {
             List<SelectVo> dictitems = new ArrayList<>();
             Map<String, String> dictItemMap = new LinkedHashMap<>();
             for (SysDictitem dictitem : alldictitems) {
-                if (dictitem.getfDictid().equals(dict.getfId())) {
-                    SelectVo selectVo = new SelectVo(dictitem.getfCode(), dictitem.getfName());
+                if (dictitem.getDictId().equals(dict.getId())) {
+                    SelectVo selectVo = new SelectVo(dictitem.getCode(), dictitem.getName());
                     dictitems.add(selectVo);
-                    dictItemMap.put(dictitem.getfCode(), dictitem.getfName());
+                    dictItemMap.put(dictitem.getCode(), dictitem.getName());
                 }
             }
 
-            dictArrCache.put(dict.getfCode(), dictitems); // 选择列表
-            dictCache.put(dict.getfCode(), dictItemMap); // 显示列表
+            dictArrCache.put(dict.getCode(), dictitems); // 选择列表
+            dictCache.put(dict.getCode(), dictItemMap); // 显示列表
         }
         data.setDictItemArr(dictArrCache);
         data.setDictItems(dictCache);

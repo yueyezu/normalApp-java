@@ -86,25 +86,25 @@
                 showExport: true,
                 exportDataType: 'all',               //导出checkbox选中的行数: all\selected\
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器
-                uniqueId: "fId",                     //每一行的唯一标识，一般为主键列
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
                 pagination: false,
                 queryParams: function (params) {
                     if (!nowDict) return false; // 当字典未选择时，不进行查询操作
                     params.keyword = $('#queryKeyword').val();
-                    params.fDictid = nowDict;
+                    params.dictId = nowDict;
                     return params;
                 },
                 columns: [{field: 'ck', checkbox: true},
                     {
-                        title: '名称', field: 'fName',
+                        title: '名称', field: 'name',
                         formatter: function (value, row, index) {
-                            return '<a href="javascript:view(\'' + row.fId + '\')" >' + value + '</a>';
+                            return '<a href="javascript:view(\'' + row.id + '\')" >' + value + '</a>';
                         }
                     },
-                    {title: '编号', field: 'fCode', width: 140, align: 'center'},
-                    {title: '排序码', field: 'fSortnum', width: 100, align: 'center'},
+                    {title: '编号', field: 'code', width: 140, align: 'center'},
+                    {title: '排序码', field: 'sortNum', width: 100, align: 'center'},
                     {
-                        title: "操作", field: "fId",
+                        title: "操作", field: "id",
                         formatter: function (value, row) {
                             var e = '<@shiro.hasPermission name="funcDictItem-btnEdit"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
                             var d = '<@shiro.hasPermission name="funcDictItem-btnDelete"><a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a></@shiro.hasPermission>';
@@ -137,7 +137,7 @@
 
         // 添加代码
         function add() {
-            lt.open("添加字典值信息", prefix + "/form?fDictid=" + nowDict, {
+            lt.open("添加字典值信息", prefix + "/form?dictId=" + nowDict, {
                 end: function (index) {
                     refreshTable();
                 }

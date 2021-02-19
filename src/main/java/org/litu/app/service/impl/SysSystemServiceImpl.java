@@ -27,13 +27,13 @@ public class SysSystemServiceImpl extends BaseServiceImpl<SysSystemMapper, SysSy
 
     @Override
     public void beforePage(SysSystem entity, String keyword, IPage<SysSystem> page, Map<String, String> params, LambdaQueryWrapper<SysSystem> query) {
-        if (StringUtils.isNotBlank(params.get("fName"))) {
-            query.like(SysSystem::getfName, params.get("fName"));
+        if (StringUtils.isNotBlank(params.get("name"))) {
+            query.like(SysSystem::getName, params.get("name"));
         }
-        if (StringUtils.isNotBlank(params.get("fType"))) {
-            query.eq(SysSystem::getfType, params.get("fType"));
+        if (StringUtils.isNotBlank(params.get("type"))) {
+            query.eq(SysSystem::getType, params.get("type"));
         }
-        query.orderByDesc(SysSystem::getfCreatetime);
+        query.orderByDesc(SysSystem::getCreateTime);
     }
 
     /**
@@ -44,8 +44,8 @@ public class SysSystemServiceImpl extends BaseServiceImpl<SysSystemMapper, SysSy
     @Override
     public List<SysSystem> listEnabled() {
         LambdaQueryWrapper<SysSystem> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysSystem::getfEnabledflag, SysContant.FLAG_TRUE);
-        queryWrapper.orderByAsc(SysSystem::getfCreatetime, SysSystem::getfCode);
+        queryWrapper.eq(SysSystem::getEnableFlag, SysContant.FLAG_TRUE);
+        queryWrapper.orderByAsc(SysSystem::getCreateTime, SysSystem::getCode);
         return list(queryWrapper);
     }
 }

@@ -57,7 +57,7 @@ public class WordPoiUtil {
             template.write(out);
             out.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("word编辑错误！", e);
         }
     }
 
@@ -82,7 +82,7 @@ public class WordPoiUtil {
             src1Package = OPCPackage.open(in1);
             src2Package = OPCPackage.open(in2);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("word插入错误！", e);
         }
 
         XWPFDocument src1Document = new XWPFDocument(src1Package);

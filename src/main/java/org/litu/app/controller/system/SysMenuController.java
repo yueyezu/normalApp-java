@@ -63,8 +63,8 @@ public class SysMenuController extends BaseTreeController<SysMenu, ISysMenuServi
         if (StringUtils.isNotBlank(id)) {   // 修改时的返回信息处理
             SysMenu menu = service.detail(id);
             model.addAttribute("data", menu);
-            model.addAttribute("type", menu.getfType());
-            parentId = menu.getfParentid();
+            model.addAttribute("type", menu.getType());
+            parentId = menu.getParentId();
         } else {
             model.addAttribute("type", params.get("type"));
             parentId = params.get("parentId");
@@ -77,7 +77,7 @@ public class SysMenuController extends BaseTreeController<SysMenu, ISysMenuServi
         } else {
             SysMenu pMenu = service.detail(parentId);
             model.addAttribute("parentId", parentId);
-            model.addAttribute("parentName", pMenu.getfName());
+            model.addAttribute("parentName", pMenu.getName());
         }
 
         return "system/menu/form";

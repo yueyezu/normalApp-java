@@ -77,7 +77,7 @@ public class LoginController extends BaseController {
         // 将验证码输入到session中，用来验证
         String code = util.getString();
         ShiroSessionUtil.session(VCodeSessionKey, code);
-        log.info("生成的验证码:" + code);
+        logger.info("生成的验证码:" + code);
         // 输出到web页面
         ImageIO.write(util.getImage(), "jpg", response.getOutputStream());
     }
@@ -98,6 +98,7 @@ public class LoginController extends BaseController {
         if (StringUtils.isAnyBlank(account, password)) {
             return BaseRes.error(ErrorEnum.ParamError, "用户名或密码不能为空!");
         }
+        //TODO  不需要进行验证码验证
 //        String nowVCode = ShiroSessionUtil.<String>session(VCodeSessionKey);
 //        if (StringUtils.isBlank(verifyCode) || !verifyCode.equalsIgnoreCase(nowVCode)) {
 //            return BaseRes.error(ErrorEnum.ParamError, "验证码不正确!");
@@ -109,14 +110,13 @@ public class LoginController extends BaseController {
         String ip = NetUtil.getIp(request);
 
         // 登录在cookie的顶级加入登录的token信息。其他系统登录使用。
-        String userId = user.getfId();
+        String userId = user.getId();
         String loginToken = LoginTokenUtil.getSSOToken(userId, account, ip);
         CookieUtil.addCookie(response, SysContant.SSO_COOKIE_KEY, loginToken, 240, "/");
 
         // 将userId放入session
         ShiroSessionUtil.session(SysContant.SESSION_CURRENT_USERID, userId);
-        ShiroSessionUtil.session("nickName", user.getfNickname());
-//            ShiroSessionUtil.session(SysContant.SESSION_CONTEXTPATH, request.getServletContext().getContextPath());
+        ShiroSessionUtil.session("nickName", user.getRealName());
 
         // 登录成功后，都对验证码进行更新
         ShiroSessionUtil.removeSession(VCodeSessionKey);

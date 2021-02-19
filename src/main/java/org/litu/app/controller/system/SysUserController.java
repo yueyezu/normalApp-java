@@ -57,18 +57,18 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
         try {
             // 角色列表
             LambdaQueryWrapper<SysRole> queryWrapper = Wrappers.lambdaQuery();
-            queryWrapper.eq(SysRole::getfType, SysContant.ROLETYPE_ROLE);
+            queryWrapper.eq(SysRole::getType, SysContant.ROLETYPE_ROLE);
             List<SysRole> roleList = sysRoleService.list(queryWrapper);
             model.addAttribute("roleList", roleList);
             // 用户角色列表
             List<SysUserrole> userrolesList = sysUserroleService.getByUserId(userId);
             List<String> userRoleIds = new ArrayList<>();
             for (SysUserrole sysUserrole : userrolesList) {
-                userRoleIds.add(sysUserrole.getfRoleid());
+                userRoleIds.add(sysUserrole.getRoleId());
             }
             model.addAttribute("userRoleIds", userRoleIds);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("获取用户角色选择界面错误！", e);
         }
 
         return "system/user/userRole";
@@ -92,14 +92,14 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
     protected void beforeView(Model model, SysUser user) {
         super.beforeView(model, user);
         try {
-            SysOrganize organize = sysOrganizeService.getById(user.getfDepartmentid());
-            model.addAttribute("departmentId", user.getfDepartmentid());
-            model.addAttribute("departmentName", organize.getfName());
+            SysOrganize organize = sysOrganizeService.getById(user.getDeptId());
+            model.addAttribute("deptId", user.getDeptId());
+            model.addAttribute("deptName", organize.getName());
 
-            SysRole role = sysRoleService.getById(user.getfRoleid());
-            model.addAttribute("roleName", role == null ? "无" : role.getfName());
+            SysRole role = sysRoleService.getById(user.getRoleId());
+            model.addAttribute("roleName", role == null ? "无" : role.getName());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("获取用户详情界面错误！", e);
         }
     }
 
@@ -110,15 +110,15 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
             if (user == null) {
                 String deptId = request("deptId");
                 SysOrganize organize = sysOrganizeService.getById(deptId);
-                model.addAttribute("departmentId", deptId);
-                model.addAttribute("departmentName", organize.getfName());
+                model.addAttribute("deptId", deptId);
+                model.addAttribute("deptName", organize.getName());
             } else {
-                SysOrganize organize = sysOrganizeService.getById(user.getfDepartmentid());
-                model.addAttribute("departmentId", user.getfDepartmentid());
-                model.addAttribute("departmentName", organize.getfName());
+                SysOrganize organize = sysOrganizeService.getById(user.getDeptId());
+                model.addAttribute("deptId", user.getDeptId());
+                model.addAttribute("deptName", organize.getName());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("获取用户编辑界面错误！", e);
         }
     }
 
@@ -139,18 +139,18 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
         }
         try {
             SysUserlogin userLogin = sysUserLoginService.getByUserId(UserUtil.getUserId());
-            if (!userLogin.getfPassword().equals(LoginTokenUtil.GetDbPassword(userLogin.getfSecretkey(), oldPwd))) {
+            if (!userLogin.getPassword().equals(LoginTokenUtil.GetDbPassword(userLogin.getSecretKey(), oldPwd))) {
                 return BaseRes.error(ErrorEnum.ParamError, "原密码不正确!");
             }
 
             String sKey = LoginTokenUtil.GetSecretkey();
-            userLogin.setfSecretkey(sKey);
-            userLogin.setfPassword(LoginTokenUtil.GetDbPassword(sKey, newPwd));
-            userLogin.setfChangepasstime(new Date());
+            userLogin.setSecretKey(sKey);
+            userLogin.setPassword(LoginTokenUtil.GetDbPassword(sKey, newPwd));
+            userLogin.setChangePassTime(new Date());
             sysUserLoginService.updateById(userLogin);
             return BaseRes.ok("密码修改成功！");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("修改用户密码错误！", e);
             return BaseRes.error();
         }
     }
@@ -172,13 +172,12 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
         try {
             SysUserlogin userLogin = sysUserLoginService.getByUserId(userId);
             String sKey = LoginTokenUtil.GetSecretkey();
-            userLogin.setfSecretkey(sKey);
-            userLogin.setfPassword(LoginTokenUtil.GetDbPassword(sKey));
-            userLogin.setfChangepasstime(new Date());
+            userLogin.setSecretKey(sKey);
+            userLogin.setPassword(LoginTokenUtil.GetDbPassword(sKey));
+            userLogin.setChangePassTime(new Date());
             sysUserLoginService.updateById(userLogin);
-            return BaseRes.ok("密码重置成功！");
+            return BaseRes.ok("密码重置成功！密码为:" + LoginTokenUtil.defaultPwd);
         } catch (Exception e) {
-            e.printStackTrace();
             return BaseRes.error();
         }
     }
@@ -195,7 +194,7 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
             SysUser user = UserUtil.getCurrentUser();
             model.addAttribute("admin", user);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("获取修改用户头像界面错误！", e);
         }
         return "/system/user/avatar";
     }
@@ -215,7 +214,7 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
                 return BaseRes.error("修改失败!");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("修改用户头像错误！", e);
             return BaseRes.error();
         }
     }
@@ -223,25 +222,12 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
     /**
      * 用户树结构数据
      *
-     * @param fDepartmentid
+     * @param deptId
      * @return
      */
     @GetMapping(value = "/userTree", produces = {"application/json;charset=utf-8"})
     @ResponseBody
-    public BaseRes userTree(String fDepartmentid) {
-        return BaseRes.ok(sysUserService.userTree(fDepartmentid));
-    }
-
-    //根据账号确定唯一
-    @PostMapping(value = "/getByAccount")
-    @ResponseBody
-    public BaseRes getByAccount(SysUser sysUser) {
-        SysUser user = sysUserService.getByAccount(sysUser.getfAccount());
-        if (user == null) {
-            String defValue = null;
-            return BaseRes.ok(defValue);
-        } else {
-            return BaseRes.ok();
-        }
+    public BaseRes userTree(String deptId) {
+        return BaseRes.ok(sysUserService.userTree(deptId));
     }
 }

@@ -52,28 +52,27 @@
                 showExport: false,
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器
                 pagination: false,
-                idField: "fId",                     //每一行的唯一标识，一般为主键列
-                treeShowField: 'fName',
-                parentIdField: 'fParentid',
+                idField: "id",                     //每一行的唯一标识，一般为主键列
+                treeShowField: 'name',
+                parentIdField: 'parentId',
                 queryParams: function (params) {
                     params.keyword = $('#queryKeyword').val();
                     return params;
                 },
                 columns: [{field: 'ck', checkbox: true},
                     {
-                        title: '名称', field: 'fName',
+                        title: '名称', field: 'name',
                         formatter: function (value, row, index) {
-                            return '<a onclick="view(\'' + row.fId + '\')" >' + value + '</a>';
+                            return '<a onclick="view(\'' + row.id + '\')" >' + value + '</a>';
                         }
                     },
-                    {title: '编号', field: 'fCode'},
-                    {title: '负责人', field: 'fManagerid'},
-                    {title: '电话', field: 'fPhone'},
-                    {title: '部门说明', field: 'fDescription', hidden: true},
-                    {title: '联系地址', field: 'fAddress'},
-                    {title: '排序码', field: 'fSortnum'},
+                    {title: '编号', field: 'code'},
+                    {title: '负责人', field: 'manager'},
+                    {title: '电话', field: 'phone'},
+                    {title: '部门说明', field: 'description', hidden: true},
+                    {title: '排序码', field: 'sortNum'},
                     {
-                        title: "操作", field: "fId",
+                        title: "操作", field: "id",
                         formatter: function (value, row) {
                             var e = '<@shiro.hasPermission name="funcOrganize-btnEdit"><a class="btn btn-success btn-xs m-r-xs" onclick="edit(\'' + value + '\');return false;"><i class="fa fa-edit"></i>编辑</a></@shiro.hasPermission>';
                             var d = '<@shiro.hasPermission name="funcOrganize-btnDelete"><a class="btn btn-danger btn-xs m-r-xs" onclick="del(\'' + value + '\');return false;"><i class="fa fa-remove"></i>删除</a></@shiro.hasPermission>';

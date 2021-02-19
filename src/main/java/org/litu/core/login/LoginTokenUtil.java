@@ -24,7 +24,7 @@ public class LoginTokenUtil {
     /*---------------- 用户登录用密码密钥的生成操作 -----------------*/
 
     //TODO 想办法转移到配置文件
-    private static String defaultPwd = "111111";
+    public static String defaultPwd = "111111";
 
     /**
      * 获取用户密码加密的密钥
@@ -280,7 +280,7 @@ public class LoginTokenUtil {
         synchronized (qrCodeTemps) {
             if (qrCodeTemps.containsKey(ip)) {
                 QrCodeTempModel tempModel = qrCodeTemps.get(ip);
-                if (systemCode.equals(tempModel.getSystemCode())) {
+                if (systemCode.equals(tempModel.getsystemCode())) {
                     account = tempModel.getLoginAccount();
 
                     qrCodeTemps.remove(ip);
@@ -440,7 +440,7 @@ class QrCodeTempModel {
         return ip;
     }
 
-    public String getSystemCode() {
+    public String getsystemCode() {
         return systemCode;
     }
 

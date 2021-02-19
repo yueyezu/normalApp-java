@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.dao.SysFilesMapper;
@@ -55,12 +54,12 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
             file.transferTo(fileUpload);
             // 文件信息存储到数据库
             SysFiles sysFiles = new SysFiles();
-            sysFiles.setfOriginname(originalName);
-            sysFiles.setfLocation(relativePath);
-            sysFiles.setfFiletype(fileType);
-            sysFiles.setfFilesize(file.getSize());
-            sysFiles.setfCreateby(UserUtil.getUserId());
-            sysFiles.setfCreatetime(new Date());
+            sysFiles.setOriginName(originalName);
+            sysFiles.setLocation(relativePath);
+            sysFiles.setFileType(fileType);
+            sysFiles.setFileSize(file.getSize());
+            sysFiles.setCreateBy(UserUtil.getUserId());
+            sysFiles.setCreateTime(new Date());
             save(sysFiles);
             return sysFiles;
         } catch (Exception e) {
@@ -90,12 +89,12 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
         file.renameTo(fileUpload);
         // 文件信息存储到数据库
         SysFiles sysFiles = new SysFiles();
-        sysFiles.setfOriginname(originalName);
-        sysFiles.setfLocation(relativePath);
-        sysFiles.setfFiletype(fileType);
-        sysFiles.setfFilesize(file.length());
-        sysFiles.setfCreateby(UserUtil.getUserId());
-        sysFiles.setfCreatetime(new Date());
+        sysFiles.setOriginName(originalName);
+        sysFiles.setLocation(relativePath);
+        sysFiles.setFileType(fileType);
+        sysFiles.setFileSize(file.length());
+        sysFiles.setCreateBy(UserUtil.getUserId());
+        sysFiles.setCreateTime(new Date());
         save(sysFiles);
         return sysFiles;
     }
@@ -169,47 +168,47 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
         }
     }
 
-    private static Map<String, Object[]> fType = new HashMap<>();
+    private static Map<String, Object[]> type = new HashMap<>();
 
     static {
-        fType.put("picture", new String[]{"jpg", "png", "jpeg", "gif", "tif", "bmp", "dwg", "psd", "vsd"});
-        fType.put("document", new String[]{"doc", "docx", "txt", "wps", "pdf", "html", "htm", "java", "css", "js", "rtf", "eml", "mdb", "ps", "flv", "mpg", "exe", "wav", "mid", "zip", "rar", "ini", "jar", "exe", "jsp", "mf", "xml", "sql", "bat", "gz", "properties", "class", "chm", "mxp", "wsp", "torrent", "mov", "wpd", "dbx", "pst", "qdf", "pwl", "ram", "ftl"});
-        fType.put("audio", new String[]{"mp3", "mp4"});
-        fType.put("video", new String[]{"avi", "wmv", "rmvb"});
+        type.put("picture", new String[]{"jpg", "png", "jpeg", "gif", "tif", "bmp", "dwg", "psd", "vsd"});
+        type.put("document", new String[]{"doc", "docx", "txt", "wps", "pdf", "html", "htm", "java", "css", "js", "rtf", "eml", "mdb", "ps", "flv", "mpg", "exe", "wav", "mid", "zip", "rar", "ini", "jar", "exe", "jsp", "mf", "xml", "sql", "bat", "gz", "properties", "class", "chm", "mxp", "wsp", "torrent", "mov", "wpd", "dbx", "pst", "qdf", "pwl", "ram", "ftl"});
+        type.put("audio", new String[]{"mp3", "mp4"});
+        type.put("video", new String[]{"avi", "wmv", "rmvb"});
     }
 
     @Override
     public void beforeList(SysFiles entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysFiles> query) {
-        query.like(SysFiles::getfOriginname, keyword);
+        query.like(SysFiles::getOriginName, keyword);
         if (params.containsKey("fileType")) {
-            query.in(SysFiles::getfFiletype, fType.get(params.get("fileType")));
+            query.in(SysFiles::getFileType, type.get(params.get("fileType")));
         }
-        query.orderByDesc(SysFiles::getfCreatetime);
+        query.orderByDesc(SysFiles::getCreateTime);
     }
 
     @Override
     public void beforePage(SysFiles entity, String keyword, IPage<SysFiles> page, Map<String, String> params, LambdaQueryWrapper<SysFiles> query) {
-        if (StringUtils.isNotBlank(entity.getfFiletype())) {
+        if (StringUtils.isNotBlank(entity.getFileType())) {
             List<String> fileTypeList = new ArrayList<String>();
-            for (String fileType : fType.keySet()) {
-                if (fileType.equals(entity.getfFiletype())) {
-                    String[] fileFormatArr = (String[]) fType.get(fileType);
+            for (String fileType : type.keySet()) {
+                if (fileType.equals(entity.getFileType())) {
+                    String[] fileFormatArr = (String[]) type.get(fileType);
                     for (String fileFormat : fileFormatArr) {
                         fileTypeList.add(fileFormat);
                     }
                 }
             }
-            query.in(SysFiles::getfFiletype, fileTypeList);
+            query.in(SysFiles::getFileType, fileTypeList);
         }
-        query.and(i -> i.like(SysFiles::getfOriginname, keyword).or().like(SysFiles::getfFiletype, keyword));
-        query.orderByDesc(SysFiles::getfCreatetime);
+        query.and(i -> i.like(SysFiles::getOriginName, keyword).or().like(SysFiles::getFileType, keyword));
+        query.orderByDesc(SysFiles::getCreateTime);
     }
 
     @Override
     public boolean delete(String id, Map<String, String> params) {
         boolean result = false;
         SysFiles nowFile = baseMapper.selectById(id);
-        File file = new File(SysContant.FILE_BASE_PATH + nowFile.getfLocation());
+        File file = new File(SysContant.FILE_BASE_PATH + nowFile.getLocation());
         // 如果图片路径所对应的图片存在，则直接删除
         result = super.delete(id, params);
         if (result) {
@@ -230,7 +229,7 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
         }
 
         LambdaQueryWrapper<SysFiles> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysFiles::getfLocation, location);
+        queryWrapper.eq(SysFiles::getLocation, location);
         List<SysFiles> list = list(queryWrapper);
         if (list.size() > 0) {
             remove(queryWrapper);
@@ -250,10 +249,10 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
 
         Map<String, String> idToPath = new HashMap<>();
         LambdaQueryWrapper<SysFiles> wrapperFiles = Wrappers.lambdaQuery();
-        wrapperFiles.in(SysFiles::getfId, idList);
+        wrapperFiles.in(SysFiles::getId, idList);
         List<SysFiles> sysFiles = list(wrapperFiles);
         sysFiles.forEach(sysFile -> {
-            idToPath.put(sysFile.getfId(), sysFile.getfLocation());
+            idToPath.put(sysFile.getId(), sysFile.getLocation());
         });
 
         return idToPath;

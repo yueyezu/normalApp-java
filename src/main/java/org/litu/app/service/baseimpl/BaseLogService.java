@@ -88,13 +88,13 @@ public class BaseLogService implements IBaseLogService {
         }
 
         SysLogs log = new SysLogs();
-        log.setfSystemcode(this.logsVo.getSystemCode());
-        log.setfModule(this.logsVo.getModule());
-        log.setfOpttype(this.logsVo.getOpttype());
-        log.setfOptcontent(this.logsVo.getOptcontent());
-        log.setfIpaddress(this.logsVo.getIp());
-        log.setfCreateby(this.logsVo.getUserId());
-        log.setfCreatetime(new Date());
+        log.setSystemCode(this.logsVo.getsystemCode());
+        log.setModule(this.logsVo.getModule());
+        log.setOptType(this.logsVo.getOpttype());
+        log.setOptContent(this.logsVo.getOptcontent());
+        log.setIpAddr(this.logsVo.getIp());
+        log.setCreateBy(this.logsVo.getUserId());
+        log.setCreateTime(new Date());
 
         return sysLogService.save(log);
     }
@@ -105,13 +105,13 @@ public class BaseLogService implements IBaseLogService {
     @Override
     public boolean addOptLogs(LtLogsVo optLogs) {
         SysLogs log = new SysLogs();
-        log.setfSystemcode(optLogs.getSystemCode());
-        log.setfModule(optLogs.getModule());
-        log.setfOpttype(optLogs.getOpttype());
-        log.setfOptcontent(optLogs.getOptcontent());
-        log.setfIpaddress(optLogs.getIp());
-        log.setfCreateby(optLogs.getUserId());
-        log.setfCreatetime(new Date());
+        log.setSystemCode(optLogs.getsystemCode());
+        log.setModule(optLogs.getModule());
+        log.setOptType(optLogs.getOpttype());
+        log.setOptContent(optLogs.getOptcontent());
+        log.setIpAddr(optLogs.getIp());
+        log.setCreateBy(optLogs.getUserId());
+        log.setCreateTime(new Date());
 
         return sysLogService.save(log);
     }
@@ -138,13 +138,13 @@ public class BaseLogService implements IBaseLogService {
         @Override
         public void run() {
             SysLogs log = new SysLogs();
-            log.setfSystemcode(logsVo.getSystemCode());
-            log.setfModule(logsVo.getModule());
-            log.setfOpttype(logsVo.getOpttype());
-            log.setfOptcontent(logsVo.getOptcontent());
-            log.setfIpaddress(logsVo.getIp());
-            log.setfCreateby(logsVo.getUserId());
-            log.setfCreatetime(new Date());
+            log.setSystemCode(logsVo.getsystemCode());
+            log.setModule(logsVo.getModule());
+            log.setOptType(logsVo.getOpttype());
+            log.setOptContent(logsVo.getOptcontent());
+            log.setIpAddr(logsVo.getIp());
+            log.setCreateBy(logsVo.getUserId());
+            log.setCreateTime(new Date());
 
             sysLogService.save(log);
         }
