@@ -2,7 +2,7 @@
 -- 当前基础数据说明： 目前基本的权限信息都包含了，含管理员用户: admin/123123
 
 -- 系统信息
-INSERT INTO Sys_System(`id`, `code`, `name`, `type`, `version`, `secret`, `dev_org`, `dev_time`, `enabled_flag`, `enable_delete`, `remark`, `create_by`, `create_time`, `modify_by`, `modify_time`) VALUES ('normalApp', 'normalApp', '励图开发框架', 'javaweb', 'V1.0', '123123', '励图高科', '2020-02-26 00:00:00', 1, 0, '当前框架系统', 'admin', '2020-09-23 18:56:58', 'admin', '2020-09-23 18:56:58');
+INSERT INTO Sys_System(`id`, `code`, `name`, `type`, `version`, `secret`, `dev_org`, `dev_time`, `enable_flag`, `enable_delete`, `remark`, `create_by`, `create_time`, `modify_by`, `modify_time`) VALUES ('normalApp', 'normalApp', '励图开发框架', 'javaweb', 'V1.0', '123123', '励图高科', '2020-02-26 00:00:00', 1, 0, '当前框架系统', 'admin', '2020-09-23 18:56:58', 'admin', '2020-09-23 18:56:58');
 
 -- 菜单信息
 INSERT INTO Sys_Menu(`id`, `parent_id`, `layers`, `system_code`, `type`, `code`, `name`, `icon`, `url`, `sort_num`, `remark`, `create_by`, `create_time`, `modify_by`, `modify_time`) VALUES ('funcAccessToken', 'moduleSys', '#moduleSys#|#funcAccessToken#', 'normalApp', 2, 'funcAccessToken', '授权管理', 'fa fa-sign-in', 'accessToken/index', 9, '', 'admin', '2020-09-23 18:56:58', 'admin', '2020-09-23 18:56:58');
@@ -153,9 +153,9 @@ INSERT INTO Sys_Organize(`id`, `parent_id`, `layers`, `code`, `name`, `descripti
 
 -- 用户登录信息
 INSERT INTO Sys_User(`id`, `account`, `real_name`, `nick_name`, `photo`, `sex`, `wechat`, `phone`, `email`, `birthday`, `dept_id`, `role_id`, `sort_num`, `enable_delete`, `remark`, `create_by`, `create_time`, `modify_by`, `modify_time`, `delete_flag`, `delete_by`, `delete_time`) VALUES ('admin', 'admin', '管理员', '管理员', NULL, '1', NULL, NULL, NULL, NULL, 'orgroot', 'admin', 1, 0, NULL, 'admin', '2020-10-22 18:31:40', 'admin', '2020-10-22 18:31:44', 0, NULL, NULL);
-INSERT INTO Sys_UserLogin(`id`, `user_id`, `password`, `secret_key`, `last_visit_time`, `change_pass_time`, `multiuser_login`, `logon_count`, `login_status`, `question`, `answer`, `enable_login`) VALUES ('admin', 'admin', 'b0d4b1c33b21400391aa4966ebf3ffbd', '5b8620ef324afec9', '2020-10-22 15:58:49', '2020-02-27 07:39:35', 0, 4082, 1, '', '', 1);--用户角色信息
+INSERT INTO Sys_UserLogin(`id`, `user_id`, `password`, `secret_key`, `last_visit_time`, `change_pass_time`, `multiuser_login`, `logon_count`, `login_status`, `question`, `answer`, `enable_login`) VALUES ('admin', 'admin', 'b0d4b1c33b21400391aa4966ebf3ffbd', '5b8620ef324afec9', '2020-10-22 15:58:49', '2020-02-27 07:39:35', 0, 4082, 1, '', '', 1);
+-- 用户角色信息
 INSERT INTO Sys_UserRole(`id`, `user_id`, `role_id`) VALUES ('admin', 'admin', 'admin');
-
 
 -- 字典信息
 INSERT INTO Sys_Dict(`id`, `parent_id`, `layers`, `code`, `name`, `description`, `sort_num`, `create_by`, `create_time`, `modify_by`, `modify_time`) VALUES ('systemType', '0', '#systemType#', 'systemType', '系统类型', '', 1, 'admin', '2018-11-02 13:51:56', 'admin', '2020-01-21 17:23:54');

@@ -30,7 +30,7 @@ public class MybatisPlusGenerator {
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUrl("jdbc:mysql://47.94.198.207:3306/normalappdb2?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
+        dsc.setUrl("jdbc:mysql://47.94.198.207:3306/normalappdb?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
         dsc.setUsername("root");
         dsc.setPassword("qazwsx123");
 
