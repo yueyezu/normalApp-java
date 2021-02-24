@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.dao.SysDictMapper;
-import org.litu.app.dao.SysDictitemMapper;
+import org.litu.app.dao.SysDictItemMapper;
 import org.litu.app.entity.SysDict;
 import org.litu.app.entity.SysDictitem;
 import org.litu.app.service.ISysDictService;
@@ -29,7 +29,7 @@ import java.util.Map;
 public class SysDictServiceImpl extends BaseTreeServiceImpl<SysDictMapper, SysDict> implements ISysDictService {
 
     @Autowired
-    private SysDictitemMapper dictItemMapper;
+    private SysDictItemMapper dictItemMapper;
 
     @Override
     public void beforeTree(SysDict entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysDict> query) {

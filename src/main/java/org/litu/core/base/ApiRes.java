@@ -1,8 +1,8 @@
-package org.litu.base.vo;
+package org.litu.core.base;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class ApiRes<T> implements Serializable {
      * 状态码
      */
     @ApiModelProperty(value = "状态码,200表示成功,500服务器错误，602参数错误，600授权错误，601未找到方法", required = true)
-    protected ErrorEnum code;
+    protected ResultEnum code;
     /**
      * 说明信息
      */
@@ -29,7 +29,7 @@ public class ApiRes<T> implements Serializable {
     @ApiModelProperty(value = "返回的数据信息,具体格式根据不同接口确定。")
     private T data;
 
-    public ErrorEnum getCode() {
+    public ResultEnum getCode() {
         return code;
     }
 
@@ -44,7 +44,7 @@ public class ApiRes<T> implements Serializable {
     /* --------------- 公开的错误Code静态信息 -------------- */
 
     public ApiRes() {
-        this.code = ErrorEnum.Success;
+        this.code = ResultEnum.Success;
         this.msg = "操作成功";
         this.data = null;
     }
@@ -57,7 +57,7 @@ public class ApiRes<T> implements Serializable {
      * @return  服务器内部错误
      */
     public static <T> ApiRes<T> error() {
-        return error(ErrorEnum.ServerError);
+        return error(ResultEnum.ServerError);
     }
 
     /**
@@ -67,7 +67,7 @@ public class ApiRes<T> implements Serializable {
      * @return  服务器内部错误，错误信息
      */
     public static <T> ApiRes<T> error(String msg) {
-        return error(ErrorEnum.ServerError, msg);
+        return error(ResultEnum.ServerError, msg);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ApiRes<T> implements Serializable {
      * @param <T> 类实例泛型
      * @return 对应错误编号的错误
      */
-    public static <T> ApiRes<T> error(ErrorEnum code) {
+    public static <T> ApiRes<T> error(ResultEnum code) {
         return error(code, code.getText());
     }
 
@@ -87,7 +87,7 @@ public class ApiRes<T> implements Serializable {
      * @param <T> 类实例泛型
      * @return 错误编号对应的错误 和相关错误信息
      */
-    public static <T> ApiRes<T> error(ErrorEnum code, String msg) {
+    public static <T> ApiRes<T> error(ResultEnum code, String msg) {
         ApiRes<T> res = new ApiRes<>();
         res.code = code;
         res.msg = msg;
@@ -155,7 +155,7 @@ public class ApiRes<T> implements Serializable {
         jsonRpc.put("jsonrpc", "2.0");
         jsonRpc.put("id", "");
 
-        if (code == ErrorEnum.Success) {
+        if (code == ResultEnum.Success) {
             jsonRpc.put("result", data);
         } else {
             Map<String, String> jsonRpcError = new HashMap<>();

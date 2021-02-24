@@ -2,7 +2,7 @@ package org.litu.app.controller.system;
 
 import org.litu.app.entity.SysOrganize;
 import org.litu.app.service.ISysOrganizeService;
-import org.litu.base.controller.BaseTreeController;
+import org.litu.base.controller.BaseViewTreeController;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.PageBasePath;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/organize")
 @PageBasePath(basePath = "system/organize")
 @Controller
-public class SysOrganizeController extends BaseTreeController<SysOrganize, ISysOrganizeService> {
+public class SysOrganizeController extends BaseViewTreeController<SysOrganize, ISysOrganizeService> {
 
     /**
      * 选择列表的界面返回

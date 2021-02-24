@@ -1,7 +1,7 @@
 package org.litu.app.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.litu.app.entity.SysUserrole;
-import org.litu.base.dao.BaseMapper;
 
 /**
  * <p>

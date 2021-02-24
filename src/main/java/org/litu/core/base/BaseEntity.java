@@ -1,4 +1,4 @@
-package org.litu.base.entity;
+package org.litu.core.base;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

@@ -1,6 +1,6 @@
 package org.litu.base.service;
 
-import org.litu.base.entity.BaseTreeEntity;
+import org.litu.core.base.BaseTreeEntity;
 
 import java.util.List;
 import java.util.Map;

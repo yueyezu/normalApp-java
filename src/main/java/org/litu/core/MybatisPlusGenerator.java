@@ -124,7 +124,7 @@ public class MybatisPlusGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setEntityLombokModel(true);    // 是否启用lombok模式
-        strategy.setSuperEntityClass("org.litu.base.entity.BaseEntity");
+        strategy.setSuperEntityClass("org.litu.core.base.BaseEntity");
         strategy.setSuperEntityColumns("id");
         strategy.setSuperMapperClass("org.litu.base.dao.BaseMapper");
         strategy.setSuperServiceClass("org.litu.base.service.IBaseService");

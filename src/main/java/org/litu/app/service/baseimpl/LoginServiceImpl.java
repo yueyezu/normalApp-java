@@ -11,7 +11,7 @@ import org.litu.app.service.*;
 import org.litu.app.vo.LoginUserMsg;
 import org.litu.base.service.ILoginService;
 import org.litu.base.util.UserUtil;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtServerException;
 import org.litu.core.login.LoginTokenUtil;
 import org.litu.core.login.ShiroLoginUtil;
@@ -69,11 +69,11 @@ public class LoginServiceImpl implements ILoginService {
         SysUser user = sysUserService.getByAccount(account);
         // 未找到用户
         if (user == null) {
-            throw new LtServerException(ErrorEnum.UserPwdError);
+            throw new LtServerException(ResultEnum.UserPwdError);
         }
         // 用户被禁用
         if (user.getDeleteFlag().intValue() == SysContant.FLAG_TRUE) {
-            throw new LtServerException(ErrorEnum.UserNotEnable);
+            throw new LtServerException(ResultEnum.UserNotEnable);
         }
         // 验证密码
         String userId = user.getId();
@@ -81,12 +81,12 @@ public class LoginServiceImpl implements ILoginService {
 
         // 是否允许登录
         if (sysUserLogin.getEnableLogin().intValue() == SysContant.FLAG_FALSE) {
-            throw new LtServerException(ErrorEnum.UserNotEnable);
+            throw new LtServerException(ResultEnum.UserNotEnable);
         }
         // 验证密码是否正确
         String nowPwd = LoginTokenUtil.GetDbPassword(sysUserLogin.getSecretKey(), password);
         if (!nowPwd.equals(sysUserLogin.getPassword())) {
-            throw new LtServerException(ErrorEnum.UserPwdError);
+            throw new LtServerException(ResultEnum.UserPwdError);
         }
         // 是否有菜单,只看是否有功能权限即可
         List<String> menuTypes = new ArrayList<String>();
@@ -94,7 +94,7 @@ public class LoginServiceImpl implements ILoginService {
         menuTypes.add(SysContant.MENUTYPE_FUNCTION);
         List<SysMenu> menus = sysMenuService.userMenus(userId, systemCode, menuTypes);
         if (menus == null || menus.size() == 0) {
-            throw new LtServerException(ErrorEnum.UserHasNoAuth);
+            throw new LtServerException(ResultEnum.UserHasNoAuth);
         }
 
         return user;
@@ -115,24 +115,24 @@ public class LoginServiceImpl implements ILoginService {
         SysUser user = sysUserService.getByAccount(account);
         // 未找到用户
         if (user == null) {
-            throw new LtServerException(ErrorEnum.UserPwdError);
+            throw new LtServerException(ResultEnum.UserPwdError);
         }
         // 用户被禁用
         if (user.getDeleteFlag() == SysContant.FLAG_TRUE) {
-            throw new LtServerException(ErrorEnum.UserNotEnable);
+            throw new LtServerException(ResultEnum.UserNotEnable);
         }
         // 验证密码
         SysUserlogin sysUserLogin = sysUserLoginService.getByUserId(user.getId());
         // 是否允许登录
         if (sysUserLogin.getEnableLogin().intValue() == SysContant.FLAG_FALSE) {
-            throw new LtServerException(ErrorEnum.UserNotEnable);
+            throw new LtServerException(ResultEnum.UserNotEnable);
         }
         // 是否有菜单,只看是否有功能权限即可
         List<String> menuTypes = new ArrayList<String>();
         menuTypes.add(SysContant.MENUTYPE_FUNCTION);
         List<SysMenu> menus = sysMenuService.userMenus(user.getId(), systemCode, menuTypes);
         if (menus == null || menus.size() == 0) {
-            throw new LtServerException(ErrorEnum.UserHasNoAuth);
+            throw new LtServerException(ResultEnum.UserHasNoAuth);
         }
 
         // 是否多点登录

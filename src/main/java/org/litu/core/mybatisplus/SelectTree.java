@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
-import org.litu.base.entity.BaseTreeEntity;
+import org.litu.core.base.BaseTreeEntity;
 
 /**
  * selectPage 加表别名

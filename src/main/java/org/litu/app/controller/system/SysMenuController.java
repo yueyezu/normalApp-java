@@ -1,26 +1,20 @@
 package org.litu.app.controller.system;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.commons.lang3.StringUtils;
-import org.litu.app.constant.SysContant;
 import org.litu.app.entity.SysMenu;
 import org.litu.app.entity.SysSystem;
 import org.litu.app.service.ISysMenuService;
 import org.litu.app.service.ISysSystemService;
-import org.litu.base.controller.BaseTreeController;
-import org.litu.base.vo.BaseRes;
+import org.litu.base.controller.BaseViewTreeController;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.PageBasePath;
-import org.litu.core.enums.ErrorEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +25,7 @@ import java.util.Map;
 @RequestMapping(value = "/menu")
 @PageBasePath(basePath = "system/menu")
 @Controller
-public class SysMenuController extends BaseTreeController<SysMenu, ISysMenuService> {
+public class SysMenuController extends BaseViewTreeController<SysMenu, ISysMenuService> {
 
     /**
      * 系统管理的service

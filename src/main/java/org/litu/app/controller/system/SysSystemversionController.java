@@ -2,7 +2,7 @@ package org.litu.app.controller.system;
 
 import org.litu.app.entity.SysSystemversion;
 import org.litu.app.service.ISysSystemversionService;
-import org.litu.base.controller.BaseFormController;
+import org.litu.base.controller.BaseViewFormController;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.PageBasePath;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/systemVersion")
 @PageBasePath(basePath = "system/systemVersion")
 @Controller
-public class SysSystemversionController extends BaseFormController<SysSystemversion,ISysSystemversionService>{
+public class SysSystemversionController extends BaseViewFormController<SysSystemversion, ISysSystemversionService> {
 
     /**
      * 列表界面

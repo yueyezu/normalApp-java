@@ -4,9 +4,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.litu.base.entity.BaseTreeEntity;
 import org.litu.base.service.IBaseTreeService;
 import org.litu.base.vo.TreeVo;
+import org.litu.core.base.BaseTreeEntity;
+import org.litu.core.base.ITreeNode;
+import org.litu.core.base.TreeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,40 +19,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseTreeController<T extends BaseTreeEntity, S extends IBaseTreeService<T>> extends BaseFormController<T, S> {
+public abstract class BaseTreeController<T extends BaseTreeEntity & ITreeNode<T>, S extends IBaseTreeService<T>> extends BaseFormController<T, S> {
 
     @Autowired
     protected S service;
 
+    /**
+     * 列表，不分页
+     *
+     * @param entity 实体类
+     * @return 列表
+     */
+    @GetMapping("/list")
+    @ResponseBody
+    @ApiOperation(value = "列表查询", notes = "查询列表信息，所有数据", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keyword", value = "关键字，模糊检索，字段默认未使用", paramType = "query", dataType = "String")
+    })
     @Override
-    protected void beforeForm(Model model, T obj) {
-        super.beforeForm(model, obj);
-        if (obj == null || StringUtils.isBlank(obj.getParentId()) || obj.getParentId().equals("0")) {
-            model.addAttribute("parentId", "0");
-            model.addAttribute("parentName", "根节点");
-        } else {
-            T parent = service.getById(obj.getParentId());
-            model.addAttribute("parentId", parent.getId());
-            model.addAttribute("parentName", parent.getName());
-        }
-    }
+    public List<T> list(T entity, @RequestParam(defaultValue = "") String keyword) {
+        Map<String, String> params = requestParams();
 
-    @Override
-    protected void beforeView(Model model, T obj) {
-        super.beforeView(model, obj);
-
-        if (StringUtils.isBlank(obj.getParentId()) || obj.getParentId().equals("0")) {
-            model.addAttribute("parentId", "0");
-            model.addAttribute("parentName", "根节点");
-        } else {
-            T parent = service.detail(obj.getParentId());
-            model.addAttribute("parentId", parent.getId());
-            model.addAttribute("parentName", parent.getName());
+        try {
+            List<T> list = service.tree(entity, keyword, params);
+            return list;
+        } catch (Exception e) {
+            logger.warn("列表查询中出现异常", e);
+            return new ArrayList<>();
         }
     }
 
     /**
-     * 树，不分页
+     * 树列表
      *
      * @param entity  实体类
      * @param keyword 关键词
@@ -64,21 +64,22 @@ public abstract class BaseTreeController<T extends BaseTreeEntity, S extends IBa
     })
     public List<TreeVo> treeView(T entity, @RequestParam(defaultValue = "") String keyword) {
         Map<String, String> params = requestParams();
-        List<T> list = service.tree(entity, keyword, params);
-        // 将列表转化成树结构
-        List<TreeVo> trees = new ArrayList<>();
-        for (T node : list) {
-            TreeVo treeVo = new TreeVo();
-            treeVo.setId(node.getId());
-            if (node.getParentId().equals("0")) {
-                treeVo.setParent("#");
-            } else {
-                treeVo.setParent(node.getParentId());
+        try {
+            List<T> list = service.tree(entity, keyword, params);
+            // 将列表转化成树结构
+            List<TreeVo> trees = new ArrayList<>();
+            for (T node : list) {
+                TreeVo treeVo = new TreeVo();
+                treeVo.setId(node.getId());
+                treeVo.setParentId(node.getParentId());
+                treeVo.setText(node.getName());
+                trees.add(treeVo);
             }
-            treeVo.setText(node.getName());
-            trees.add(treeVo);
+            return TreeUtil.build(trees);
+        } catch (Exception e) {
+            logger.warn("列表查询中出现异常", e);
+            return new ArrayList<>();
         }
-        return trees;
     }
 
     /**
@@ -96,7 +97,13 @@ public abstract class BaseTreeController<T extends BaseTreeEntity, S extends IBa
     })
     public List<T> treeList(T entity, @RequestParam(defaultValue = "") String keyword) {
         Map<String, String> params = requestParams();
-        List<T> list = service.tree(entity, keyword, params);
-        return list;
+
+        try {
+            List<T> trees = service.tree(entity, keyword, params);
+            return TreeUtil.build(trees);
+        } catch (Exception e) {
+            logger.warn("树列表查询出现异常", e);
+            return new ArrayList<>();
+        }
     }
 }

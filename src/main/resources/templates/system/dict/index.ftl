@@ -8,22 +8,22 @@
     <div class="col-sm-12">
         <div class="ibox">
             <div class="ibox-content">
-            	<@shiro.hasPermission name="funcDictItem-btnQueryDict">
-	                <form role="form" class="form-inline query-form">
-	                    <div class="input-group">
-	                        <input type="text" class="form-control" id="queryKeyword" placeholder="编号或名称"/>
-	                        <span class="input-group-btn">
+                <@shiro.hasPermission name="funcDictItem-btnQueryDict">
+                    <form role="form" class="form-inline query-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="queryKeyword" placeholder="编号或名称"/>
+                            <span class="input-group-btn">
 	                            <button type="button" class="btn btn-primary" onclick="refreshTable()"><i class="fa fa-search"></i>查询</button>
 	                        </span>
-	                    </div>
-	                </form>
+                        </div>
+                    </form>
                 </@shiro.hasPermission>
                 <@shiro.hasPermission name="funcDictItem-btnAddDict">
-	                <div id="tableToolbar" role="group" class="t-bar">
-	                    <a class="btn btn-primary" title="添加" onclick="add()">
-	                        <i class="fa fa-plus" aria-hidden="true"></i>添加
-	                    </a>
-	                </div>
+                    <div id="tableToolbar" role="group" class="t-bar">
+                        <a class="btn btn-primary" title="添加" onclick="add()">
+                            <i class="fa fa-plus" aria-hidden="true"></i>添加
+                        </a>
+                    </div>
                 </@shiro.hasPermission>
                 <table id="dataTable" data-mobile-responsive="true"></table>
             </div>
@@ -42,7 +42,7 @@
 
         function initTable() {
             lt.dataTable.init("#dataTable", {
-                url: prefix + '/treeList',
+                url: prefix + '/list',
                 showExport: true,
                 exportDataType: 'all',               //导出checkbox选中的行数: all\selected\
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器

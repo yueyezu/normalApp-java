@@ -13,7 +13,7 @@ import org.litu.app.service.ISysAccesstokenService;
 import org.litu.app.service.ISysSystemService;
 import org.litu.app.service.ISysUserService;
 import org.litu.base.service.impl.BaseServiceImpl;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtServerException;
 import org.litu.core.login.LoginTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,7 +122,7 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
         if (rc > 0) {
             return accessToken;
         } else {
-            throw new LtServerException("保存数据库错误。", ErrorEnum.GetTokenError);
+            throw new LtServerException("保存数据库错误。", ResultEnum.GetTokenError);
         }
     }
 
@@ -139,7 +139,7 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
         queryWrapper.eq(SysAccesstoken::getClientType, clientType);
         SysAccesstoken accessToken = baseMapper.selectOne(queryWrapper);
         if (accessToken == null) {
-            throw new LtServerException("未找到当前刷新码信息。", ErrorEnum.GetRefreshTokenError);
+            throw new LtServerException("未找到当前刷新码信息。", ResultEnum.GetRefreshTokenError);
         }
 
         // 判断刷新码是否过期
@@ -151,7 +151,7 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
             long days = (refreshSpan * 24 * 60 * 60 * 1000); // 将时间调整到毫秒 天
 
             if (days < cha) {
-                throw new LtServerException("刷新码已经过期,请重新获取！", ErrorEnum.TokenTimeout);
+                throw new LtServerException("刷新码已经过期,请重新获取！", ResultEnum.TokenTimeout);
             }
         }
 
@@ -169,7 +169,7 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
         if (rc > 0) {
             return accessToken;
         } else {
-            throw new LtServerException("保存数据库错误。", ErrorEnum.GetRefreshTokenError);
+            throw new LtServerException("保存数据库错误。", ResultEnum.GetRefreshTokenError);
         }
     }
 

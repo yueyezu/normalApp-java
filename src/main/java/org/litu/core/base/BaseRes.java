@@ -1,8 +1,7 @@
-package org.litu.base.vo;
+package org.litu.core.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.litu.base.entity.BaseEntity;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,12 +17,12 @@ public class BaseRes<T> extends HashMap<String, Object> {
 
     private static final long serialVersionUID = 1L;
     @JsonIgnoreProperties
-    private ErrorEnum resCode;
+    private ResultEnum resCode;
 
     /* --------------- 公开的错误Code静态信息 -------------- */
 
     public BaseRes() {
-        resCode = ErrorEnum.Success;
+        resCode = ResultEnum.Success;
         put("code", resCode.getCode());
         put("msg", resCode.getText());
     }
@@ -34,7 +33,7 @@ public class BaseRes<T> extends HashMap<String, Object> {
      * @return 服务器内部错误，Internal error
      */
     public static BaseRes error() {
-        return error(ErrorEnum.ServerError, ErrorEnum.ServerError.getText());
+        return error(ResultEnum.ServerError, ResultEnum.ServerError.getText());
     }
 
     /**
@@ -42,7 +41,7 @@ public class BaseRes<T> extends HashMap<String, Object> {
      * @return 服务器内部错误，相关错误信息
      */
     public static BaseRes error(String msg) {
-        return error(ErrorEnum.ServerError, msg);
+        return error(ResultEnum.ServerError, msg);
     }
 
     /**
@@ -51,7 +50,7 @@ public class BaseRes<T> extends HashMap<String, Object> {
      * @param code 错误编码
      * @return 错误编码和对应的错误信息
      */
-    public static BaseRes error(ErrorEnum code) {
+    public static BaseRes error(ResultEnum code) {
         return error(code, code.getText());
     }
 
@@ -63,7 +62,7 @@ public class BaseRes<T> extends HashMap<String, Object> {
      * @param msg  错误的描述信息
      * @return 错误的信息
      */
-    public static <T> BaseRes error(ErrorEnum code, T msg) {
+    public static <T> BaseRes error(ResultEnum code, T msg) {
         BaseRes res = new BaseRes();
         res.resCode = code;
         res.put("code", code.getCode());
@@ -159,7 +158,7 @@ public class BaseRes<T> extends HashMap<String, Object> {
         jsonRpc.put("id", "0");
 
         String msg = get("msg").toString();
-        if (resCode == ErrorEnum.Success) {
+        if (resCode == ResultEnum.Success) {
             jsonRpc.put("result", get("data"));
         } else {
             Map<String, String> jsonRpcError = new HashMap<>();

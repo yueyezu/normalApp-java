@@ -81,27 +81,27 @@
                 <#--三级菜单-->
                     <li>
                         <#if module.children?? && (module.children?size > 0)>
-                            <a href="#"><i class="${module.icon}"></i><span class="nav-label">${module.text}</span><span class="fa arrow"></span></a>
+                            <a href="#"><i class="${module.icon}"></i><span class="nav-label">${module.name}</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <#list module.children as menu>
                                     <li>
                                         <#if menu.children?? && (menu.children?size > 0)>
-                                            <a href="#"><i class="${menu.icon}"></i>${menu.text}<span class="fa arrow"></span> </a>
+                                            <a href="#"><i class="${menu.icon}"></i>${menu.name}<span class="fa arrow"></span> </a>
                                             <ul class="nav nav-third-level">
                                                 <#list menu.children as submenu>
                                                     <li>
-                                                        <a class="J_menuItem" href="${submenu.data.url}"><i class="${submenu.icon}"></i>${submenu.text}</a>
+                                                        <a class="J_menuItem" href="${submenu.url}"><i class="${submenu.icon}"></i>${submenu.name}</a>
                                                     </li>
                                                 </#list>
                                             </ul>
                                         <#else>
-                                            <a class="J_menuItem" href="${menu.data.url}"><i class="${menu.icon}"></i>${menu.text}</a>
+                                            <a class="J_menuItem" href="${menu.url}"><i class="${menu.icon}"></i>${menu.name}</a>
                                         </#if>
                                     </li>
                                 </#list>
                             </ul>
                         <#else>
-                            <a class="J_menuItem" href="${menu.data.url}"><i class="fa fa-columns"></i> <span class="nav-label">${menu.text}</span></a>
+                            <a class="J_menuItem" href="${module.url}"><i class="fa fa-columns"></i> <span class="nav-label">${module.name}</span></a>
                         </#if>
                     </li>
                 </#list>

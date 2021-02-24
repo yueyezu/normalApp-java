@@ -10,11 +10,11 @@ import org.litu.app.entity.SysAccesstoken;
 import org.litu.app.entity.SysUser;
 import org.litu.app.service.ISysAccesstokenService;
 import org.litu.app.vo.LoginUserMsg;
-import org.litu.base.controller.BaseApiController;
+import org.litu.core.base.BaseController;
+import org.litu.core.base.ApiRes;
 import org.litu.base.service.IBaseLogService;
 import org.litu.base.service.ILoginService;
-import org.litu.base.vo.ApiRes;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtServerException;
 import org.litu.util.net.NetUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.litu.base.vo.ApiRes.error;
+import static org.litu.core.base.ApiRes.error;
 
 /**
  * 系统授权的接口类，只适合手机端以及第三方授权使用。
@@ -32,7 +32,7 @@ import static org.litu.base.vo.ApiRes.error;
 @RestController
 @RequestMapping("/api/oauth")
 @Api(value = "第三方授权相关的操作", tags = {"第三方授权相关的操作"}, protocols = "http,https")
-public class OAuthController extends BaseApiController {
+public class OAuthController extends BaseController {
 
     @Autowired
     ILoginService loginService;
@@ -64,7 +64,7 @@ public class OAuthController extends BaseApiController {
     })
     public ApiRes<AccessTokenVo> token(String grant_type, String client_id, String client_secret, String username, String password, String m_code) {
         if (StringUtils.isAnyBlank(grant_type, client_id, username, password, m_code)) {
-            return error(ErrorEnum.ParamError, "输入参数必填项存在空值，请检查。");
+            return error(ResultEnum.ParamError, "输入参数必填项存在空值，请检查。");
         }
 
         String ip = NetUtil.getIp(request);
@@ -73,14 +73,14 @@ public class OAuthController extends BaseApiController {
         // 这里对授权的客户端ID和密码进行验证。
         boolean hasClient = tokenService.checkClient(client_id, client_secret);
         if (!hasClient) {
-            return error(ErrorEnum.ClientError, "客户端ID和密码错误，请联系系统管理员。");
+            return error(ResultEnum.ClientError, "客户端ID和密码错误，请联系系统管理员。");
         }
 
         try {
             // 检测当前登录用户的信息是否正确
             SysUser user = loginService.checkLogin(client_id, username, password);
             if (user == null) {
-                return ApiRes.error(ErrorEnum.UserPwdError);
+                return ApiRes.error(ResultEnum.UserPwdError);
             }
 
             // 组建授权Token对象信息
@@ -104,7 +104,7 @@ public class OAuthController extends BaseApiController {
         } catch (LtServerException se) {
             return ApiRes.error(se.getErrorMsg(), se.getMessage());
         } catch (Exception e) {
-            return ApiRes.error(ErrorEnum.GetTokenError);
+            return ApiRes.error(ResultEnum.GetTokenError);
         }
     }
 
@@ -127,13 +127,13 @@ public class OAuthController extends BaseApiController {
     })
     public ApiRes<AccessTokenVo> refreshToken(String grant_type, String client_id, String client_secret, String refresh_token) {
         if (StringUtils.isAnyBlank(grant_type, client_id, refresh_token)) {
-            return ApiRes.error(ErrorEnum.ParamError, "输入参数必填项存在空值，请检查");
+            return ApiRes.error(ResultEnum.ParamError, "输入参数必填项存在空值，请检查");
         }
 
         // 这里对授权的客户端ID和密码进行验证。
         boolean hasClient = tokenService.checkClient(client_id, client_secret);
         if (!hasClient) {
-            return ApiRes.error(ErrorEnum.ClientError, "客户端ID和密码错误，请联系系统管理员。");
+            return ApiRes.error(ResultEnum.ClientError, "客户端ID和密码错误，请联系系统管理员。");
         }
         SysAccesstoken accessToken = tokenService.refreshToken(client_id, refresh_token);
 
@@ -166,23 +166,23 @@ public class OAuthController extends BaseApiController {
     })
     public ApiRes<LoginUserMsg> checkToken(String grant_type, String client_id, String client_secret, String token, String m_code) {
         if (StringUtils.isAnyBlank(grant_type, client_id, token)) {
-            return ApiRes.error(ErrorEnum.ParamError, "输入参数必填项存在空值，请检查");
+            return ApiRes.error(ResultEnum.ParamError, "输入参数必填项存在空值，请检查");
         }
 
         // 这里对授权的客户端ID和密码进行验证。
         boolean hasClient = tokenService.checkClient(client_id, client_secret);
         if (!hasClient) {
-            return ApiRes.error(ErrorEnum.ClientError, "客户端ID和密码错误，请联系系统管理员。");
+            return ApiRes.error(ResultEnum.ClientError, "客户端ID和密码错误，请联系系统管理员。");
         }
 
         SysAccesstoken accesstoken = tokenService.checkToken(client_id, token, m_code);
         // 授权码未获取到。
         if (accesstoken == null) {
-            return ApiRes.error(ErrorEnum.TokenError, "授权码错误,请重新获取。");
+            return ApiRes.error(ResultEnum.TokenError, "授权码错误,请重新获取。");
         }
         // 授权码超时的错误
         if (accesstoken.getEnableFlag() == 0) {
-            return ApiRes.error(ErrorEnum.TokenTimeout, "授权码已超时，请刷新或重新获取。");
+            return ApiRes.error(ResultEnum.TokenTimeout, "授权码已超时，请刷新或重新获取。");
         }
 
         // 记录登录日志(异步)

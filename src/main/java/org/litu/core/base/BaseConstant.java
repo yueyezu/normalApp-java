@@ -1,4 +1,4 @@
-package org.litu.base.config;
+package org.litu.core.base;
 
 public class BaseConstant {
     /**
@@ -9,6 +9,9 @@ public class BaseConstant {
      * 全局false
      */
     public static final Integer FLAG_FALSE = 0;
+
+
+    public static final String TREE_ROOT = "0";
 
     /**
      * 当前系统已登录用户userId在session存储的key

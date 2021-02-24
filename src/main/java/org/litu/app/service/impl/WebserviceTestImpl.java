@@ -1,7 +1,7 @@
 package org.litu.app.service.impl;
 
 import org.litu.app.service.IWebserviceTest;
-import org.litu.base.vo.BaseRes;
+import org.litu.core.base.BaseRes;
 
 /**
  * webservic 接口实现

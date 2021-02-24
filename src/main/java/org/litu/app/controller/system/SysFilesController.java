@@ -7,13 +7,13 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.entity.SysFiles;
 import org.litu.app.service.ISysFilesService;
-import org.litu.base.controller.BaseFormController;
-import org.litu.base.vo.BaseRes;
+import org.litu.base.controller.BaseViewFormController;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.LtLogOperation;
 import org.litu.core.annotation.PageBasePath;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.base.BaseRes;
 import org.litu.core.enums.LtLogOperationEnum;
+import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtParamException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/sysFiles")
 @PageBasePath(basePath = "system/sysFiles")
 @Api(value = "文件管理模块", tags = {"对系统的文件进行管理。"}, protocols = "http,https")
-public class SysFilesController extends BaseFormController<SysFiles, ISysFilesService> {
+public class SysFilesController extends BaseViewFormController<SysFiles, ISysFilesService> {
 
     @Autowired
     private ISysFilesService sysFilesService;
@@ -52,12 +52,12 @@ public class SysFilesController extends BaseFormController<SysFiles, ISysFilesSe
     })
     public BaseRes uploadFile(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
-            return BaseRes.error(ErrorEnum.ParamError, "文件不能为空!");
+            return BaseRes.error(ResultEnum.ParamError, "文件不能为空!");
         }
 
         SysFiles result = sysFilesService.uploadFile(file);
         if (result == null) {
-            return BaseRes.error(ErrorEnum.UpdateError, "文件上传失败!");
+            return BaseRes.error(ResultEnum.UpdateError, "文件上传失败!");
         }
         return BaseRes.ok(result);
     }

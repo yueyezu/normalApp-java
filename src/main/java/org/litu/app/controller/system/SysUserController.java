@@ -6,14 +6,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.entity.*;
 import org.litu.app.service.*;
-import org.litu.base.controller.BaseFormController;
+import org.litu.base.controller.BaseViewFormController;
 import org.litu.base.util.UserUtil;
-import org.litu.base.vo.BaseRes;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.LtLogOperation;
 import org.litu.core.annotation.PageBasePath;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.base.BaseRes;
 import org.litu.core.enums.LtLogOperationEnum;
+import org.litu.core.enums.ResultEnum;
 import org.litu.core.login.LoginTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +31,7 @@ import java.util.List;
 @RequestMapping(value = "/user")
 @PageBasePath(basePath = "system/user")
 @Controller
-public class SysUserController extends BaseFormController<SysUser, ISysUserService> {
+public class SysUserController extends BaseViewFormController<SysUser, ISysUserService> {
 
     @Autowired
     private ISysUserloginService sysUserLoginService;
@@ -135,12 +135,12 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
     @ResponseBody
     public BaseRes modifyPwd(String newPwd, String oldPwd) throws Exception {
         if (StringUtils.isAnyBlank(newPwd, oldPwd)) {
-            return BaseRes.error(ErrorEnum.ParamError, "密码不能为空!");
+            return BaseRes.error(ResultEnum.ParamError, "密码不能为空!");
         }
         try {
             SysUserlogin userLogin = sysUserLoginService.getByUserId(UserUtil.getUserId());
             if (!userLogin.getPassword().equals(LoginTokenUtil.GetDbPassword(userLogin.getSecretKey(), oldPwd))) {
-                return BaseRes.error(ErrorEnum.ParamError, "原密码不正确!");
+                return BaseRes.error(ResultEnum.ParamError, "原密码不正确!");
             }
 
             String sKey = LoginTokenUtil.GetSecretkey();
@@ -167,7 +167,7 @@ public class SysUserController extends BaseFormController<SysUser, ISysUserServi
     @ResponseBody
     public BaseRes resetPwd(String userId) throws Exception {
         if (StringUtils.isBlank(userId)) {
-            return BaseRes.error(ErrorEnum.ParamError, "userId不能为空!");
+            return BaseRes.error(ResultEnum.ParamError, "userId不能为空!");
         }
         try {
             SysUserlogin userLogin = sysUserLoginService.getByUserId(userId);

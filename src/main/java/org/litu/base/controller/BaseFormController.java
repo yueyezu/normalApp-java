@@ -6,19 +6,18 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.litu.base.entity.BaseEntity;
 import org.litu.base.service.IBaseService;
-import org.litu.base.vo.BaseRes;
-import org.litu.base.vo.SelectVo;
 import org.litu.core.annotation.LtLogOperation;
-import org.litu.core.annotation.PageBasePath;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.base.BaseController;
+import org.litu.core.base.BaseEntity;
+import org.litu.core.base.BaseRes;
+import org.litu.core.base.SelectVo;
 import org.litu.core.enums.LtLogOperationEnum;
+import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtParamException;
 import org.litu.util.common.FieldUtil;
 import org.litu.util.common.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolation;
@@ -28,90 +27,6 @@ import java.util.*;
  * 通用单表操作controller
  */
 public abstract class BaseFormController<T extends BaseEntity, S extends IBaseService<T>> extends BaseController {
-
-    /*---------  界面部分  Start ---------*/
-
-    /**
-     * 返回主界面前的处理方法
-     */
-    protected void beforeIndex(Model model) {
-
-    }
-
-    /**
-     * 列表界面
-     *
-     * @param model 实体类
-     * @return 对应该类的index页面
-     */
-    @GetMapping("/index")
-    public String index(Model model) {
-        beforeIndex(model);
-
-        PageBasePath basePath = this.getClass().getAnnotation(PageBasePath.class);
-        return basePath.basePath() + "/index";
-    }
-
-    /**
-     * 在返回添加、修改界面之前处理的方法
-     *
-     * @param model 前后端交互实体
-     * @param obj   当前对象，返回的修改界面时，为当前对象；返回添加界面时，为null
-     */
-    protected void beforeForm(Model model, T obj) {
-
-    }
-
-    /**
-     * 表单界面
-     *
-     * @param model 实体类
-     * @return 对应该类的form页面
-     */
-    @GetMapping(value = {"/form", "/form/{id}"})
-    public String form(Model model, @PathVariable(value = "id", required = false) String id) {
-        // 如果ID不为空，则认为是编辑界面，对界面的数据进行获取
-        if (StringUtils.isNotBlank(id)) {
-            T obj = service.detail(id);
-            model.addAttribute("data", obj);
-            beforeForm(model, obj);
-        } else {
-            beforeForm(model, null);
-        }
-        PageBasePath basePath = this.getClass().getAnnotation(PageBasePath.class);
-        return basePath.basePath() + "/form";
-    }
-
-    /**
-     * 在返回查询界面之前，进行数据处理的方法
-     *
-     * @param model 返回前端的实体信息
-     * @param obj   传入的实体信息
-     */
-    protected void beforeView(Model model, T obj) {
-        // 查询界面返回之前所需要的操作
-    }
-
-    /**
-     * 查看界面
-     *
-     * @param model 实体类
-     * @return 对应该类的view页面
-     */
-    @GetMapping("/view/{id}")
-    public String view(Model model, @PathVariable(value = "id") String id) {
-        // 获取详情信息
-        T obj = service.detail(id);
-        model.addAttribute("data", obj);
-
-        beforeView(model, obj);
-
-        PageBasePath basePath = this.getClass().getAnnotation(PageBasePath.class);
-        return basePath.basePath() + "/view";
-    }
-
-    /*---------  界面部分 End ---------*/
-
     @Autowired
     protected S service;
 
@@ -145,12 +60,13 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
      * @param entity 集合
      * @return 树结构集合
      */
-    protected void toSelect(T entity, SelectVo selectVo) {
+    protected SelectVo toSelect(T entity) {
         // 记录显示值
+        String label = "";
         if (FieldUtil.hasProperty(entity, "name")) {
-            String text = Objects.requireNonNull(FieldUtil.read(entity, "name")).toString();
-            selectVo.setText(text);
+            label = Objects.requireNonNull(FieldUtil.read(entity, "name")).toString();
         }
+        return new SelectVo(entity.getId(), label);
     }
 
     /**
@@ -169,11 +85,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
         // 将列表转化成树结构
         List<SelectVo> selectVos = new ArrayList<>();
         for (T node : list) {
-            SelectVo selectVo = new SelectVo();
-            selectVo.setId(node.getId());  // 对id赋值
-            toSelect(node, selectVo);
-
-            selectVos.add(selectVo);
+            selectVos.add(toSelect(node));
         }
         return selectVos;
     }
@@ -222,7 +134,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
             return BaseRes.page(pages.getTotal(), pages.getRecords());
         } catch (Exception e) {
             logger.warn("分页查询中出现异常", e);
-            return BaseRes.error(ErrorEnum.SearchError);
+            return BaseRes.error(ResultEnum.SearchError);
         }
     }
 
@@ -273,7 +185,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
         validate(entity, params);
 
         boolean res = service.save(entity, params);
-        return res ? BaseRes.ok("保存成功！") : BaseRes.error(ErrorEnum.SaveError);
+        return res ? BaseRes.ok("保存成功！") : BaseRes.error(ResultEnum.SaveError);
     }
 
     /**
@@ -291,7 +203,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
         validate(entity, params);
 
         boolean res = service.update(entity, params);
-        return res ? BaseRes.ok("更新成功！") : BaseRes.error(ErrorEnum.UpdateError);
+        return res ? BaseRes.ok("更新成功！") : BaseRes.error(ResultEnum.UpdateError);
     }
 
     /**
@@ -309,13 +221,13 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
     })
     public BaseRes delete(String id) {
         if (StringUtils.isBlank(id)) {
-            return BaseRes.error(ErrorEnum.ParamError, "id不能为空");
+            return BaseRes.error(ResultEnum.ParamError, "id不能为空");
         }
 
         Map<String, String> params = requestParams();
 
         boolean res = service.delete(id, params);
-        return res ? BaseRes.ok("删除成功！") : BaseRes.error(ErrorEnum.DeleteError);
+        return res ? BaseRes.ok("删除成功！") : BaseRes.error(ResultEnum.DeleteError);
     }
 
     /**
@@ -333,7 +245,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
     })
     public BaseRes batchDelete(String ids) {
         if (StringUtils.isBlank(ids)) {
-            return BaseRes.error(ErrorEnum.ParamError, "删除信息不能为空。");
+            return BaseRes.error(ResultEnum.ParamError, "删除信息不能为空。");
         }
 
         Map<String, String> params = requestParams();
@@ -344,7 +256,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
         Collections.addAll(idList, idArray);
 
         boolean res = service.batchDelete(idList, params);
-        return res ? BaseRes.ok("删除成功！") : BaseRes.error(ErrorEnum.DeleteError);
+        return res ? BaseRes.ok("删除成功！") : BaseRes.error(ResultEnum.DeleteError);
     }
 
     /**
@@ -362,11 +274,11 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
     })
     public BaseRes logicalDelete(String id) {
         if (StringUtils.isBlank(id)) {
-            return BaseRes.error(ErrorEnum.ParamError, "id不能为空");
+            return BaseRes.error(ResultEnum.ParamError, "id不能为空");
         }
         Map<String, String> params = requestParams();
         boolean res = service.logicalDelete(id, params);
-        return res ? BaseRes.ok("删除成功！") : BaseRes.error(ErrorEnum.DeleteError);
+        return res ? BaseRes.ok("删除成功！") : BaseRes.error(ResultEnum.DeleteError);
     }
 
     /**
@@ -384,11 +296,11 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
     })
     public BaseRes logicalRestore(String id) {
         if (StringUtils.isBlank(id)) {
-            return BaseRes.error(ErrorEnum.ParamError, "id不能为空");
+            return BaseRes.error(ResultEnum.ParamError, "id不能为空");
         }
         Map<String, String> params = requestParams();
         boolean res = service.logicalRestore(id, params);
-        return res ? BaseRes.ok("恢复成功！") : BaseRes.error(ErrorEnum.DeleteError);
+        return res ? BaseRes.ok("恢复成功！") : BaseRes.error(ResultEnum.DeleteError);
     }
 
     /**
@@ -409,7 +321,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
     })
     public BaseRes exists(String id, String value, @PathVariable(value = "field") String field) {
         if (StringUtils.isBlank(value)) {
-            return BaseRes.error(ErrorEnum.ParamError, "value不能为空!");
+            return BaseRes.error(ResultEnum.ParamError, "value不能为空!");
         }
         boolean res = service.exists(id, value, field);
         return BaseRes.ok(res);

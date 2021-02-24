@@ -1,10 +1,8 @@
-package org.litu.base.config;
+package org.litu.core.exception;
 
 import org.apache.shiro.authz.AuthorizationException;
-import org.litu.base.vo.BaseRes;
-import org.litu.core.enums.ErrorEnum;
-import org.litu.core.exception.LtParamException;
-import org.litu.core.exception.LtServerException;
+import org.litu.core.base.BaseRes;
+import org.litu.core.enums.ResultEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -31,7 +29,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(LtParamException.class)
     @ResponseBody
     public BaseRes handleLtParamException(LtParamException e) {
-        return BaseRes.error(ErrorEnum.ParamError, e.getMessage());
+        return BaseRes.error(ResultEnum.ParamError, e.getMessage());
     }
 
     /**
@@ -56,7 +54,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public BaseRes handleDuplicateKeyException(DuplicateKeyException e) {
         logger.error(e.getMessage(), e);
-        return BaseRes.error("数据库中已存在该记录");
+        return BaseRes.error(ResultEnum.DuplicateError);
     }
 
     /**
@@ -69,7 +67,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public BaseRes handleAuthorizationException(AuthorizationException e) {
         logger.error(e.getMessage(), e);
-        return BaseRes.error("没有权限，请联系管理员授权");
+        return BaseRes.error(ResultEnum.InvalidRequest);
     }
 
     /**

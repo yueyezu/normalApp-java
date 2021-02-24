@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.litu.base.entity.BaseEntity;
+import org.litu.core.base.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;

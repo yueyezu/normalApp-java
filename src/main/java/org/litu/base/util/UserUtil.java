@@ -1,6 +1,6 @@
 package org.litu.base.util;
 
-import org.litu.base.config.BaseConstant;
+import org.litu.core.base.BaseConstant;
 import org.litu.core.login.ShiroSessionUtil;
 
 public class UserUtil extends ShiroSessionUtil {

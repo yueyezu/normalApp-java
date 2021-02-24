@@ -74,7 +74,7 @@
         // 初始化查询列表
         function initTable() {
             lt.dataTable.init("#dataTable", {
-                url: prefix + "/treeList",
+                url: prefix + "/list",
                 showExport: false,
                 toolbar: '#tableToolbar',            //工具按钮用哪个容器
                 pagination: false,                    //是否显示分页（*）

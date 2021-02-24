@@ -5,7 +5,7 @@ import org.litu.app.entity.SysRole;
 import org.litu.app.entity.SysSystem;
 import org.litu.app.service.ISysRoleService;
 import org.litu.app.service.ISysSystemService;
-import org.litu.base.controller.BaseFormController;
+import org.litu.base.controller.BaseViewFormController;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.PageBasePath;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping(value = "/role")
 @PageBasePath(basePath = "system/role")
 @Controller
-public class SysRoleController extends BaseFormController<SysRole, ISysRoleService> {
+public class SysRoleController extends BaseViewFormController<SysRole, ISysRoleService> {
     /**
      * 系统管理的service
      */

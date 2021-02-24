@@ -1,4 +1,4 @@
-package org.litu.base.controller;
+package org.litu.core.base;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;

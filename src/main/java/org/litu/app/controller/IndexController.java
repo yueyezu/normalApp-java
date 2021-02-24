@@ -7,12 +7,11 @@ import org.litu.app.constant.SysContant;
 import org.litu.app.entity.*;
 import org.litu.app.service.*;
 import org.litu.app.vo.CacheData;
-import org.litu.base.controller.BaseController;
 import org.litu.base.util.UserUtil;
-import org.litu.base.vo.BaseRes;
-import org.litu.base.vo.SelectVo;
-import org.litu.base.vo.TreeNodeVo;
-import org.litu.base.vo.TreeUtil;
+import org.litu.core.base.BaseController;
+import org.litu.core.base.BaseRes;
+import org.litu.core.base.SelectVo;
+import org.litu.core.base.TreeUtil;
 import org.litu.core.login.ShiroSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,29 +58,26 @@ public class IndexController extends BaseController {
         else
             model.addAttribute("userPhoto", "/sysFiles/loadFile?file=" + user.getPhoto());
 
-        List<TreeNodeVo<SysMenu>> menus = getMenus(userId);
+        List<SysMenu> menus = getMenus(userId);
         model.addAttribute("menuList", menus);
 
 
         return "index";
     }
 
-    private List<TreeNodeVo<SysMenu>> getMenus(String userId) {
-        List<TreeNodeVo<SysMenu>> menus = ShiroSessionUtil.session(SysContant.SESSION_MENU);
+    private List<SysMenu> getMenus(String userId) {
+        List<SysMenu> menus = ShiroSessionUtil.session(SysContant.SESSION_MENU);
         if (menus == null) {
             List<String> menuTypes = new ArrayList<>();
             menuTypes.add(SysContant.MENUTYPE_MODULE);
             menuTypes.add(SysContant.MENUTYPE_FUNCTION);
             List<SysMenu> tempMenus = sysMenuService.userMenus(userId, SysContant.CURRENT_SYSTEM_CODE, menuTypes);
 
-            List<TreeNodeVo<SysMenu>> menuTreeNodes = new ArrayList<>();
+            List<SysMenu> menuTreeNodes = new ArrayList<>();
             for (SysMenu sysMenu : tempMenus) {
-                TreeNodeVo<SysMenu> menuTreeNode = new TreeNodeVo<>();
-                menuTreeNode.init(sysMenu);
-                menuTreeNode.setIcon(sysMenu.getIcon());
-                menuTreeNodes.add(menuTreeNode);
+                menuTreeNodes.add(sysMenu);
             }
-            menus = TreeUtil.buildWithStack(menuTreeNodes);
+            menus = TreeUtil.build(menuTreeNodes);
 
             ShiroSessionUtil.session(SysContant.SESSION_MENU, menus);
         }

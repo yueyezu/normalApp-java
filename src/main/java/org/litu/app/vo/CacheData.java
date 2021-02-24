@@ -1,6 +1,6 @@
 package org.litu.app.vo;
 
-import org.litu.base.vo.SelectVo;
+import org.litu.core.base.SelectVo;
 
 import java.io.Serializable;
 import java.util.List;

@@ -3,7 +3,7 @@ package org.litu.app.service;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 
-import org.litu.base.vo.BaseRes;
+import org.litu.core.base.BaseRes;
 
 /**
  * webservice demo

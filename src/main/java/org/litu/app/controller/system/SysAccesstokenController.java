@@ -3,13 +3,13 @@ package org.litu.app.controller.system;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.entity.SysAccesstoken;
 import org.litu.app.service.ISysAccesstokenService;
-import org.litu.base.controller.BaseFormController;
-import org.litu.base.vo.BaseRes;
+import org.litu.base.controller.BaseViewFormController;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.LtLogOperation;
 import org.litu.core.annotation.PageBasePath;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.base.BaseRes;
 import org.litu.core.enums.LtLogOperationEnum;
+import org.litu.core.enums.ResultEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/accessToken")
 @PageBasePath(basePath = "system/accessToken")
 @Controller
-public class SysAccesstokenController extends BaseFormController<SysAccesstoken, ISysAccesstokenService> {
+public class SysAccesstokenController extends BaseViewFormController<SysAccesstoken, ISysAccesstokenService> {
 
     /**
      * 启用
@@ -35,10 +35,10 @@ public class SysAccesstokenController extends BaseFormController<SysAccesstoken,
     @ResponseBody
     public BaseRes enable(String id) {
         if (StringUtils.isBlank(id)) {
-            return BaseRes.error(ErrorEnum.ParamError, "id不能为空!");
+            return BaseRes.error(ResultEnum.ParamError, "id不能为空!");
         }
         boolean res = service.enable(id);
-        return res ? BaseRes.ok("启用成功！") : BaseRes.error(ErrorEnum.UpdateError, "启用失败！");
+        return res ? BaseRes.ok("启用成功！") : BaseRes.error(ResultEnum.UpdateError, "启用失败！");
     }
 
     /**
@@ -52,10 +52,10 @@ public class SysAccesstokenController extends BaseFormController<SysAccesstoken,
     @ResponseBody
     public BaseRes disable(String id) {
         if (StringUtils.isBlank(id)) {
-            return BaseRes.error(ErrorEnum.ParamError, "id不能为空!");
+            return BaseRes.error(ResultEnum.ParamError, "id不能为空!");
         }
         boolean res = service.disable(id);
-        return res ? BaseRes.ok("禁用成功！") : BaseRes.error(ErrorEnum.UpdateError, "禁用失败！");
+        return res ? BaseRes.ok("禁用成功！") : BaseRes.error(ResultEnum.UpdateError, "禁用失败！");
     }
 
 }

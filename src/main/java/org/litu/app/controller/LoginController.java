@@ -3,14 +3,14 @@ package org.litu.app.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.entity.SysUser;
-import org.litu.base.controller.BaseController;
+import org.litu.core.base.BaseController;
 import org.litu.base.service.IBaseLogService;
 import org.litu.base.service.ILoginService;
 import org.litu.base.util.UserUtil;
-import org.litu.base.vo.BaseRes;
+import org.litu.core.base.BaseRes;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.LtLogOperation;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 import org.litu.core.enums.LtLogOperationEnum;
 import org.litu.core.login.LoginTokenUtil;
 import org.litu.core.login.ShiroSessionUtil;
@@ -96,7 +96,7 @@ public class LoginController extends BaseController {
     @ResponseBody
     public BaseRes login(String account, String password, String verifyCode) throws Exception {
         if (StringUtils.isAnyBlank(account, password)) {
-            return BaseRes.error(ErrorEnum.ParamError, "用户名或密码不能为空!");
+            return BaseRes.error(ResultEnum.ParamError, "用户名或密码不能为空!");
         }
         //TODO  不需要进行验证码验证
 //        String nowVCode = ShiroSessionUtil.<String>session(VCodeSessionKey);
@@ -105,7 +105,7 @@ public class LoginController extends BaseController {
 //        }
         SysUser user = loginService.checkLoginShiro(SysContant.CURRENT_SYSTEM_CODE, account, password);
         if (user == null) {
-            return BaseRes.error(ErrorEnum.UserPwdError);
+            return BaseRes.error(ResultEnum.UserPwdError);
         }
         String ip = NetUtil.getIp(request);
 
@@ -148,7 +148,7 @@ public class LoginController extends BaseController {
             optLogService.setLogs("用户模块", "退出", "退出登录", ip, userId).addOptLogsRunnable();
             return BaseRes.ok("注销成功！");
         } else {
-            return BaseRes.error(ErrorEnum.UpdateError, "注销失败！");
+            return BaseRes.error(ResultEnum.UpdateError, "注销失败！");
         }
     }
 }

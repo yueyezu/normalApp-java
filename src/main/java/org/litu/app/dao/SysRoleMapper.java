@@ -1,11 +1,11 @@
 package org.litu.app.dao;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.litu.app.entity.SysRole;
-import org.litu.base.dao.BaseMapper;
 
 import java.util.List;
 

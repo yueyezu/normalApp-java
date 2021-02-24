@@ -2,11 +2,11 @@ package org.litu.app.controller.system;
 
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.service.ISysRolemenuService;
-import org.litu.base.controller.BaseController;
-import org.litu.base.vo.BaseRes;
+import org.litu.core.base.BaseController;
+import org.litu.core.base.BaseRes;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.LtLogOperation;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +37,7 @@ public class SysRoleMenuController extends BaseController {
     @ResponseBody
     public BaseRes roleMenuIds(String roleId) {
         if (StringUtils.isBlank(roleId)) {
-            return BaseRes.error(ErrorEnum.ParamError, "roleId不能为空！");
+            return BaseRes.error(ResultEnum.ParamError, "roleId不能为空！");
         }
         List<String> menuIds = sysRolemenuService.roleMenuIds(roleId);
         return BaseRes.ok(menuIds);
@@ -55,13 +55,13 @@ public class SysRoleMenuController extends BaseController {
     @ResponseBody
     public BaseRes saveRoleMenus(String roleId, String[] menuIds) {
         if (StringUtils.isBlank(roleId)) {
-            return BaseRes.error(ErrorEnum.ParamError, "roleId不能为空！");
+            return BaseRes.error(ResultEnum.ParamError, "roleId不能为空！");
         }
 
         if (menuIds.length > 0 && StringUtils.isAnyBlank(menuIds)) {
-            return BaseRes.error(ErrorEnum.ParamError, "menuIds参数包含空值！");
+            return BaseRes.error(ResultEnum.ParamError, "menuIds参数包含空值！");
         }
         boolean res = sysRolemenuService.save(roleId, menuIds);
-        return res ? BaseRes.ok("保存成功!") : BaseRes.error(ErrorEnum.SaveError);
+        return res ? BaseRes.ok("保存成功!") : BaseRes.error(ResultEnum.SaveError);
     }
 }

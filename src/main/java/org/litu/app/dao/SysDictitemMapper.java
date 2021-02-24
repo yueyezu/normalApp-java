@@ -1,7 +1,7 @@
 package org.litu.app.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.litu.app.entity.SysDictitem;
-import org.litu.base.dao.BaseMapper;
 
 /**
  * <p>
@@ -11,5 +11,5 @@ import org.litu.base.dao.BaseMapper;
  * @author ltgk
  * @since 2018-10-26
  */
-public interface SysDictitemMapper extends BaseMapper<SysDictitem> {
+public interface SysDictItemMapper extends BaseMapper<SysDictitem> {
 }

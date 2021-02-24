@@ -1,7 +1,7 @@
 package org.litu.core.login;
 
 import org.apache.commons.lang3.StringUtils;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtServerException;
 import org.litu.util.Util;
 import org.litu.util.barcode.QRCodeUtil;
@@ -135,12 +135,12 @@ public class LoginTokenUtil {
         SsoTempModel ssoModel = null;
         synchronized (ssoTemps) {
             if (!ssoTemps.containsKey(loginToken)) {
-                throw new LtServerException("单点登录信息错误，请重新登录！", ErrorEnum.ParamError);
+                throw new LtServerException("单点登录信息错误，请重新登录！", ResultEnum.ParamError);
             }
             ssoModel = ssoTemps.get(loginToken);
             // 校验IP是否一致，防止被模拟请求
             if (!ip.equals(ssoModel.getIp())) {
-                throw new LtServerException("单点登录信息错误，请重新登录！", ErrorEnum.ParamError);
+                throw new LtServerException("单点登录信息错误，请重新登录！", ResultEnum.ParamError);
             }
             // TODO 时间这部分还需要再处理下。拿到配置中去
             Date nowTime = new Date();
@@ -148,7 +148,7 @@ public class LoginTokenUtil {
             if (logincha >= 30 * 60 * 1000) { // 登录信息超过30分钟，则需要重新登录
                 // 超时后，将对应的token在缓存中清除掉。
                 ssoTemps.remove(loginToken);
-                throw new LtServerException("登录时间超时，请重新登录！", ErrorEnum.ParamError);
+                throw new LtServerException("登录时间超时，请重新登录！", ResultEnum.ParamError);
             }
         }
 
@@ -165,7 +165,7 @@ public class LoginTokenUtil {
         SsoTempModel ssoModel = null;
         synchronized (ssoTemps) {
             if (!ssoTemps.containsKey(loginToken)) {
-                throw new LtServerException("单点登录信息错误，请重新登录！", ErrorEnum.ParamError);
+                throw new LtServerException("单点登录信息错误，请重新登录！", ResultEnum.ParamError);
             }
             ssoModel = ssoTemps.remove(loginToken);
         }
@@ -251,11 +251,11 @@ public class LoginTokenUtil {
 
                     long cha = nowTime.getTime() - refreshTime.getTime();
                     if (cha >= 120 * 1000) { // 二维码超过2分钟,则认为失效
-                        throw new LtServerException("二维码失效，请重新获取！", ErrorEnum.ParamError);
+                        throw new LtServerException("二维码失效，请重新获取！", ResultEnum.ParamError);
                     }
 
                     if (StringUtils.isNotBlank(tempModel.getLoginAccount())) {
-                        throw new LtServerException("二维码已经扫描登录，请等待！", ErrorEnum.ParamError);
+                        throw new LtServerException("二维码已经扫描登录，请等待！", ResultEnum.ParamError);
                     }
 
                     tempModel.setLoginAccount(account);
@@ -286,7 +286,7 @@ public class LoginTokenUtil {
                     qrCodeTemps.remove(ip);
                 }
             } else {
-                throw new LtServerException("二维码错误，请重新获取", ErrorEnum.ParamError);
+                throw new LtServerException("二维码错误，请重新获取", ResultEnum.ParamError);
             }
         }
 
@@ -411,7 +411,7 @@ class QrCodeTempModel {
         long cha = nowDate.getTime() - addTime.getTime();
         if (cha < 1000 * 60) { // TODO 这里时间可以处理拿到配置中。
             if (this.createNum >= 5) {
-                throw new LtServerException("请求过于频繁，请1分钟后重试！", ErrorEnum.InvalidRequest);
+                throw new LtServerException("请求过于频繁，请1分钟后重试！", ResultEnum.InvalidRequest);
             }
             this.addTime = nowDate;
             this.loginAccount = "";

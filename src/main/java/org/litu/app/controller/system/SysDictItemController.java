@@ -2,7 +2,7 @@ package org.litu.app.controller.system;
 
 import org.litu.app.entity.SysDictitem;
 import org.litu.app.service.ISysDictitemService;
-import org.litu.base.controller.BaseFormController;
+import org.litu.base.controller.BaseViewFormController;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.PageBasePath;
 import org.springframework.stereotype.Controller;
@@ -17,6 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/dictItem")
 @PageBasePath(basePath = "system/dictItem")
 @Controller
-public class SysDictItemController extends BaseFormController<SysDictitem, ISysDictitemService> {
+public class SysDictItemController extends BaseViewFormController<SysDictitem, ISysDictitemService> {
 
 }

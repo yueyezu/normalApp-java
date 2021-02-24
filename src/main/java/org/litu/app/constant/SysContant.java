@@ -1,6 +1,6 @@
 package org.litu.app.constant;
 
-import org.litu.base.config.BaseConstant;
+import org.litu.core.base.BaseConstant;
 import org.litu.util.file.FileUtil;
 import org.litu.util.common.SysMsgUtil;
 import org.springframework.beans.factory.annotation.Value;

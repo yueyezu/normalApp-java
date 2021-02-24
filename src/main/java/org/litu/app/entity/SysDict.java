@@ -7,7 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.litu.base.entity.BaseTreeEntity;
+import org.litu.core.base.BaseTreeEntity;
+import org.litu.core.base.ITreeNode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -25,7 +26,7 @@ import java.util.Date;
 @Accessors(chain = true)
 @TableName("Sys_Dict")
 @ApiModel(value = "SysDict对象", description = "字典表")
-public class SysDict extends BaseTreeEntity {
+public class SysDict extends BaseTreeEntity<SysDict> implements ITreeNode<SysDict> {
 
     private static final long serialVersionUID = 1L;
 

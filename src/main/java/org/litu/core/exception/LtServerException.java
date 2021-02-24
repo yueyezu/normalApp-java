@@ -1,6 +1,6 @@
 package org.litu.core.exception;
 
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 
 public class LtServerException extends RuntimeException {
 	private static final long serialVersionUID = 1221L;
@@ -8,7 +8,7 @@ public class LtServerException extends RuntimeException {
 	/**
 	 * 附带错误信息的枚举
 	 */
-	private ErrorEnum errorMsg = null;
+	private ResultEnum errorMsg = null;
 
 	public LtServerException() {
 		super();
@@ -18,7 +18,7 @@ public class LtServerException extends RuntimeException {
 	 *
 	 * @param error  错误信息枚举
 	 */
-	public LtServerException(ErrorEnum error) {
+	public LtServerException(ResultEnum error) {
 		super(error.getText());
 		this.errorMsg = error;
 	}
@@ -36,7 +36,7 @@ public class LtServerException extends RuntimeException {
 	 * @param msg 信息
 	 * @param error 错误枚举
 	 */
-	public LtServerException(String msg, ErrorEnum error) {
+	public LtServerException(String msg, ResultEnum error) {
 		super(msg);
 		this.errorMsg = error;
 	}
@@ -56,12 +56,12 @@ public class LtServerException extends RuntimeException {
 	 * @param error 错误枚举
 	 * @param cause 错误原因
 	 */
-	public LtServerException(String msg, ErrorEnum error, Throwable cause) {
+	public LtServerException(String msg, ResultEnum error, Throwable cause) {
 		super(msg, cause);
 		this.errorMsg = error;
 	}
 
-	public ErrorEnum getErrorMsg() {
+	public ResultEnum getErrorMsg() {
 		return errorMsg;
 	}
 }

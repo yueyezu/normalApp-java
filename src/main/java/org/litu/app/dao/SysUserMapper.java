@@ -1,13 +1,7 @@
 package org.litu.app.dao;
 
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.litu.app.entity.SysUser;
-import org.litu.app.entity.SysUserEx;
-import org.litu.base.dao.BaseMapper;
-
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 
 /**
  * <p>

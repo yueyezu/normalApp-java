@@ -57,10 +57,6 @@ spring:
             multi-statement-allow: true
           enabled: true
       filters: stat,slf4j
-  cache:
-    type: EHCACHE
-    ehcache:
-      config: classpath:ehcache.xml
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss    # 全局设置@JsonFormat的格式pattern
     locale: zh    # 当地时区

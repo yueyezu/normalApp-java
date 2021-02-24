@@ -7,7 +7,7 @@ lt = {
             fn = msg;
             msg = "";
         }
-        layer.alert(msg || "执行成功！", { icon: 1, shadeClose: true, title: "成功" }, function (index) {
+        layer.alert(msg || "执行成功！", {icon: 1, shadeClose: true, title: "成功"}, function (index) {
             fn && fn();
             layer.close(index);
         });
@@ -17,28 +17,28 @@ lt = {
             fn = msg;
             msg = "";
         }
-        layer.msg(msg || "执行成功！", { icon: 1, time: 1000 }, function (index) {
+        layer.msg(msg || "执行成功！", {icon: 1, time: 1000}, function (index) {
             fn && fn();
         });
     },
     alertWarning: function (msg) {
-        layer.alert(msg || "警告！", { icon: 0, shadeClose: true, title: "警告" });
+        layer.alert(msg || "警告！", {icon: 0, shadeClose: true, title: "警告"});
     },
     msgWarning: function (msg) {
-        layer.msg(msg || "警告！", { icon: 0, time: 1000 });
+        layer.msg(msg || "警告！", {icon: 0, time: 1000});
     },
     alertError: function (msg, fn) {
         if (typeof msg == 'function') {
             fn = msg;
             msg = "";
         }
-        layer.alert(msg || "操作失败！", { icon: 2, shadeClose: true, title: "失败" }, function (index) {
+        layer.alert(msg || "操作失败！", {icon: 2, shadeClose: true, title: "失败"}, function (index) {
             fn && fn();
             layer.close(index);
         });
     },
     msgError: function (msg) {
-        layer.msg(msg || "执行失败！", { icon: 2, time: 1000 });
+        layer.msg(msg || "执行失败！", {icon: 2, time: 1000});
     },
     confirm: function (msg, fn) {
         layer.confirm(msg || "确认？", {
@@ -122,7 +122,7 @@ lt = {
         };
 
         if (typeof data == "string") {
-            photoJson.data.push({ "src": data });
+            photoJson.data.push({"src": data});
         } else {
             data.forEach(function (cv, index, arr) {
                 cv.pid = index;
@@ -349,10 +349,10 @@ $.fn.extend({
             $.get(resource, function (data) {
                 if (data && data.length > 0) {
                     $.each(data, function (i, one) {
-                        if (!!defValue && one.id == defValue) {
-                            selHtml += '<option value="' + one.id + '" selected="selected">' + one.text + '</option>'
+                        if (!!defValue && one.value == defValue) {
+                            selHtml += '<option value="' + one.value + '" selected="selected">' + one.label + '</option>'
                         } else {
-                            selHtml += '<option value="' + one.id + '">' + one.text + '</option>'
+                            selHtml += '<option value="' + one.value + '">' + one.label + '</option>'
                         }
                     });
                     $this.append(selHtml).chosen(opt);
@@ -363,10 +363,10 @@ $.fn.extend({
             });
         } else {
             $.each(resource, function (i, data) {
-                if (!!defValue && data.id == defValue) {
-                    selHtml += '<option value="' + data.id + '" selected="selected">' + data.text + '</option>'
+                if (!!defValue && data.value == defValue) {
+                    selHtml += '<option value="' + data.value + '" selected="selected">' + data.label + '</option>'
                 } else {
-                    selHtml += '<option value="' + data.id + '">' + data.text + '</option>'
+                    selHtml += '<option value="' + data.value + '">' + data.label + '</option>'
                 }
             });
             $this.append(selHtml).chosen(opt);

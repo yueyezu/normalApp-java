@@ -2,8 +2,7 @@ package org.litu.base.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.litu.base.entity.BaseEntity;
-import org.litu.base.vo.BaseRes;
+import org.litu.core.base.BaseEntity;
 import org.litu.core.exception.LtParamException;
 
 import java.util.List;

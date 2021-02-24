@@ -7,7 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.litu.base.entity.BaseTreeEntity;
+import org.litu.core.base.BaseTreeEntity;
+import org.litu.core.base.ITreeNode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -25,7 +26,7 @@ import java.util.Date;
 @Accessors(chain = true)
 @TableName("Sys_Menu")
 @ApiModel(value = "SysMenu对象", description = "系统菜单表")
-public class SysMenu extends BaseTreeEntity {
+public class SysMenu extends BaseTreeEntity<SysMenu> implements ITreeNode<SysMenu> {
 
     private static final long serialVersionUID = 1L;
 

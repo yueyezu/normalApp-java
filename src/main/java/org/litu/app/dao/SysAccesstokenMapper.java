@@ -1,11 +1,12 @@
 package org.litu.app.dao;
 
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.litu.app.entity.SysAccesstoken;
-import org.litu.base.dao.BaseMapper;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author ltgk

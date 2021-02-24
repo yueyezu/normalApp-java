@@ -5,12 +5,12 @@ import org.litu.app.entity.SysLogs;
 import org.litu.app.entity.SysSystem;
 import org.litu.app.service.ISysLogsService;
 import org.litu.app.service.ISysSystemService;
-import org.litu.base.controller.BaseFormController;
-import org.litu.base.vo.BaseRes;
+import org.litu.base.controller.BaseViewFormController;
 import org.litu.core.annotation.LtLogOperation;
 import org.litu.core.annotation.PageBasePath;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.base.BaseRes;
 import org.litu.core.enums.LtLogOperationEnum;
+import org.litu.core.enums.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping(value = "/log")
 @PageBasePath(basePath = "system/log")
 @Controller
-public class SysLogControlller extends BaseFormController<SysLogs, ISysLogsService> {
+public class SysLogController extends BaseViewFormController<SysLogs, ISysLogsService> {
 
     @Autowired
     ISysSystemService sysSystemService;
@@ -59,6 +59,6 @@ public class SysLogControlller extends BaseFormController<SysLogs, ISysLogsServi
     public BaseRes clear(String id) {
         QueryWrapper<SysLogs> queryWrapper = new QueryWrapper<SysLogs>();
         boolean res = service.remove(queryWrapper);
-        return res ? BaseRes.ok("日志已清空！") : BaseRes.error(ErrorEnum.UpdateError, "清空日志未成功！");
+        return res ? BaseRes.ok("日志已清空！") : BaseRes.error(ResultEnum.UpdateError, "清空日志未成功！");
     }
 }

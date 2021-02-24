@@ -8,11 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.entity.SysUser;
 import org.litu.app.vo.LoginUserMsg;
-import org.litu.base.controller.BaseApiController;
+import org.litu.core.base.BaseController;
+import org.litu.core.base.ApiRes;
 import org.litu.base.service.IBaseLogService;
 import org.litu.base.service.ILoginService;
-import org.litu.base.vo.ApiRes;
-import org.litu.core.enums.ErrorEnum;
+import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtServerException;
 import org.litu.core.login.LoginTokenUtil;
 import org.litu.util.net.NetUtil;
@@ -36,7 +36,7 @@ import java.io.OutputStream;
 @RestController
 @RequestMapping("/api/sso")
 @Api(value = "单点登录相关的操作", tags = {"单点登录相关的操作,前台集成js：根目录/static/js/sso.js"}, protocols = "http,https")
-public class SsoController extends BaseApiController {
+public class SsoController extends BaseController {
 
     @Autowired
     private ILoginService loginService;
@@ -64,10 +64,10 @@ public class SsoController extends BaseApiController {
         response.addHeader("Access-Control-Allow-Method", "POST,GET");// 允许访问的方式
 
         if (StringUtils.isAnyBlank(account, password, systemCode)) {
-            return ApiRes.error(ErrorEnum.ParamError, "系统编号、用户名或密码不能为空!");
+            return ApiRes.error(ResultEnum.ParamError, "系统编号、用户名或密码不能为空!");
         }
         if (!loginService.checkSystemCode(systemCode)) {
-            return ApiRes.error(ErrorEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
+            return ApiRes.error(ResultEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
         }
 
         ApiRes result = null;
@@ -75,7 +75,7 @@ public class SsoController extends BaseApiController {
             // 获取验证登录信息以及获取用户信息
             SysUser user = loginService.checkLogin(systemCode, account, password);
             if (user == null) {
-                return ApiRes.error(ErrorEnum.UserPwdError);
+                return ApiRes.error(ResultEnum.UserPwdError);
             }
 
             String ip = NetUtil.getIp(request);
@@ -92,7 +92,7 @@ public class SsoController extends BaseApiController {
         } catch (LtServerException se) {
             result = ApiRes.error(se.getErrorMsg(), se.getMessage());
         } catch (Exception e) {
-            result = ApiRes.error(ErrorEnum.UserPwdError, "用户名或密码错误!");
+            result = ApiRes.error(ResultEnum.UserPwdError, "用户名或密码错误!");
         }
         return result;
     }
@@ -112,11 +112,11 @@ public class SsoController extends BaseApiController {
             @ApiImplicitParam(name = "loginToken", value = "用户登录后返回的loginToken信息", paramType = "query", required = true, defaultValue = "YWRtaW4wLWExMjM0NTY=", dataType = "string")})
     public ApiRes<LoginUserMsg> loginToken(String systemCode, String loginToken) {
         if (StringUtils.isAnyBlank(systemCode, loginToken)) {
-            return ApiRes.error(ErrorEnum.ParamError, "系统编号和登录token信息不能为空!");
+            return ApiRes.error(ResultEnum.ParamError, "系统编号和登录token信息不能为空!");
         }
 
         if (!loginService.checkSystemCode(systemCode)) {
-            return ApiRes.error(ErrorEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
+            return ApiRes.error(ResultEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
         }
 
         try {
@@ -127,7 +127,7 @@ public class SsoController extends BaseApiController {
             SysUser user = loginService.getUserByAccount(account);
             if (user == null) {
                 CookieUtil.deleteCookie(request, response, "");
-                return ApiRes.error(ErrorEnum.UserPwdError, "当前登录用户信息错误!");
+                return ApiRes.error(ResultEnum.UserPwdError, "当前登录用户信息错误!");
             }
 
             // 记录登录日志(异步)
@@ -138,7 +138,7 @@ public class SsoController extends BaseApiController {
         } catch (LtServerException lex) {
             return ApiRes.error(lex.getErrorMsg(), lex.getMessage());
         } catch (Exception e) {
-            return ApiRes.error(ErrorEnum.ServerError, "登录失败！");
+            return ApiRes.error(ResultEnum.ServerError, "登录失败！");
         }
     }
 
@@ -160,11 +160,11 @@ public class SsoController extends BaseApiController {
         response.addHeader("Access-Control-Allow-Method", "POST,GET");// 允许访问的方式
 
         if (StringUtils.isAnyBlank(systemCode, loginToken)) {
-            return ApiRes.error(ErrorEnum.ParamError, "系统编号和登录token信息不能为空!");
+            return ApiRes.error(ResultEnum.ParamError, "系统编号和登录token信息不能为空!");
         }
 
         if (!loginService.checkSystemCode(systemCode)) {
-            return ApiRes.error(ErrorEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
+            return ApiRes.error(ResultEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
         }
 
         ApiRes result = null;
@@ -179,7 +179,7 @@ public class SsoController extends BaseApiController {
         } catch (LtServerException lex) {
             result = ApiRes.error(lex.getErrorMsg(), lex.getMessage());
         } catch (Exception e) {
-            result = ApiRes.error(ErrorEnum.ServerError, "注销失败！");
+            result = ApiRes.error(ResultEnum.ServerError, "注销失败！");
         }
 
         return result;
@@ -199,10 +199,10 @@ public class SsoController extends BaseApiController {
     @ApiImplicitParams({@ApiImplicitParam(name = "systemCode", value = "系统编号", paramType = "query", required = true, defaultValue = "testSystem", dataType = "string")})
     public ApiRes<String> qrCode(String systemCode) {
         if (StringUtils.isBlank(systemCode)) {
-            return ApiRes.error(ErrorEnum.ParamError, "系统编号参数不能为空！");
+            return ApiRes.error(ResultEnum.ParamError, "系统编号参数不能为空！");
         }
         if (!loginService.checkSystemCode(systemCode)) {
-            return ApiRes.error(ErrorEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
+            return ApiRes.error(ResultEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
         }
 
         try {
@@ -224,7 +224,7 @@ public class SsoController extends BaseApiController {
             return ApiRes.error(lex.getErrorMsg(), lex.getMessage());
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return ApiRes.error(ErrorEnum.ServerError, "二维码生成失败！");
+            return ApiRes.error(ResultEnum.ServerError, "二维码生成失败！");
         }
         return null;
     }
@@ -243,23 +243,23 @@ public class SsoController extends BaseApiController {
             @ApiImplicitParam(name = "account", value = "扫码的帐号信息", paramType = "query", required = true, defaultValue = "admin", dataType = "string")})
     public ApiRes<String> checkQrCode(String qrCode, String account) {
         if (StringUtils.isAnyBlank(qrCode, account)) {
-            return ApiRes.error(ErrorEnum.ParamError, "二维码和用户账号信息不能为空！");
+            return ApiRes.error(ResultEnum.ParamError, "二维码和用户账号信息不能为空！");
         }
 
         try {
             // 认证成功，直接返回给前台用户的信息。
             SysUser user = loginService.getUserByAccount(account);
             if (user == null) {
-                ApiRes.error(ErrorEnum.UserPwdError, "授权服务器，未找到当前用户信息。");
+                ApiRes.error(ResultEnum.UserPwdError, "授权服务器，未找到当前用户信息。");
             }
 
             boolean result = LoginTokenUtil.checkQrCode(qrCode, account);
 
-            return !result ? ApiRes.error(ErrorEnum.ParamError, "二维码错误！") : ApiRes.ok("验证成功！");
+            return !result ? ApiRes.error(ResultEnum.ParamError, "二维码错误！") : ApiRes.ok("验证成功！");
         } catch (LtServerException lex) {
             return ApiRes.error(lex.getErrorMsg(), lex.getMessage());
         } catch (Exception e) {
-            return ApiRes.error(ErrorEnum.ParamError, "登录失败！");
+            return ApiRes.error(ResultEnum.ParamError, "登录失败！");
         }
     }
 
@@ -273,10 +273,10 @@ public class SsoController extends BaseApiController {
     @ApiImplicitParams({@ApiImplicitParam(name = "systemCode", value = "系统编号", paramType = "query", required = true, defaultValue = "thisSystem", dataType = "string")})
     public ApiRes<LoginUserMsg> checkQrCodeLogin(String systemCode) {
         if (StringUtils.isBlank(systemCode)) {
-            return ApiRes.error(ErrorEnum.ParamError, "系统编号不能为空！");
+            return ApiRes.error(ResultEnum.ParamError, "系统编号不能为空！");
         }
         if (!loginService.checkSystemCode(systemCode)) {
-            return ApiRes.error(ErrorEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
+            return ApiRes.error(ResultEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
         }
 
         String ip = NetUtil.getIp(request);
@@ -298,7 +298,7 @@ public class SsoController extends BaseApiController {
         } catch (LtServerException lex) {
             return ApiRes.error(lex.getErrorMsg(), lex.getMessage());
         } catch (Exception e) {
-            return ApiRes.error(ErrorEnum.ParamError, "登录失败！");
+            return ApiRes.error(ResultEnum.ParamError, "登录失败！");
         }
     }
 }

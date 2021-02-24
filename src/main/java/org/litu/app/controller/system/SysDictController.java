@@ -2,7 +2,7 @@ package org.litu.app.controller.system;
 
 import org.litu.app.entity.SysDict;
 import org.litu.app.service.ISysDictService;
-import org.litu.base.controller.BaseTreeController;
+import org.litu.base.controller.BaseViewTreeController;
 import org.litu.core.annotation.LtLog;
 import org.litu.core.annotation.PageBasePath;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @LtLog(module = "字典管理")
 @PageBasePath(basePath = "system/dict")
 @Controller
-public class SysDictController extends BaseTreeController<SysDict, ISysDictService> {
+public class SysDictController extends BaseViewTreeController<SysDict, ISysDictService> {
     /**
      * 选择列表的界面返回
      */
