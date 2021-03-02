@@ -2,12 +2,11 @@ package org.litu.base.controller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.litu.base.service.IBaseService;
-import org.litu.core.annotation.PageBasePath;
 import org.litu.core.base.BaseEntity;
+import org.litu.core.login.TokenCheck;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 
 public abstract class BaseViewFormController<T extends BaseEntity, S extends IBaseService<T>> extends BaseFormController<T, S> {
 
@@ -25,6 +24,7 @@ public abstract class BaseViewFormController<T extends BaseEntity, S extends IBa
      * @return 对应该类的index页面
      */
     @GetMapping("/index")
+    @TokenCheck(check = false)
     public String index(Model model) {
         beforeIndex(model);
 
@@ -49,6 +49,7 @@ public abstract class BaseViewFormController<T extends BaseEntity, S extends IBa
      * @return 对应该类的form页面
      */
     @GetMapping(value = {"/form", "/form/{id}"})
+    @TokenCheck(check = false)
     public String form(Model model, @PathVariable(value = "id", required = false) String id) {
         // 如果ID不为空，则认为是编辑界面，对界面的数据进行获取
         if (StringUtils.isNotBlank(id)) {
@@ -79,6 +80,7 @@ public abstract class BaseViewFormController<T extends BaseEntity, S extends IBa
      * @return 对应该类的view页面
      */
     @GetMapping("/view/{id}")
+    @TokenCheck(check = false)
     public String view(Model model, @PathVariable(value = "id") String id) {
         // 获取详情信息
         T obj = service.detail(id);

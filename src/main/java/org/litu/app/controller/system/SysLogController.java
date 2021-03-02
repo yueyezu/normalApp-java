@@ -6,11 +6,12 @@ import org.litu.app.entity.SysSystem;
 import org.litu.app.service.ISysLogsService;
 import org.litu.app.service.ISysSystemService;
 import org.litu.base.controller.BaseViewFormController;
-import org.litu.core.annotation.LtLogOperation;
-import org.litu.core.annotation.PageBasePath;
+import org.litu.base.log.LtLogOperation;
+import org.litu.base.controller.PageBasePath;
 import org.litu.core.base.BaseRes;
-import org.litu.core.enums.LtLogOperationEnum;
+import org.litu.base.log.LtLogOperationEnum;
 import org.litu.core.enums.ResultEnum;
+import org.litu.core.login.TokenCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +40,7 @@ public class SysLogController extends BaseViewFormController<SysLogs, ISysLogsSe
      * @return 对应该类的index页面
      */
     @GetMapping("/index")
+    @TokenCheck(check = false)
     @Override
     public String index(Model model) {
         List<SysSystem> systems = sysSystemService.listEnabled();

@@ -1,9 +1,8 @@
-package org.litu.base.vo;
+package org.litu.core.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.litu.core.base.ITreeNode;
 
 import java.util.ArrayList;
 import java.util.List;

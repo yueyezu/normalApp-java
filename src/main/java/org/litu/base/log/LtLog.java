@@ -1,4 +1,4 @@
-package org.litu.core.annotation;
+package org.litu.base.log;
 
 import java.lang.annotation.*;
 

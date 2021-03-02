@@ -9,6 +9,7 @@ import org.litu.app.dao.SysSystemMapper;
 import org.litu.app.entity.SysSystem;
 import org.litu.app.service.ISysSystemService;
 import org.litu.base.service.impl.BaseServiceImpl;
+import org.litu.core.login.UserInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.Map;
 public class SysSystemServiceImpl extends BaseServiceImpl<SysSystemMapper, SysSystem> implements ISysSystemService {
 
     @Override
-    public void beforePage(SysSystem entity, String keyword, IPage<SysSystem> page, Map<String, String> params, LambdaQueryWrapper<SysSystem> query) {
+    public void beforePage(UserInfo user, SysSystem entity, String keyword, IPage<SysSystem> page, Map<String, String> params, LambdaQueryWrapper<SysSystem> query) {
         if (StringUtils.isNotBlank(params.get("name"))) {
             query.like(SysSystem::getName, params.get("name"));
         }

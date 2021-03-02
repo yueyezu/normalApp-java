@@ -8,13 +8,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.litu.app.entity.SysFiles;
 import org.litu.app.service.ISysFilesService;
 import org.litu.base.controller.BaseViewFormController;
-import org.litu.core.annotation.LtLog;
-import org.litu.core.annotation.LtLogOperation;
-import org.litu.core.annotation.PageBasePath;
+import org.litu.base.controller.PageBasePath;
+import org.litu.base.log.LtLog;
+import org.litu.base.log.LtLogOperation;
+import org.litu.base.log.LtLogOperationEnum;
 import org.litu.core.base.BaseRes;
-import org.litu.core.enums.LtLogOperationEnum;
 import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtParamException;
+import org.litu.core.login.TokenCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +56,7 @@ public class SysFilesController extends BaseViewFormController<SysFiles, ISysFil
             return BaseRes.error(ResultEnum.ParamError, "文件不能为空!");
         }
 
-        SysFiles result = sysFilesService.uploadFile(file);
+        SysFiles result = sysFilesService.uploadFile(nowUser(), file);
         if (result == null) {
             return BaseRes.error(ResultEnum.UpdateError, "文件上传失败!");
         }
@@ -72,6 +73,7 @@ public class SysFilesController extends BaseViewFormController<SysFiles, ISysFil
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "文件路径名称", paramType = "query", required = true, dataType = "String"),
     })
+    @TokenCheck(check = false)
     public void loadFile(String file) {
         if (StringUtils.isBlank(file)) {
             throw new LtParamException("文件信息不能为空!");
@@ -89,6 +91,7 @@ public class SysFilesController extends BaseViewFormController<SysFiles, ISysFil
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileId", value = "文件ID", paramType = "query", required = true, dataType = "String"),
     })
+    @TokenCheck(check = false)
     public void loadFileById(String fileId) {
         if (StringUtils.isBlank(fileId)) {
             throw new LtParamException("文件信息不能为空!");
@@ -108,6 +111,7 @@ public class SysFilesController extends BaseViewFormController<SysFiles, ISysFil
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "文件路径", paramType = "query", required = true, dataType = "String"),
     })
+    @TokenCheck(check = false)
     public void download(String file) {
         if (StringUtils.isBlank(file)) {
             throw new LtParamException("文件名称不能为空!");
@@ -127,6 +131,7 @@ public class SysFilesController extends BaseViewFormController<SysFiles, ISysFil
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileId", value = "文件ID", paramType = "query", required = true, dataType = "String"),
     })
+    @TokenCheck(check = false)
     public void downloadById(String fileId) {
         if (StringUtils.isBlank(fileId)) {
             throw new LtParamException("文件信息不能为空!");

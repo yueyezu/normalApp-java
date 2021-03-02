@@ -11,6 +11,7 @@ import org.litu.app.entity.SysRolemenu;
 import org.litu.app.service.ISysMenuService;
 import org.litu.base.service.impl.BaseTreeServiceImpl;
 import org.litu.core.exception.LtParamException;
+import org.litu.core.login.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,11 +45,11 @@ public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMe
      * @return
      */
     @Override
-    public boolean beforeSave(SysMenu entity, Map<String, String> params) {
+    public boolean beforeSave(UserInfo user, SysMenu entity, Map<String, String> params) {
         if (StringUtils.isBlank(entity.getSystemCode())) {
             entity.setSystemCode(SysContant.CURRENT_SYSTEM_CODE);
         }
-        return super.beforeSave(entity, params);
+        return super.beforeSave(user, entity, params);
     }
 
     /**

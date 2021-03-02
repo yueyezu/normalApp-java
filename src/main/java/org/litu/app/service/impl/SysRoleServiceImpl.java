@@ -12,6 +12,7 @@ import org.litu.app.entity.SysUserrole;
 import org.litu.app.service.ISysRoleService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.litu.core.exception.LtParamException;
+import org.litu.core.login.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,14 +37,14 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     SysRolemenuMapper roleMenuMapper;
 
     @Override
-    public void beforeList(SysRole entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysRole> query) {
+    public void beforeList(UserInfo user, SysRole entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysRole> query) {
         query.eq(SysRole::getType, entity.getType());
         query.and(i -> i.like(SysRole::getCode, keyword).or().like(SysRole::getName, keyword));
         query.orderByAsc(SysRole::getSortNum);
     }
 
     @Override
-    public void beforePage(SysRole entity, String keyword, IPage<SysRole> page, Map<String, String> params, LambdaQueryWrapper<SysRole> query) {
+    public void beforePage(UserInfo user,SysRole entity, String keyword, IPage<SysRole> page, Map<String, String> params, LambdaQueryWrapper<SysRole> query) {
         query.eq(SysRole::getType, entity.getType());
         query.and(i -> i.like(SysRole::getCode, keyword).or().like(SysRole::getName, keyword));
         query.orderByAsc(SysRole::getSortNum);

@@ -1,28 +1,31 @@
 package org.litu.app.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
-import org.litu.app.entity.SysUser;
-import org.litu.core.base.BaseController;
-import org.litu.base.service.IBaseLogService;
+import org.litu.app.vo.LoginUserMsg;
+import org.litu.base.log.IBaseLogService;
+import org.litu.base.log.LtLog;
+import org.litu.base.log.LtLogOperation;
+import org.litu.base.log.LtLogOperationEnum;
 import org.litu.base.service.ILoginService;
-import org.litu.base.util.UserUtil;
+import org.litu.core.base.ApiRes;
+import org.litu.core.base.BaseController;
 import org.litu.core.base.BaseRes;
-import org.litu.core.annotation.LtLog;
-import org.litu.core.annotation.LtLogOperation;
 import org.litu.core.enums.ResultEnum;
-import org.litu.core.enums.LtLogOperationEnum;
-import org.litu.core.login.LoginTokenUtil;
-import org.litu.core.login.ShiroSessionUtil;
+import org.litu.core.exception.LtServerException;
+import org.litu.core.login.ShiroLoginUtil;
+import org.litu.core.login.TokenCheck;
+import org.litu.core.login.TokenUtil;
+import org.litu.core.login.UserInfo;
 import org.litu.util.common.CaptchaUtil;
 import org.litu.util.net.NetUtil;
-import org.litu.util.web.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -35,9 +38,12 @@ import java.io.IOException;
 public class LoginController extends BaseController {
 
     @Autowired
-    ILoginService loginService;
+    ILoginService<LoginUserMsg> loginService;
     @Autowired
     IBaseLogService optLogService;
+
+    @Autowired
+    TokenUtil tokenUtil;
 
     /**
      * session attr name 验证码
@@ -50,13 +56,11 @@ public class LoginController extends BaseController {
      * @return 登陆页面
      */
     @GetMapping(value = {"", "/login"})
+    @TokenCheck(check = false)
     public String login(ModelMap modelMap) {
-        String userId = UserUtil.getUserId();
-        if (StringUtils.isNotBlank(userId)) {
-            return "redirect:index";
-        }
+        String token = token();
 
-        return "login";
+        return token == null ? "login" : "redirect:index?token=" + token;
     }
 
     /**
@@ -67,6 +71,7 @@ public class LoginController extends BaseController {
      */
     @GetMapping("/public/vcode")
     @ResponseBody
+    @TokenCheck(check = false)
     public void vcode() throws IOException {
         // 通知浏览器不要缓存
         response.setHeader("Cache-Control", "no-store");
@@ -76,7 +81,7 @@ public class LoginController extends BaseController {
         CaptchaUtil util = CaptchaUtil.Instance();
         // 将验证码输入到session中，用来验证
         String code = util.getString();
-        ShiroSessionUtil.session(VCodeSessionKey, code);
+        ShiroLoginUtil.session(VCodeSessionKey, code);
         logger.info("生成的验证码:" + code);
         // 输出到web页面
         ImageIO.write(util.getImage(), "jpg", response.getOutputStream());
@@ -84,6 +89,7 @@ public class LoginController extends BaseController {
 
     /**
      * 用户登录
+     * 当前系统，本地登陆使用接口
      *
      * @param account    账号
      * @param password   密码
@@ -91,10 +97,10 @@ public class LoginController extends BaseController {
      * @return 成功则显示登陆成功
      * @throws Exception 抛出异常
      */
-    @LtLogOperation(operation = LtLogOperationEnum.LOGIN)
-    @PostMapping("/public/login")
+    @PostMapping("/public/loginShiro")
     @ResponseBody
-    public BaseRes login(String account, String password, String verifyCode) throws Exception {
+    @TokenCheck(check = false)
+    public BaseRes loginShiro(String account, String password, String verifyCode) throws Exception {
         if (StringUtils.isAnyBlank(account, password)) {
             return BaseRes.error(ResultEnum.ParamError, "用户名或密码不能为空!");
         }
@@ -103,30 +109,112 @@ public class LoginController extends BaseController {
 //        if (StringUtils.isBlank(verifyCode) || !verifyCode.equalsIgnoreCase(nowVCode)) {
 //            return BaseRes.error(ErrorEnum.ParamError, "验证码不正确!");
 //        }
-        SysUser user = loginService.checkLoginShiro(SysContant.CURRENT_SYSTEM_CODE, account, password);
+        UserInfo user = loginService.checkLoginShiro(SysContant.CURRENT_SYSTEM_CODE, account, password);
         if (user == null) {
             return BaseRes.error(ResultEnum.UserPwdError);
         }
         String ip = NetUtil.getIp(request);
-
-        // 登录在cookie的顶级加入登录的token信息。其他系统登录使用。
         String userId = user.getId();
-        String loginToken = LoginTokenUtil.getSSOToken(userId, account, ip);
-        CookieUtil.addCookie(response, SysContant.SSO_COOKIE_KEY, loginToken, 240, "/");
 
-        // 将userId放入session
-        ShiroSessionUtil.session(SysContant.SESSION_CURRENT_USERID, userId);
-        ShiroSessionUtil.session("nickName", user.getRealName());
+        String token = tokenUtil.newToken(ip, SysContant.CURRENT_SYSTEM_CODE);
+        tokenUtil.setToken(token, user);
 
         // 登录成功后，都对验证码进行更新
-        ShiroSessionUtil.removeSession(VCodeSessionKey);
+//        ShiroSessionUtil.removeSession(VCodeSessionKey);
         // 登录成功后，调整用户登录状态
         loginService.ChangeLoginStatus(userId, SysContant.FLAG_TRUE);
 
         // 记录登录日志(异步)
-        optLogService.setLogs("用户模块", "登录", "用户登录", ip, userId).addOptLogsRunnable();
-        return BaseRes.ok("登录成功！");
+        optLogService.setLogs("用户登陆/登出模块", LtLogOperationEnum.LOGIN.getOperation(), "用户登录", ip, userId).addOptLogsRunnable();
+        return BaseRes.ok("登陆成功！").put("data", token);
     }
+
+    /*======================== 以上为登陆使用 =================================*/
+
+    /**
+     * 用户第三方登录使用， 通过用户名密码登录，并获取到单点登录的token信息。
+     * <p>
+     * token信息只是作为单点登录的凭证，具体登录控制需要结合sso.js文件进行。 sso.js位置在： /static/js/sso.js
+     *
+     * @param account
+     * @param password
+     * @return
+     */
+    @RequestMapping(value = "/public/login", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value = "登录接口", notes = "用户请求，根据用户名密码获取token信息", httpMethod = "GET", produces = "application/json;charset=utf-8")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "systemCode", value = "系统编号", paramType = "query", required = true, dataType = "string"),
+            @ApiImplicitParam(name = "account", value = "用户账号", paramType = "query", required = true, dataType = "string"),
+            @ApiImplicitParam(name = "password", value = "用户密码，md5加密", paramType = "query", required = true, dataType = "string")
+    })
+    @ResponseBody
+    @TokenCheck(check = false)
+    public ApiRes<String> login(String systemCode, String account, String password) {
+        if (StringUtils.isAnyBlank(account, password, systemCode)) {
+            return ApiRes.error(ResultEnum.ParamError, "系统编号、用户名或密码不能为空!");
+        }
+        if (!loginService.checkSystemCode(systemCode)) {
+            return ApiRes.error(ResultEnum.InvalidRequest, String.format("系统【%s】不受权限系统管理，请确认!", systemCode));
+        }
+
+        ApiRes result = null;
+        try {
+            // 获取验证登录信息以及获取用户信息
+            UserInfo user = loginService.checkLogin(systemCode, account, password);
+            if (user == null) {
+                return ApiRes.error(ResultEnum.UserPwdError);
+            }
+
+            String ip = NetUtil.getIp(request);
+            String token = tokenUtil.newToken(ip, systemCode);
+            tokenUtil.setToken(token, user);
+
+            // 记录登录日志(异步)
+            optLogService.setLogs("第三方登陆", "单点登录", "用户登陆", ip, user.getId(), systemCode).addOptLogsRunnable();
+            result = ApiRes.ok("登陆成功！", token);
+        } catch (LtServerException se) {
+            result = ApiRes.error(se.getErrorMsg(), se.getMessage());
+        } catch (Exception e) {
+            result = ApiRes.error(ResultEnum.UserPwdError, "用户名或密码错误!");
+        }
+        return result;
+    }
+
+
+    /**
+     * 使用token信息调用该接口，获取该token对应的菜单等数据信息。
+     * 如果该token失效，则直接返回失效信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/public/loginToken", method = RequestMethod.POST)
+    @ApiOperation(value = "获取登陆用户，该系统的信息", notes = "使用token信息调用该接口，获取该token对应的菜单等数据信息。", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "systemCode", value = "系统编号", paramType = "query", required = true)
+    })
+    @TokenCheck
+    public ApiRes<LoginUserMsg> loginToken(String systemCode) {
+        if (StringUtils.isBlank(systemCode)) {
+            return ApiRes.error(ResultEnum.ParamError, "系统编号不能为空!");
+        }
+
+        if (!loginService.checkSystemCode(systemCode)) {
+            return ApiRes.error(ResultEnum.InvalidRequest, String.format("系统【%s】不受权限系统管理，请确认!", systemCode));
+        }
+
+        try {
+            // 认证成功，直接返回给前台用户的信息。
+            UserInfo user = nowUser();
+
+            LoginUserMsg userMsg = loginService.getLoginMsg(user, systemCode);
+            return ApiRes.ok(userMsg);
+        } catch (LtServerException lex) {
+            return ApiRes.error(lex.getErrorMsg(), lex.getMessage());
+        } catch (Exception e) {
+            return ApiRes.error(ResultEnum.ServerError, "登录失败！");
+        }
+    }
+
 
     /**
      * 用户退出
@@ -134,10 +222,11 @@ public class LoginController extends BaseController {
      * @return 成功则显示注销成功
      */
     @LtLogOperation(operation = LtLogOperationEnum.LOGOUT)
-    @PostMapping("/logout")
+    @PostMapping("/public/logout")
     @ResponseBody
+    @TokenCheck
     public BaseRes logout() {
-        String userId = UserUtil.getUserId();
+        String userId = nowUser().getId();
         String ip = NetUtil.getIp(request);
 
         boolean res = loginService.logoutShiro();

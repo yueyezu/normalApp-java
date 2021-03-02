@@ -7,14 +7,15 @@ import org.litu.app.constant.SysContant;
 import org.litu.app.entity.*;
 import org.litu.app.service.*;
 import org.litu.base.controller.BaseViewFormController;
-import org.litu.base.util.UserUtil;
-import org.litu.core.annotation.LtLog;
-import org.litu.core.annotation.LtLogOperation;
-import org.litu.core.annotation.PageBasePath;
+import org.litu.base.controller.PageBasePath;
+import org.litu.base.log.LtLog;
+import org.litu.base.log.LtLogOperation;
+import org.litu.base.log.LtLogOperationEnum;
 import org.litu.core.base.BaseRes;
-import org.litu.core.enums.LtLogOperationEnum;
 import org.litu.core.enums.ResultEnum;
-import org.litu.core.login.LoginTokenUtil;
+import org.litu.core.login.PasswordUtil;
+import org.litu.core.login.TokenCheck;
+import org.litu.core.login.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +53,7 @@ public class SysUserController extends BaseViewFormController<SysUser, ISysUserS
      * @return 用户角色选则界面
      */
     @GetMapping(value = "/userRole")
+    @TokenCheck(check = false)
     public String userRole(Model model, String userId) {
         model.addAttribute("nowUser", userId);
         try {
@@ -82,6 +84,7 @@ public class SysUserController extends BaseViewFormController<SysUser, ISysUserS
      * @return
      */
     @GetMapping("/selectView/{selectType}")
+    @TokenCheck(check = false)
     public String select(Model model, @PathVariable(name = "selectType") String selectType, String hasSelect) {
         model.addAttribute("selectType", selectType);
 
@@ -138,14 +141,15 @@ public class SysUserController extends BaseViewFormController<SysUser, ISysUserS
             return BaseRes.error(ResultEnum.ParamError, "密码不能为空!");
         }
         try {
-            SysUserlogin userLogin = sysUserLoginService.getByUserId(UserUtil.getUserId());
-            if (!userLogin.getPassword().equals(LoginTokenUtil.GetDbPassword(userLogin.getSecretKey(), oldPwd))) {
+            UserInfo user = nowUser();
+            SysUserlogin userLogin = sysUserLoginService.getByUserId(user.getId());
+            if (!userLogin.getPassword().equals(PasswordUtil.GetDbPassword(userLogin.getSecretKey(), oldPwd))) {
                 return BaseRes.error(ResultEnum.ParamError, "原密码不正确!");
             }
 
-            String sKey = LoginTokenUtil.GetSecretkey();
+            String sKey = PasswordUtil.GetSecretkey();
             userLogin.setSecretKey(sKey);
-            userLogin.setPassword(LoginTokenUtil.GetDbPassword(sKey, newPwd));
+            userLogin.setPassword(PasswordUtil.GetDbPassword(sKey, newPwd));
             userLogin.setChangePassTime(new Date());
             sysUserLoginService.updateById(userLogin);
             return BaseRes.ok("密码修改成功！");
@@ -169,17 +173,13 @@ public class SysUserController extends BaseViewFormController<SysUser, ISysUserS
         if (StringUtils.isBlank(userId)) {
             return BaseRes.error(ResultEnum.ParamError, "userId不能为空!");
         }
-        try {
-            SysUserlogin userLogin = sysUserLoginService.getByUserId(userId);
-            String sKey = LoginTokenUtil.GetSecretkey();
-            userLogin.setSecretKey(sKey);
-            userLogin.setPassword(LoginTokenUtil.GetDbPassword(sKey));
-            userLogin.setChangePassTime(new Date());
-            sysUserLoginService.updateById(userLogin);
-            return BaseRes.ok("密码重置成功！密码为:" + LoginTokenUtil.defaultPwd);
-        } catch (Exception e) {
-            return BaseRes.error();
-        }
+        SysUserlogin userLogin = sysUserLoginService.getByUserId(userId);
+        String sKey = PasswordUtil.GetSecretkey();
+        userLogin.setSecretKey(sKey);
+        userLogin.setPassword(PasswordUtil.GetDbPassword(sKey));
+        userLogin.setChangePassTime(new Date());
+        sysUserLoginService.updateById(userLogin);
+        return BaseRes.ok("密码重置成功！密码为:" + PasswordUtil.getDefaultPwd());
     }
 
     /**
@@ -189,9 +189,10 @@ public class SysUserController extends BaseViewFormController<SysUser, ISysUserS
      * @return
      */
     @RequestMapping("/changeHeader")
-    public String changeHeader(Model model) {
+    @TokenCheck(check = false)
+    public String changeHeader(String token, Model model) {
         try {
-            SysUser user = UserUtil.getCurrentUser();
+            UserInfo user = nowUser(token);
             model.addAttribute("admin", user);
         } catch (Exception e) {
             logger.error("获取修改用户头像界面错误！", e);
@@ -208,7 +209,8 @@ public class SysUserController extends BaseViewFormController<SysUser, ISysUserS
     @ResponseBody
     public BaseRes updateAvatar(String photoId) {
         try {
-            if (sysUserService.updatePhoto(UserUtil.getUserId(), photoId)) {
+            UserInfo user = nowUser();
+            if (sysUserService.updatePhoto(user.getId(), photoId)) {
                 return BaseRes.ok();
             } else {
                 return BaseRes.error("修改失败!");

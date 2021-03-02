@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.litu.core.base.BaseEntity;
 import org.litu.core.exception.LtParamException;
+import org.litu.core.login.UserInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public interface IBaseService<T extends BaseEntity> extends IService<T> {
      * @param params  Map参数
      * @return controller层列表方法
      */
-    List<T> list(T entity, String keyword, Map<String, String> params);
+    List<T> list(UserInfo user, T entity, String keyword, Map<String, String> params);
 
     /**
      * controller 分页查询方法
@@ -33,7 +34,7 @@ public interface IBaseService<T extends BaseEntity> extends IService<T> {
      * @param page   分页信息
      * @return 分页查询
      */
-    IPage<T> page(T entity, String keyword, IPage<T> page, Map<String, String> params);
+    IPage<T> page(UserInfo user, T entity, String keyword, IPage<T> page, Map<String, String> params);
 
     /**
      * controller 获取实体详细信息
@@ -50,7 +51,7 @@ public interface IBaseService<T extends BaseEntity> extends IService<T> {
      * @param params Map参数
      * @return true则保存成功
      */
-    boolean save(T entity, Map<String, String> params);
+    boolean save(UserInfo user, T entity, Map<String, String> params);
 
     /**
      * controller 更新
@@ -59,7 +60,7 @@ public interface IBaseService<T extends BaseEntity> extends IService<T> {
      * @param params Map参数
      * @return true则更新成功
      */
-    public boolean update(T entity, Map<String, String> params);
+    public boolean update(UserInfo user, T entity, Map<String, String> params);
 
     /**
      * 删除信息（物理删除）
@@ -93,7 +94,7 @@ public interface IBaseService<T extends BaseEntity> extends IService<T> {
      * @return true为删除成功
      * @throws LtParamException 自定义参数错误
      */
-    boolean logicalDelete(String id, Map<String, String> params);
+    boolean logicalDelete(UserInfo user, String id, Map<String, String> params);
 
     /**
      * 逻辑恢复

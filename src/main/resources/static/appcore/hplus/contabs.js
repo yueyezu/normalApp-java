@@ -278,8 +278,12 @@ function menuItem() {
     $('.dropdown').removeClass('open');
 
     // 获取标识数据
-    var dataUrl = $(this).attr('href'), dataIndex = $(this).data('index'),
-        menuName = $.trim($(this).text()), flag = true;
+    var dataUrl = $(this).attr('href'),
+        dataNeedToken = $(this).attr('needToken'),  // true，false
+        dataIndex = $(this).data('index'),
+        menuName = $.trim($(this).text()),
+        flag = true;
+
     if (dataUrl == undefined || $.trim(dataUrl).length == 0)
         return false;
 
@@ -307,8 +311,13 @@ function menuItem() {
         var str = '<a href="javascript:;" class="active J_menuTab" data-id="' + dataUrl + '">' + menuName + ' <i class="fa fa-times-circle"></i></a>';
         $('.J_menuTab').removeClass('active');
 
+
         // 添加选项卡对应的iframe
-        var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
+        var frameUrl = dataUrl;
+        if (dataNeedToken) {
+            frameUrl += "?token=" + lt.cache.token;
+        }
+        var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + frameUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
         $('.J_mainContent').find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
 
         // 显示loading提示

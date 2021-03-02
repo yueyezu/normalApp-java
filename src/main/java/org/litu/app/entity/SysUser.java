@@ -28,8 +28,6 @@ import java.util.Date;
 @ApiModel(value = "SysUser对象", description = "用户表")
 public class SysUser extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-
     @ApiModelProperty(value = "用户帐号")
     private String account;
 

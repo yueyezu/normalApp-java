@@ -53,8 +53,9 @@ public class ApiRes<T> implements Serializable {
 
     /**
      * 服务器内部错误
-     * @param <T>  类实例泛型
-     * @return  服务器内部错误
+     *
+     * @param <T> 类实例泛型
+     * @return 服务器内部错误
      */
     public static <T> ApiRes<T> error() {
         return error(ResultEnum.ServerError);
@@ -62,9 +63,10 @@ public class ApiRes<T> implements Serializable {
 
     /**
      * 服务器内部错误，错误信息
+     *
      * @param msg 错误信息
      * @param <T> 类实例泛型
-     * @return  服务器内部错误，错误信息
+     * @return 服务器内部错误，错误信息
      */
     public static <T> ApiRes<T> error(String msg) {
         return error(ResultEnum.ServerError, msg);
@@ -72,8 +74,9 @@ public class ApiRes<T> implements Serializable {
 
     /**
      * 返回对应错误编号的错误
+     *
      * @param code 错误枚举编号
-     * @param <T> 类实例泛型
+     * @param <T>  类实例泛型
      * @return 对应错误编号的错误
      */
     public static <T> ApiRes<T> error(ResultEnum code) {
@@ -82,9 +85,10 @@ public class ApiRes<T> implements Serializable {
 
     /**
      * 返回对应错误编号的错误，相应的错误信息
+     *
      * @param code 错误枚举编号
      * @param msg  错误信息
-     * @param <T> 类实例泛型
+     * @param <T>  类实例泛型
      * @return 错误编号对应的错误 和相关错误信息
      */
     public static <T> ApiRes<T> error(ResultEnum code, String msg) {
@@ -98,6 +102,7 @@ public class ApiRes<T> implements Serializable {
 
     /**
      * 返回成功的信息
+     *
      * @param <T> 类实例泛型
      * @return 返回成功的信息
      */
@@ -107,9 +112,10 @@ public class ApiRes<T> implements Serializable {
 
     /**
      * 返回成功和对应的msg信息
-     * @param msg  成功的msg信息
-     * @param <T>  类实例泛型
-     * @return  返回成功信息和对应的msg信息
+     *
+     * @param msg 成功的msg信息
+     * @param <T> 类实例泛型
+     * @return 返回成功信息和对应的msg信息
      */
     public static <T> ApiRes<T> ok(String msg) {
         ApiRes<T> res = new ApiRes<>();
@@ -118,10 +124,9 @@ public class ApiRes<T> implements Serializable {
     }
 
     /**
-     *
      * @param obj 类实例
      * @param <T> 类实例泛型
-     * @return  返回成功信息和对应的类实例信息
+     * @return 返回成功信息和对应的类实例信息
      */
     public static <T> ApiRes<T> ok(T obj) {
         ApiRes<T> res = new ApiRes<>();
@@ -130,7 +135,6 @@ public class ApiRes<T> implements Serializable {
     }
 
     /**
-     *
      * @param msg 成功信息
      * @param obj 类实例
      * @param <T> 类实例泛型

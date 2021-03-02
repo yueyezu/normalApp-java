@@ -112,9 +112,9 @@
             param.password = $.md5(param.password);
 
             lt.loadShow(1);
-            $.post("${rc.contextPath}/public/login", param, function (res) {
+            $.post("${rc.contextPath}/public/loginShiro", param, function (res) {
                 if (res.code == 200) {
-                    window.location.href = '${rc.contextPath}/index';
+                    window.location.href = '${rc.contextPath}/index?token=' + res.data;
                 } else {
                     lt.msgError(res.msg);
                 }

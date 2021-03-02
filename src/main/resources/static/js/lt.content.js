@@ -76,9 +76,11 @@ function WinMove() {
 $.ajaxSetup({
     cache: false,
     dataType: 'json',
+    beforeSend: function (jqHXR) {
+        jqHXR.setRequestHeader("auth", top.lt.cache.token);
+    },
     error: function (jqXHR, textStatus, errorThrown) {
-        var errorMsg = "未知错误,请联系管理员";
-        var codeMsg = {
+        let codeMsg = {
             500: "服务器系统内部错误",
             401: "未登录",
             403: "无权限执行此操作",

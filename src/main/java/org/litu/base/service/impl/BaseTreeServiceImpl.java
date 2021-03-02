@@ -7,11 +7,12 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.litu.core.base.BaseConstant;
 import org.litu.base.dao.BaseTreeMapper;
-import org.litu.core.base.BaseTreeEntity;
 import org.litu.base.service.IBaseTreeService;
+import org.litu.core.base.BaseConstant;
+import org.litu.core.base.BaseTreeEntity;
 import org.litu.core.exception.LtParamException;
+import org.litu.core.login.UserInfo;
 import org.litu.util.common.FieldUtil;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,12 +72,12 @@ public abstract class BaseTreeServiceImpl<M extends BaseTreeMapper<T>, T extends
      * @return true为保存成功
      */
     @Override
-    public boolean save(T entity, Map<String, String> params) {
+    public boolean save(UserInfo user, T entity, Map<String, String> params) {
         if ("".equals(entity.getParentId())) {
             entity.setParentId("0");
         }
 
-        boolean res = super.save(entity, params);
+        boolean res = super.save(user, entity, params);
         res &= updateLayers(entity);
 
         if (!res) {
@@ -93,12 +94,12 @@ public abstract class BaseTreeServiceImpl<M extends BaseTreeMapper<T>, T extends
      * @return true为更新成功
      */
     @Override
-    public boolean update(T entity, Map<String, String> params) {
+    public boolean update(UserInfo user, T entity, Map<String, String> params) {
         if ("".equals(entity.getParentId())) {
             entity.setParentId("0");
         }
 
-        boolean res = super.update(entity, params);
+        boolean res = super.update(user, entity, params);
         res &= updateLayers(entity);
 
         if (!res) {
@@ -140,8 +141,8 @@ public abstract class BaseTreeServiceImpl<M extends BaseTreeMapper<T>, T extends
      * @return true为允许逻辑删除
      */
     @Override
-    public boolean beforeLogicalDelete(String id, Map<String, String> params, T entity, UpdateWrapper<T> updateWrapper) {
-        boolean result = super.beforeLogicalDelete(id, params, entity, updateWrapper);
+    public boolean beforeLogicalDelete(UserInfo user, String id, Map<String, String> params, T entity, UpdateWrapper<T> updateWrapper) {
+        boolean result = super.beforeLogicalDelete(user, id, params, entity, updateWrapper);
 
         QueryWrapper<T> wrapper = new QueryWrapper<>();
         wrapper.like("layers", entity.getLayers() + "%");

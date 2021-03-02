@@ -6,15 +6,16 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.litu.base.log.LtLogOperation;
+import org.litu.base.log.LtLogOperationEnum;
 import org.litu.base.service.IBaseService;
-import org.litu.core.annotation.LtLogOperation;
 import org.litu.core.base.BaseController;
 import org.litu.core.base.BaseEntity;
 import org.litu.core.base.BaseRes;
 import org.litu.core.base.SelectVo;
-import org.litu.core.enums.LtLogOperationEnum;
 import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtParamException;
+import org.litu.core.login.TokenCheck;
 import org.litu.util.common.FieldUtil;
 import org.litu.util.common.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import java.util.*;
 /**
  * 通用单表操作controller
  */
+@TokenCheck
 public abstract class BaseFormController<T extends BaseEntity, S extends IBaseService<T>> extends BaseController {
     @Autowired
     protected S service;
@@ -46,7 +48,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
         try {
             Map<String, String> params = requestParams();
 
-            List<T> list = service.list(entity, keyword, params);
+            List<T> list = service.list(nowUser(), entity, keyword, params);
             return list;
         } catch (Exception e) {
             logger.warn("列表查询中出现异常", e);
@@ -80,7 +82,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
     @ApiOperation(value = "获取下拉选择框列表", notes = "获取下拉选择框列表", httpMethod = "GET")
     public List<SelectVo> select(T entity) {
         Map<String, String> params = requestParams();
-        List<T> list = service.list(entity, "", params);
+        List<T> list = service.list(nowUser(), entity, "", params);
 
         // 将列表转化成树结构
         List<SelectVo> selectVos = new ArrayList<>();
@@ -130,7 +132,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
 
         try {
             Map<String, String> params = requestParams();
-            IPage<T> pages = service.page(entity, keyword, page, params);
+            IPage<T> pages = service.page(nowUser(), entity, keyword, page, params);
             return BaseRes.page(pages.getTotal(), pages.getRecords());
         } catch (Exception e) {
             logger.warn("分页查询中出现异常", e);
@@ -184,7 +186,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
 
         validate(entity, params);
 
-        boolean res = service.save(entity, params);
+        boolean res = service.save(nowUser(), entity, params);
         return res ? BaseRes.ok("保存成功！") : BaseRes.error(ResultEnum.SaveError);
     }
 
@@ -202,7 +204,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
         Map<String, String> params = requestParams();
         validate(entity, params);
 
-        boolean res = service.update(entity, params);
+        boolean res = service.update(nowUser(), entity, params);
         return res ? BaseRes.ok("更新成功！") : BaseRes.error(ResultEnum.UpdateError);
     }
 
@@ -277,7 +279,7 @@ public abstract class BaseFormController<T extends BaseEntity, S extends IBaseSe
             return BaseRes.error(ResultEnum.ParamError, "id不能为空");
         }
         Map<String, String> params = requestParams();
-        boolean res = service.logicalDelete(id, params);
+        boolean res = service.logicalDelete(nowUser(), id, params);
         return res ? BaseRes.ok("删除成功！") : BaseRes.error(ResultEnum.DeleteError);
     }
 

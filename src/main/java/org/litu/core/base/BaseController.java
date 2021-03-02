@@ -6,6 +6,8 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.SessionListenerAdapter;
+import org.litu.core.login.TokenUtil;
+import org.litu.core.login.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public abstract class BaseController extends SessionListenerAdapter implements S
     protected HttpServletRequest request;
     @Autowired
     protected HttpServletResponse response;
+    @Autowired
+    protected TokenUtil tokenUtil;
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -73,6 +77,41 @@ public abstract class BaseController extends SessionListenerAdapter implements S
             allParams.put(param.getKey(), val);
         }
         return allParams;
+    }
+
+    /**
+     * 获取当前请求的token信息
+     *
+     * @return
+     */
+    protected String token() {
+        // TODO 考虑下如果koken未取到时如何处理
+        String headerToken = request.getHeader(tokenUtil.getTokenKey());
+        return headerToken;
+    }
+
+    /**
+     * 获取当前请求用户的信息
+     *
+     * @return
+     */
+    protected UserInfo nowUser() {
+        String headerToken = request.getHeader(tokenUtil.getTokenKey());
+        if (StringUtils.isBlank(headerToken)) {
+            return null;
+        }
+        return nowUser(headerToken);
+    }
+
+    /**
+     * 获取用户信息，token中存储的即为用户信息
+     *
+     * @param token
+     * @return
+     */
+    protected UserInfo nowUser(String token) {
+        UserInfo user = tokenUtil.getUser(token);
+        return user;
     }
 
     /* ***************** end 返回request参数处理的方法 **************** */

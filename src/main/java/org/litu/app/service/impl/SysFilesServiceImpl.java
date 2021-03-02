@@ -10,7 +10,7 @@ import org.litu.app.dao.SysFilesMapper;
 import org.litu.app.entity.SysFiles;
 import org.litu.app.service.ISysFilesService;
 import org.litu.base.service.impl.BaseServiceImpl;
-import org.litu.base.util.UserUtil;
+import org.litu.core.login.UserInfo;
 import org.litu.util.file.FileUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
      * 上传文件
      */
     @Override
-    public SysFiles uploadFile(MultipartFile file) {
+    public SysFiles uploadFile(UserInfo user, MultipartFile file) {
         // 文件名处理
         String originalName = file.getOriginalFilename();
         try {
@@ -58,7 +58,7 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
             sysFiles.setLocation(relativePath);
             sysFiles.setFileType(fileType);
             sysFiles.setFileSize(file.getSize());
-            sysFiles.setCreateBy(UserUtil.getUserId());
+            sysFiles.setCreateBy(user.getId());
             sysFiles.setCreateTime(new Date());
             save(sysFiles);
             return sysFiles;
@@ -74,7 +74,7 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
      * @return 添加成功返回保存后的文件实体信息
      */
     @Override
-    public SysFiles save(File file) {
+    public SysFiles save(UserInfo user, File file) {
         if (!file.exists()) {
             return null;
         }
@@ -93,7 +93,7 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
         sysFiles.setLocation(relativePath);
         sysFiles.setFileType(fileType);
         sysFiles.setFileSize(file.length());
-        sysFiles.setCreateBy(UserUtil.getUserId());
+        sysFiles.setCreateBy(user.getId());
         sysFiles.setCreateTime(new Date());
         save(sysFiles);
         return sysFiles;
@@ -178,7 +178,7 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
     }
 
     @Override
-    public void beforeList(SysFiles entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysFiles> query) {
+    public void beforeList(UserInfo user,SysFiles entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysFiles> query) {
         query.like(SysFiles::getOriginName, keyword);
         if (params.containsKey("fileType")) {
             query.in(SysFiles::getFileType, type.get(params.get("fileType")));
@@ -187,7 +187,7 @@ public class SysFilesServiceImpl extends BaseServiceImpl<SysFilesMapper, SysFile
     }
 
     @Override
-    public void beforePage(SysFiles entity, String keyword, IPage<SysFiles> page, Map<String, String> params, LambdaQueryWrapper<SysFiles> query) {
+    public void beforePage(UserInfo user,SysFiles entity, String keyword, IPage<SysFiles> page, Map<String, String> params, LambdaQueryWrapper<SysFiles> query) {
         if (StringUtils.isNotBlank(entity.getFileType())) {
             List<String> fileTypeList = new ArrayList<String>();
             for (String fileType : type.keySet()) {

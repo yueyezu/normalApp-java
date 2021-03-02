@@ -5,18 +5,16 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.litu.app.constant.SysContant;
-import org.litu.app.entity.SysUser;
 import org.litu.app.vo.LoginUserMsg;
-import org.litu.core.base.BaseController;
-import org.litu.core.base.ApiRes;
-import org.litu.base.service.IBaseLogService;
+import org.litu.base.log.IBaseLogService;
 import org.litu.base.service.ILoginService;
+import org.litu.core.base.ApiRes;
+import org.litu.core.base.BaseController;
 import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtServerException;
-import org.litu.core.login.LoginTokenUtil;
+import org.litu.core.login.QRCodeLoginUtil;
+import org.litu.core.login.UserInfo;
 import org.litu.util.net.NetUtil;
-import org.litu.util.web.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,153 +37,9 @@ import java.io.OutputStream;
 public class SsoController extends BaseController {
 
     @Autowired
-    private ILoginService loginService;
+    private ILoginService<LoginUserMsg> loginService;
     @Autowired
     private IBaseLogService optLogService;
-
-    /**
-     * 用户第三方登录使用， 通过用户名密码登录，并获取到单点登录的token信息。
-     * <p>
-     * token信息只是作为单点登录的凭证，具体登录控制需要结合sso.js文件进行。 sso.js位置在： /static/js/sso.js
-     *
-     * @param account
-     * @param password
-     * @return
-     */
-    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
-    @ApiOperation(value = "单点授权登录用端口", notes = "用户请求，根据用户名密码获取登录的token信息", httpMethod = "GET", produces = "application/json;charset=utf-8")
-    @ApiImplicitParams({@ApiImplicitParam(name = "systemCode", value = "系统编号", paramType = "query", required = true, defaultValue = "testSystem", dataType = "string"),
-            @ApiImplicitParam(name = "account", value = "用户账号", paramType = "query", required = true, defaultValue = "test", dataType = "string"),
-            @ApiImplicitParam(name = "password", value = "用户密码，md5加密", paramType = "query", required = true, defaultValue = "123456", dataType = "string")})
-    public ApiRes<String> login(String systemCode, String account, String password) {
-        // 跨域请求需要的头说明
-        // 允许客户端携带跨域cookie，此时origin值不能为“*”，只能为指定单一域名
-        response.addHeader("Access-Control-Allow-Origin", "*");// 允许所有来源访问
-        response.addHeader("Access-Control-Allow-Method", "POST,GET");// 允许访问的方式
-
-        if (StringUtils.isAnyBlank(account, password, systemCode)) {
-            return ApiRes.error(ResultEnum.ParamError, "系统编号、用户名或密码不能为空!");
-        }
-        if (!loginService.checkSystemCode(systemCode)) {
-            return ApiRes.error(ResultEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
-        }
-
-        ApiRes result = null;
-        try {
-            // 获取验证登录信息以及获取用户信息
-            SysUser user = loginService.checkLogin(systemCode, account, password);
-            if (user == null) {
-                return ApiRes.error(ResultEnum.UserPwdError);
-            }
-
-            String ip = NetUtil.getIp(request);
-
-            // 登录在cookie的顶级加入登录的token信息。 这里在跨域的情况下，很难获取到，所以就需要第三方系统自行处理了。
-            String loginToken = LoginTokenUtil.getSSOToken(user.getId(), account, ip);
-            CookieUtil.addCookie(response, SysContant.SSO_COOKIE_KEY, loginToken, 240, "/");
-
-            // 记录登录日志(异步)
-            optLogService.setLogs("用户模块", "单点登录", "首次单点登录", ip, user.getId(), systemCode).addOptLogsRunnable();
-
-            // LoginUserMsg userMsg = loginService.getSsoUserMsg(user, systemCode);
-            result = ApiRes.ok(loginToken);
-        } catch (LtServerException se) {
-            result = ApiRes.error(se.getErrorMsg(), se.getMessage());
-        } catch (Exception e) {
-            result = ApiRes.error(ResultEnum.UserPwdError, "用户名或密码错误!");
-        }
-        return result;
-    }
-
-    /**
-     * 用户第三方登录使用， 当认证成功，则直接返回用户的信息以及权限信息。
-     * <p>
-     * 第三方需要做对应的后台登录接口，然后通过后台调用该接口，获取登录成功信息。
-     * <p>
-     * 也可以前台进行调用，获取到成功信息后，在第三方后台再注册登录成功信息。这样存在一定的数据安全性问题。
-     *
-     * @return
-     */
-    @RequestMapping(value = "/loginToken", method = RequestMethod.POST)
-    @ApiOperation(value = "单点授权登录用端口", notes = "用户请求，根据单点登录token信息进行登录,建议第三方服务端调用", httpMethod = "POST", produces = "application/json;charset=utf-8")
-    @ApiImplicitParams({@ApiImplicitParam(name = "systemCode", value = "系统编号", paramType = "query", required = true, defaultValue = "testSystem", dataType = "string"),
-            @ApiImplicitParam(name = "loginToken", value = "用户登录后返回的loginToken信息", paramType = "query", required = true, defaultValue = "YWRtaW4wLWExMjM0NTY=", dataType = "string")})
-    public ApiRes<LoginUserMsg> loginToken(String systemCode, String loginToken) {
-        if (StringUtils.isAnyBlank(systemCode, loginToken)) {
-            return ApiRes.error(ResultEnum.ParamError, "系统编号和登录token信息不能为空!");
-        }
-
-        if (!loginService.checkSystemCode(systemCode)) {
-            return ApiRes.error(ResultEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
-        }
-
-        try {
-            String ip = NetUtil.getIp(request);
-            String account = LoginTokenUtil.checkSSOToken(loginToken, ip);
-
-            // 认证成功，直接返回给前台用户的信息。
-            SysUser user = loginService.getUserByAccount(account);
-            if (user == null) {
-                CookieUtil.deleteCookie(request, response, "");
-                return ApiRes.error(ResultEnum.UserPwdError, "当前登录用户信息错误!");
-            }
-
-            // 记录登录日志(异步)
-            optLogService.setLogs("用户模块", "单点登录", "再次登录", ip, user.getId(), systemCode).addOptLogsRunnable();
-
-            LoginUserMsg userMsg = loginService.getSsoUserMsg(user, systemCode);
-            return ApiRes.ok(userMsg);
-        } catch (LtServerException lex) {
-            return ApiRes.error(lex.getErrorMsg(), lex.getMessage());
-        } catch (Exception e) {
-            return ApiRes.error(ResultEnum.ServerError, "登录失败！");
-        }
-    }
-
-    /**
-     * 用户第三方登录后注销登录使用
-     *
-     * @param systemCode
-     * @param loginToken
-     * @return
-     */
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    @ApiOperation(value = "注销登录用端口", notes = "用户请求，根据单点登录token信息进行注销操作", httpMethod = "POST", produces = "application/json;charset=utf-8")
-    @ApiImplicitParams({@ApiImplicitParam(name = "systemCode", value = "系统编号", paramType = "query", required = true, defaultValue = "testSystem", dataType = "string"),
-            @ApiImplicitParam(name = "loginToken", value = "用户登录后返回的loginToken信息", paramType = "query", required = true, defaultValue = "YWRtaW4wLWExMjM0NTY=", dataType = "string")})
-    public ApiRes<String> logout(String systemCode, String loginToken) {
-        // 跨域请求需要的头说明
-        // 允许客户端携带跨域cookie，此时origin值不能为“*”，只能为指定单一域名
-        response.addHeader("Access-Control-Allow-Origin", "*");// 允许所有来源访问
-        response.addHeader("Access-Control-Allow-Method", "POST,GET");// 允许访问的方式
-
-        if (StringUtils.isAnyBlank(systemCode, loginToken)) {
-            return ApiRes.error(ResultEnum.ParamError, "系统编号和登录token信息不能为空!");
-        }
-
-        if (!loginService.checkSystemCode(systemCode)) {
-            return ApiRes.error(ResultEnum.InvalidRequest, "当前系统不受单点登录系统管理!");
-        }
-
-        ApiRes result = null;
-        try {
-            String userId = LoginTokenUtil.removeSSOToken(loginToken);
-
-            // 记录登录日志(异步)
-            String ip = NetUtil.getIp(request);
-            optLogService.setLogs("用户模块", "单点登录", "注销登录", ip, userId, systemCode).addOptLogsRunnable();
-
-            result = ApiRes.ok("注销成功！");
-        } catch (LtServerException lex) {
-            result = ApiRes.error(lex.getErrorMsg(), lex.getMessage());
-        } catch (Exception e) {
-            result = ApiRes.error(ResultEnum.ServerError, "注销失败！");
-        }
-
-        return result;
-    }
-
-    /*----------------- 以上为单点登录用方法,以下为扫码登录用方法  ---------------------*/
 
     /**
      * 获取扫描使用登录的二维码图片
@@ -207,7 +61,7 @@ public class SsoController extends BaseController {
 
         try {
             String ip = NetUtil.getIp(request);
-            ByteArrayOutputStream qrCodeOut = LoginTokenUtil.getQrCode(ip, systemCode);
+            ByteArrayOutputStream qrCodeOut = QRCodeLoginUtil.getQrCode(ip, systemCode);
 
             // 通知浏览器不要缓存
             response.setHeader("Cache-Control", "no-store");
@@ -248,12 +102,12 @@ public class SsoController extends BaseController {
 
         try {
             // 认证成功，直接返回给前台用户的信息。
-            SysUser user = loginService.getUserByAccount(account);
+            UserInfo user = loginService.getUserByAccount(account);
             if (user == null) {
                 ApiRes.error(ResultEnum.UserPwdError, "授权服务器，未找到当前用户信息。");
             }
 
-            boolean result = LoginTokenUtil.checkQrCode(qrCode, account);
+            boolean result = QRCodeLoginUtil.checkQrCode(qrCode, account);
 
             return !result ? ApiRes.error(ResultEnum.ParamError, "二维码错误！") : ApiRes.ok("验证成功！");
         } catch (LtServerException lex) {
@@ -281,18 +135,18 @@ public class SsoController extends BaseController {
 
         String ip = NetUtil.getIp(request);
         try {
-            String account = LoginTokenUtil.checkQrCodeLogin(ip, systemCode);
+            String account = QRCodeLoginUtil.checkQrCodeLogin(ip, systemCode);
             if (StringUtils.isBlank(account)) {
                 return ApiRes.ok(null);
             }
 
             // 认证成功，直接返回给前台用户的信息。
-            SysUser user = loginService.getUserByAccount(account);
+            UserInfo user = loginService.getUserByAccount(account);
 
             // 记录登录日志(异步)
             optLogService.setLogs("用户模块", "扫码登录", "扫描二维码登录", ip, user.getId(), systemCode).addOptLogsRunnable();
 
-            LoginUserMsg userMsg = loginService.getSsoUserMsg(user, systemCode);
+            LoginUserMsg userMsg = loginService.getLoginMsg(user, systemCode);
             return ApiRes.ok(userMsg);
 
         } catch (LtServerException lex) {

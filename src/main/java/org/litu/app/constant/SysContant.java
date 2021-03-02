@@ -1,8 +1,8 @@
 package org.litu.app.constant;
 
 import org.litu.core.base.BaseConstant;
-import org.litu.util.file.FileUtil;
 import org.litu.util.common.SysMsgUtil;
+import org.litu.util.file.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,12 +30,8 @@ public class SysContant extends BaseConstant {
     public static final String MENUTYPE_FUNCTION = "2";
     public static final String MENUTYPE_BUTTON = "3";
 
-    //单点登录的token在cookie存储的key
-    public static String SSO_COOKIE_KEY = "loginToken";
     // session中存储的菜单列表信息
     public static final String SESSION_MENU = "menu-list";
-    // 是否是默认密码
-    public static final String SESSION_IS_DEFAULT_PWD = "is-default-password";
 
     /*-----------------------------系统配置相关内容------------------------------------*/
 

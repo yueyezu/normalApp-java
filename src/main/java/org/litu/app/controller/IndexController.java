@@ -7,12 +7,12 @@ import org.litu.app.constant.SysContant;
 import org.litu.app.entity.*;
 import org.litu.app.service.*;
 import org.litu.app.vo.CacheData;
-import org.litu.base.util.UserUtil;
 import org.litu.core.base.BaseController;
 import org.litu.core.base.BaseRes;
 import org.litu.core.base.SelectVo;
 import org.litu.core.base.TreeUtil;
-import org.litu.core.login.ShiroSessionUtil;
+import org.litu.core.login.ShiroLoginUtil;
+import org.litu.core.login.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,9 +48,9 @@ public class IndexController extends BaseController {
      * @return 主页面
      */
     @GetMapping("/index")
-    public String index(Model model) {
-        String userId = UserUtil.getUserId();
-        SysUser user = sysUserService.getById(userId);
+    public String index(String token, Model model) {
+        UserInfo user = nowUser(token);
+
         model.addAttribute("userMsg", user);
 
         if (StringUtils.isBlank(user.getPhoto()))
@@ -58,15 +58,14 @@ public class IndexController extends BaseController {
         else
             model.addAttribute("userPhoto", "/sysFiles/loadFile?file=" + user.getPhoto());
 
-        List<SysMenu> menus = getMenus(userId);
+        List<SysMenu> menus = getMenus(user.getId());
         model.addAttribute("menuList", menus);
-
 
         return "index";
     }
 
     private List<SysMenu> getMenus(String userId) {
-        List<SysMenu> menus = ShiroSessionUtil.session(SysContant.SESSION_MENU);
+        List<SysMenu> menus = ShiroLoginUtil.session(SysContant.SESSION_MENU);
         if (menus == null) {
             List<String> menuTypes = new ArrayList<>();
             menuTypes.add(SysContant.MENUTYPE_MODULE);
@@ -79,7 +78,7 @@ public class IndexController extends BaseController {
             }
             menus = TreeUtil.build(menuTreeNodes);
 
-            ShiroSessionUtil.session(SysContant.SESSION_MENU, menus);
+            ShiroLoginUtil.session(SysContant.SESSION_MENU, menus);
         }
 
         return menus;
@@ -108,7 +107,7 @@ public class IndexController extends BaseController {
      */
     @GetMapping("/main/userinfo")
     public String userinfo(Model model) {
-        String userId = UserUtil.getUserId();
+        String userId = nowUser().getId();
         SysUser user = sysUserService.getById(userId);
         model.addAttribute("data", user);
 
@@ -131,9 +130,8 @@ public class IndexController extends BaseController {
     @ResponseBody
     public BaseRes data() {
         CacheData data = new CacheData();
-        String userId = UserUtil.getUserId();
+        String userId = nowUser().getId();
         data.setUserId(userId);
-        data.setIsDefaultPwd(UserUtil.session(SysContant.SESSION_IS_DEFAULT_PWD));
 
         // 字典信息获取
         LambdaQueryWrapper<SysDict> dictWrapper = Wrappers.lambdaQuery();

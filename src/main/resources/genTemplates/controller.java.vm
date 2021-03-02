@@ -5,8 +5,8 @@ import io.swagger.annotations.Api;
 #end
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
-import org.litu.core.annotation.LtLog;
-import org.litu.core.annotation.PageBasePath;
+import org.litu.base.log.LtLog;
+import org.litu.base.controller.PageBasePath;
 #if(${superControllerClassPackage})
 import ${superControllerClassPackage};
 #end

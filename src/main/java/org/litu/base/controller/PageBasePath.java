@@ -1,4 +1,4 @@
-package org.litu.core.annotation;
+package org.litu.base.controller;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -3,8 +3,9 @@ package org.litu.app.controller.system;
 import org.litu.app.entity.SysSystemversion;
 import org.litu.app.service.ISysSystemversionService;
 import org.litu.base.controller.BaseViewFormController;
-import org.litu.core.annotation.LtLog;
-import org.litu.core.annotation.PageBasePath;
+import org.litu.base.log.LtLog;
+import org.litu.base.controller.PageBasePath;
+import org.litu.core.login.TokenCheck;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class SysSystemversionController extends BaseViewFormController<SysSystem
      * @return 对应该类的index页面
      */
     @GetMapping("/index/{sysCode}")
+    @TokenCheck(check = false)
     public String index(Model model, @PathVariable(value = "sysCode") String sysCode) {
         model.addAttribute("sysCode", sysCode);
         return "system/systemVersion/index";
@@ -38,6 +40,7 @@ public class SysSystemversionController extends BaseViewFormController<SysSystem
      * @return 对应该类的form页面
      */
     @GetMapping(value = "/form/{sysCode}")
+    @TokenCheck(check = false)
     @Override
     public String form(Model model, @PathVariable(value = "sysCode") String sysCode) {
         model.addAttribute("sysCode", sysCode);
@@ -51,6 +54,7 @@ public class SysSystemversionController extends BaseViewFormController<SysSystem
      * @return 对应该类的form页面
      */
     @GetMapping(value = "/form/{sysCode}/{id}")
+    @TokenCheck(check = false)
     public String form(Model model, @PathVariable(value = "sysCode") String sysCode, @PathVariable(value = "id") String id) {
         SysSystemversion obj = service.detail(id);
         model.addAttribute("data", obj);

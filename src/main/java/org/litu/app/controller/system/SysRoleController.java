@@ -6,8 +6,9 @@ import org.litu.app.entity.SysSystem;
 import org.litu.app.service.ISysRoleService;
 import org.litu.app.service.ISysSystemService;
 import org.litu.base.controller.BaseViewFormController;
-import org.litu.core.annotation.LtLog;
-import org.litu.core.annotation.PageBasePath;
+import org.litu.base.log.LtLog;
+import org.litu.base.controller.PageBasePath;
+import org.litu.core.login.TokenCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,6 +39,7 @@ public class SysRoleController extends BaseViewFormController<SysRole, ISysRoleS
      * @return 角色权限选择页面
      */
     @GetMapping(value = "/roleMenu/{roleId}")
+    @TokenCheck(check = false)
     public String userRole(@PathVariable(name = "roleId") String roleId, Model model) {
         model.addAttribute("roleId", roleId);
 
@@ -54,6 +56,7 @@ public class SysRoleController extends BaseViewFormController<SysRole, ISysRoleS
      * @return 岗位列表界面
      */
     @GetMapping(value = "/quarters/index")
+    @TokenCheck(check = false)
     public String quartersIndex(Model model) {
         return "system/quarters/index";
     }
@@ -65,6 +68,7 @@ public class SysRoleController extends BaseViewFormController<SysRole, ISysRoleS
      * @return 岗位表单界面
      */
     @GetMapping(value = {"/quarters/form", "/quarters/form/{id}"})
+    @TokenCheck(check = false)
     public String quartersForm(Model model, @PathVariable(value = "id", required = false) String id) {
         // 如果ID不为空，则认为是编辑界面，对界面的数据进行获取
         if (StringUtils.isNotBlank(id)) {
@@ -81,6 +85,7 @@ public class SysRoleController extends BaseViewFormController<SysRole, ISysRoleS
      * @return 岗位详情界面
      */
     @GetMapping(value = "/quarters/view/{id}")
+    @TokenCheck(check = false)
     public String quartersDetail(Model model, @PathVariable(value = "id") String id) {
         // 获取详情信息
         SysRole obj = service.detail(id);

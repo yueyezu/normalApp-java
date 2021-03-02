@@ -6,8 +6,9 @@ import org.litu.app.entity.SysSystem;
 import org.litu.app.service.ISysMenuService;
 import org.litu.app.service.ISysSystemService;
 import org.litu.base.controller.BaseViewTreeController;
-import org.litu.core.annotation.LtLog;
-import org.litu.core.annotation.PageBasePath;
+import org.litu.base.log.LtLog;
+import org.litu.base.controller.PageBasePath;
+import org.litu.core.login.TokenCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +49,7 @@ public class SysMenuController extends BaseViewTreeController<SysMenu, ISysMenuS
      * @return 对应该类的form页面
      */
     @GetMapping(value = {"/form", "/form/{id}"})
+    @TokenCheck(check = false)
     @Override
     public String form(Model model, @PathVariable(value = "id", required = false) String id) {
         Map<String, String> params = requestParams();

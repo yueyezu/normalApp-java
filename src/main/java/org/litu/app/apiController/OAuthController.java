@@ -7,15 +7,15 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.apiController.vo.AccessTokenVo;
 import org.litu.app.entity.SysAccesstoken;
-import org.litu.app.entity.SysUser;
 import org.litu.app.service.ISysAccesstokenService;
 import org.litu.app.vo.LoginUserMsg;
-import org.litu.core.base.BaseController;
-import org.litu.core.base.ApiRes;
-import org.litu.base.service.IBaseLogService;
+import org.litu.base.log.IBaseLogService;
 import org.litu.base.service.ILoginService;
+import org.litu.core.base.ApiRes;
+import org.litu.core.base.BaseController;
 import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtServerException;
+import org.litu.core.login.UserInfo;
 import org.litu.util.net.NetUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ import static org.litu.core.base.ApiRes.error;
 public class OAuthController extends BaseController {
 
     @Autowired
-    ILoginService loginService;
+    ILoginService<LoginUserMsg> loginService;
     @Autowired
     private IBaseLogService optLogService;
     @Autowired
@@ -78,7 +78,7 @@ public class OAuthController extends BaseController {
 
         try {
             // 检测当前登录用户的信息是否正确
-            SysUser user = loginService.checkLogin(client_id, username, password);
+            UserInfo user = loginService.checkLogin(client_id, username, password);
             if (user == null) {
                 return ApiRes.error(ResultEnum.UserPwdError);
             }
@@ -189,7 +189,7 @@ public class OAuthController extends BaseController {
         String ip = NetUtil.getIp(request);
         optLogService.setLogs("用户模块", "授权登录", "第三方授权登录，验证码登录", ip, accesstoken.getUserId(), client_id).addOptLogsRunnable();
 
-        LoginUserMsg userMsg = loginService.getLoginUserMsg(accesstoken.getUserId(), client_id);
+        LoginUserMsg userMsg = loginService.getLoginMsg(accesstoken.getUserId(), client_id);
         return ApiRes.ok(userMsg);
     }
 }

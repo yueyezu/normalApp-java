@@ -2,6 +2,7 @@ package org.litu.app.service;
 
 import org.litu.app.entity.SysFiles;
 import org.litu.base.service.IBaseService;
+import org.litu.core.login.UserInfo;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +27,7 @@ public interface ISysFilesService extends IBaseService<SysFiles> {
      * @param file
      * @return
      */
-    SysFiles uploadFile(@RequestParam("file") MultipartFile file);
+    SysFiles uploadFile(UserInfo user, @RequestParam("file") MultipartFile file);
 
     /**
      * 其他接口接收文件的保存接口
@@ -34,7 +35,7 @@ public interface ISysFilesService extends IBaseService<SysFiles> {
      * @param file 保存到本地的文件
      * @return 添加成功返回保存后的文件实体信息
      */
-    SysFiles save(File file);
+    SysFiles save(UserInfo user,File file);
 
     /**
      * 加载获取文件

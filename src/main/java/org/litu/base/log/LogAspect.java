@@ -1,17 +1,16 @@
-package org.litu.base.interceptor;
+package org.litu.base.log;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.litu.base.service.IBaseLogService;
-import org.litu.base.util.UserUtil;
-import org.litu.base.vo.LtLogsVo;
-import org.litu.core.annotation.LtLog;
-import org.litu.core.annotation.LtLogOperation;
+import org.litu.core.login.TokenUtil;
+import org.litu.core.login.UserInfo;
 import org.litu.util.transform.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,39 +26,44 @@ import java.util.Map;
 /**
  * aop实现方法拦截
  */
-@Aspect
+@Aspect()
 @Component
-public class MethodInterceptor {
+public class LogAspect {
 
     @Autowired
     private IBaseLogService optLogService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private TokenUtil tokenUtil;
 
-    private final Logger logger = LoggerFactory.getLogger(MethodInterceptor.class);
+    @Value("${ltsystem.sysmsg.code}")
+    private String syetemCode;
+
+    private final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
     //切点
-    @Pointcut("execution(public * org.litu.app.controller..*.*(..)) || execution(public * org.litu.base.controller.BaseFormController.*(..))")
-    public void myMethod() {
+    @Pointcut("@annotation(org.litu.base.log.LtLogOperation)")
+    public void logPointcut() {
     }
 
-    /**
-     * 进入方法后打印日志
-     *
-     * @param joinPoint 切点
-     */
-    @Before("myMethod()")
-    public void before(JoinPoint joinPoint) {
-    }
-
-    /**
-     * 方法结束打印日志
-     *
-     * @param joinPoint 切点
-     */
-    @After("myMethod()")
-    public void after(JoinPoint joinPoint) {
-    }
+//    /**
+//     * 进入方法后打印日志
+//     *
+//     * @param joinPoint 切点
+//     */
+//    @Before("logPointcut()")
+//    public void before(JoinPoint joinPoint) {
+//    }
+//
+//    /**
+//     * 方法结束打印日志
+//     *
+//     * @param joinPoint 切点
+//     */
+//    @After("logPointcut()")
+//    public void after(JoinPoint joinPoint) {
+//    }
 
     /**
      * 打印日志
@@ -68,7 +72,7 @@ public class MethodInterceptor {
      * @return 日志
      * @throws Throwable 抛出异常
      */
-    @Around("myMethod()")
+    @Around("logPointcut()")
     public Object processLog(ProceedingJoinPoint joinPoint) throws Throwable {
         Object obj = null;
         Object[] args = joinPoint.getArgs();
@@ -120,9 +124,6 @@ public class MethodInterceptor {
         return targetMethod;
     }
 
-    @Value("${ltsystem.sysmsg.code}")
-    private String syetemCode;
-
     /**
      * 解析@SysLogDescriptor注解，并将日志写入数据库
      *
@@ -156,11 +157,12 @@ public class MethodInterceptor {
             operation = methodLogParam.operation().getOperation();
         }
         String ip = SecurityUtils.getSubject().getSession().getHost();
-        String userId = UserUtil.getUserId();
+        String token = request.getHeader(tokenUtil.getTokenKey());
+        UserInfo userInfo = tokenUtil.getUser(token);
 
         LtLogsVo log = new LtLogsVo();
         log.setCreatetime(new Date());
-        log.setUserId(userId);
+        log.setUserId(userInfo.getId());
         log.setIp(ip);
         log.setModule(module);
         log.setOpttype(operation);
@@ -171,18 +173,18 @@ public class MethodInterceptor {
         optLogService.addOptLogs(log);
     }
 
-    /**
-     * AfterReturning 方法执行正常返回 拦截执行
-     */
-    @AfterReturning("myMethod()")
-    public void afterReturning(JoinPoint joinPoint) {
-    }
-
-    /**
-     * AfterThrowing 拦截执行
-     */
-    @AfterThrowing(pointcut = "myMethod()", throwing = "ex")
-    public void afterThrowing(JoinPoint joinPoint, Throwable ex) {
-        // logger.error("{} 出现异常：",getMethodName(joinPoint),ex);
-    }
+//    /**
+//     * AfterReturning 方法执行正常返回 拦截执行
+//     */
+//    @AfterReturning("logPointcut()")
+//    public void afterReturning(JoinPoint joinPoint) {
+//    }
+//
+//    /**
+//     * AfterThrowing 拦截执行
+//     */
+//    @AfterThrowing(pointcut = "logPointcut()", throwing = "ex")
+//    public void afterThrowing(JoinPoint joinPoint, Throwable ex) {
+//        // logger.error("{} 出现异常：",getMethodName(joinPoint),ex);
+//    }
 }

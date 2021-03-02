@@ -9,12 +9,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.litu.core.base.BaseConstant;
-import org.litu.core.base.BaseEntity;
 import org.litu.base.service.IBaseService;
 import org.litu.base.service.IBaseUserService;
-import org.litu.base.util.UserUtil;
+import org.litu.core.base.BaseConstant;
+import org.litu.core.base.BaseEntity;
 import org.litu.core.exception.LtParamException;
+import org.litu.core.login.UserInfo;
 import org.litu.util.common.FieldUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +41,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
     /**
      * 列表查询参数的处理方法
      */
-    public void beforeList(T entity, String keyword, Map<String, String> params, LambdaQueryWrapper<T> query) {
+    public void beforeList(UserInfo user, T entity, String keyword, Map<String, String> params, LambdaQueryWrapper<T> query) {
         // query.eq("deleteFlag", BaseConstant.FLAG_FALSE);
         // query.like("code", keyword);
         // query.like("name", keyword);
@@ -56,9 +56,9 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return controller层列表方法
      */
     @Override
-    public List<T> list(T entity, String keyword, Map<String, String> params) {
+    public List<T> list(UserInfo user, T entity, String keyword, Map<String, String> params) {
         LambdaQueryWrapper<T> query = Wrappers.lambdaQuery();
-        beforeList(entity, keyword, params, query);
+        beforeList(user,entity, keyword, params, query);
         List<T> lists = list(query);
         return lists;
     }
@@ -66,7 +66,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
     /**
      * 分页查询前的处理方法
      */
-    public void beforePage(T entity, String keyword, IPage<T> page, Map<String, String> params, LambdaQueryWrapper<T> query) {
+    public void beforePage(UserInfo user, T entity, String keyword, IPage<T> page, Map<String, String> params, LambdaQueryWrapper<T> query) {
         // query.eq("deleteFlag", BaseConstant.FLAG_FALSE);
         // query.like("code", keyword);
         // query.like("name", keyword);
@@ -82,9 +82,9 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return controller分页
      */
     @Override
-    public IPage<T> page(T entity, String keyword, IPage<T> page, Map<String, String> params) {
+    public IPage<T> page(UserInfo user, T entity, String keyword, IPage<T> page, Map<String, String> params) {
         LambdaQueryWrapper<T> query = Wrappers.lambdaQuery();
-        beforePage(entity, keyword, page, params, query);
+        beforePage(user, entity, keyword, page, params, query);
         IPage<T> pages = page(page, query);
 
         // 这里特殊处理下，如果获取的页没有数据，并且不是第一页的话，获取最后一页的数据
@@ -129,13 +129,13 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @param params 参数
      * @return true表示信息保存成功
      */
-    public boolean beforeSave(T entity, Map<String, String> params) {
+    public boolean beforeSave(UserInfo user, T entity, Map<String, String> params) {
         if (FieldUtil.hasProperty(entity.getClass(), "createTime")) {
-            FieldUtil.write(entity, "createBy", UserUtil.getUserId());
+            FieldUtil.write(entity, "createBy", user.getId());
             FieldUtil.write(entity, "createTime", new Date());
         }
         if (FieldUtil.hasProperty(entity.getClass(), "modifyTime")) {
-            FieldUtil.write(entity, "modifyBy", UserUtil.getUserId());
+            FieldUtil.write(entity, "modifyBy", user.getId());
             FieldUtil.write(entity, "modifyTime", new Date());
         }
         if (FieldUtil.hasProperty(entity.getClass(), "enableDelete")) {
@@ -155,8 +155,8 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return true表明保存成功
      */
     @Override
-    public boolean save(T entity, Map<String, String> params) {
-        boolean before = beforeSave(entity, params);
+    public boolean save(UserInfo user, T entity, Map<String, String> params) {
+        boolean before = beforeSave(user, entity, params);
         if (before) {
             return super.save(entity);
         } else {
@@ -172,10 +172,10 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @param updateWrapper Update 条件封装，用于Entity对象更新操作
      * @return true表示成功更新之前的操作
      */
-    public boolean beforeUpdate(T entity, Map<String, String> params, LambdaUpdateWrapper<T> updateWrapper) {
+    public boolean beforeUpdate(UserInfo user, T entity, Map<String, String> params, LambdaUpdateWrapper<T> updateWrapper) {
         if (FieldUtil.hasProperty(entity.getClass(), "modifyTime")) {
             FieldUtil.write(entity, "modifyTime", new Date());
-            FieldUtil.write(entity, "modifyBy", UserUtil.getUserId());
+            FieldUtil.write(entity, "modifyBy", user.getId());
         }
 
         return true;
@@ -189,13 +189,13 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return true则表明更新成功
      */
     @Override
-    public boolean update(T entity, Map<String, String> params) {
+    public boolean update(UserInfo user, T entity, Map<String, String> params) {
         if (getById(entity.getId()) == null) {
             throw new LtParamException("无效的ID!");
         }
 
         LambdaUpdateWrapper<T> updateWrapper = Wrappers.lambdaUpdate();
-        if (!beforeUpdate(entity, params, updateWrapper)) {
+        if (!beforeUpdate(user, entity, params, updateWrapper)) {
             throw new LtParamException("更新数据存在问题!");
         }
 
@@ -291,7 +291,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @param entity 实体类
      * @return true则表明允许逻辑删除
      */
-    public boolean beforeLogicalDelete(String id, Map<String, String> params, T entity, UpdateWrapper<T> updateWrapper) {
+    public boolean beforeLogicalDelete(UserInfo user, String id, Map<String, String> params, T entity, UpdateWrapper<T> updateWrapper) {
         if (FieldUtil.hasProperty(entity.getClass(), "enableDelete")) {
             if (FieldUtil.<Integer>read(entity, "enableDelete").equals(BaseConstant.FLAG_FALSE)) {
                 throw new LtParamException("当前对象，不允许删除!");
@@ -300,7 +300,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
 
         updateWrapper.eq("id", id);
         updateWrapper.set("deleteFlag", BaseConstant.FLAG_TRUE);
-        updateWrapper.set("deleteUserId", UserUtil.getUserId());
+        updateWrapper.set("deleteUserId", user.getId());
         updateWrapper.set("deleteTime", new Date());
 
         return true;
@@ -314,14 +314,14 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
      * @return true则表明逻辑删除成功
      */
     @Override
-    public boolean logicalDelete(String id, Map<String, String> params) {
+    public boolean logicalDelete(UserInfo user, String id, Map<String, String> params) {
         T entity = getById(id);
         if (entity == null) {
             throw new LtParamException("无效的ID!");
         }
 
         UpdateWrapper<T> updateWrapper = new UpdateWrapper<>();
-        boolean res = beforeLogicalDelete(id, params, entity, updateWrapper);
+        boolean res = beforeLogicalDelete(user, id, params, entity, updateWrapper);
         if (res == false) {
             throw new LtParamException("删除验证不通过，无法进行删除");
         }
@@ -419,10 +419,6 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEnt
         UpdateWrapper<T> query = new UpdateWrapper<>();
         query.eq("id", id);
         query.set(field, value);
-        if (FieldUtil.hasProperty(entity.getClass(), "modifyTime")) {
-            FieldUtil.write(entity, "modifyTime", new Date());
-            FieldUtil.write(entity, "modifyBy", UserUtil.getUserId());
-        }
 
         return update(query);
     }

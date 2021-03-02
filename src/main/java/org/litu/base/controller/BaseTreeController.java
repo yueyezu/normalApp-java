@@ -3,14 +3,13 @@ package org.litu.base.controller;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.litu.base.service.IBaseTreeService;
-import org.litu.base.vo.TreeVo;
+import org.litu.core.base.TreeVo;
+import org.litu.core.login.TokenCheck;
 import org.litu.core.base.BaseTreeEntity;
 import org.litu.core.base.ITreeNode;
 import org.litu.core.base.TreeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@TokenCheck
 public abstract class BaseTreeController<T extends BaseTreeEntity & ITreeNode<T>, S extends IBaseTreeService<T>> extends BaseFormController<T, S> {
 
     @Autowired

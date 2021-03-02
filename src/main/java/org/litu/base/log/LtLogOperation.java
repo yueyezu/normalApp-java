@@ -1,6 +1,4 @@
-package org.litu.core.annotation;
-
-import org.litu.core.enums.LtLogOperationEnum;
+package org.litu.base.log;
 
 import java.lang.annotation.*;
 

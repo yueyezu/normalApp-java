@@ -36,6 +36,7 @@ public class Application extends SpringBootServletInitializer {
         System.out.println("* |_____| |_|    |_|     \\______/     *");
         System.out.println("* ~~ 跟我一起祈祷：别出bug！别出bug！别出bug！~~ *");
         System.out.println("***************************************");
+
     }
 
     /************************** 华丽的分割线：上报是jar包的方法，下边是war包的方法。 *****************************/

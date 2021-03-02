@@ -14,7 +14,8 @@ import org.litu.app.service.ISysFilesService;
 import org.litu.app.service.ISysUserService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.litu.core.exception.LtParamException;
-import org.litu.core.login.LoginTokenUtil;
+import org.litu.core.login.PasswordUtil;
+import org.litu.core.login.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,17 +49,17 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      * @param query
      */
     @Override
-    public void beforeList(SysUser entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysUser> query) {
-        super.beforeList(entity, keyword, params, query);
+    public void beforeList(UserInfo user, SysUser entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysUser> query) {
+        super.beforeList(user, entity, keyword, params, query);
         query.eq(SysUser::getDeleteFlag, SysContant.FLAG_FALSE);
         query.orderByAsc(SysUser::getSortNum);
     }
 
     @Override
-    public boolean beforeSave(SysUser entity, Map<String, String> params) {
-        SysUser user = getByAccount(entity.getAccount());
-        if (user == null) {
-            return super.beforeSave(entity, params);
+    public boolean beforeSave(UserInfo user, SysUser entity, Map<String, String> params) {
+        SysUser dbUser = getByAccount(entity.getAccount());
+        if (dbUser == null) {
+            return super.beforeSave(user, entity, params);
         }
 
         throw new LtParamException("当前帐号已注册！");
@@ -68,16 +69,16 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      * 用户添加的方法
      */
     @Override
-    public boolean save(SysUser entity, Map<String, String> params) {
+    public boolean save(UserInfo user, SysUser entity, Map<String, String> params) {
         if (!super.save(entity)) {
             throw new LtParamException("用户信息保存失败！");
         }
         // 创建用户的密码信息
         SysUserlogin sysUserLogin = new SysUserlogin();
-        String sKey = LoginTokenUtil.GetSecretkey();
+        String sKey = PasswordUtil.GetSecretkey();
         sysUserLogin.setSecretKey(sKey);
         try {
-            sysUserLogin.setPassword(LoginTokenUtil.GetDbPassword(sKey));
+            sysUserLogin.setPassword(PasswordUtil.GetDbPassword(sKey));
         } catch (Exception e) {
             throw new LtParamException("生成用户密码错误！");
         }
@@ -91,13 +92,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public boolean beforeUpdate(SysUser entity, Map<String, String> params, LambdaUpdateWrapper<SysUser> updateWrapper) {
+    public boolean beforeUpdate(UserInfo user, SysUser entity, Map<String, String> params, LambdaUpdateWrapper<SysUser> updateWrapper) {
         LambdaQueryWrapper<SysUser> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(SysUser::getAccount, entity.getAccount());
         queryWrapper.ne(SysUser::getId, entity.getId());
-        SysUser user = getOne(queryWrapper);
-        if (user == null) {
-            return super.beforeUpdate(entity, params, updateWrapper);
+        SysUser dbUser = getOne(queryWrapper);
+        if (dbUser == null) {
+            return super.beforeUpdate(user, entity, params, updateWrapper);
         }
 
         throw new LtParamException("当前帐号已注册！");

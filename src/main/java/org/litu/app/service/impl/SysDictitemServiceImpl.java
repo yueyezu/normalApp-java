@@ -5,6 +5,7 @@ import org.litu.app.dao.SysDictItemMapper;
 import org.litu.app.entity.SysDictitem;
 import org.litu.app.service.ISysDictitemService;
 import org.litu.base.service.impl.BaseServiceImpl;
+import org.litu.core.login.UserInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class SysDictitemServiceImpl extends BaseServiceImpl<SysDictItemMapper, SysDictitem> implements ISysDictitemService {
 
     @Override
-    public void beforeList(SysDictitem entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysDictitem> query) {
+    public void beforeList(UserInfo user, SysDictitem entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysDictitem> query) {
         query.eq(SysDictitem::getDictId, entity.getDictId());
         query.and(i -> i.like(SysDictitem::getCode, keyword).or().like(SysDictitem::getName, keyword));
         query.orderByAsc(SysDictitem::getSortNum);

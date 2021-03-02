@@ -59,7 +59,7 @@
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a class="J_menuItem" href="${rc.contextPath}/main/changepassword">修改密码</a></li>
-                            <li><a class="J_menuItem" href="${rc.contextPath}/user/changeHeader">修改头像</a></li>
+                            <li><a class="J_menuItem" href="${rc.contextPath}/user/changeHeader" needToken="true">修改头像</a></li>
                             <li><a class="J_menuItem" href="${rc.contextPath}/main/userinfo">个人资料</a></li>
                             <li class="divider"></li>
                             <li id="liLogout"><a>安全退出</a>

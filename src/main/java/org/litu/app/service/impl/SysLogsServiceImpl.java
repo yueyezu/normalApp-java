@@ -7,6 +7,7 @@ import org.litu.app.dao.SysLogsMapper;
 import org.litu.app.entity.SysLogs;
 import org.litu.app.service.ISysLogsService;
 import org.litu.base.service.impl.BaseServiceImpl;
+import org.litu.core.login.UserInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class SysLogsServiceImpl extends BaseServiceImpl<SysLogsMapper, SysLogs> implements ISysLogsService {
 
     @Override
-    public void beforePage(SysLogs sysLogs, String keyword, IPage<SysLogs> page, Map<String, String> params, LambdaQueryWrapper<SysLogs> query) {
+    public void beforePage(UserInfo user, SysLogs sysLogs, String keyword, IPage<SysLogs> page, Map<String, String> params, LambdaQueryWrapper<SysLogs> query) {
         if (StringUtils.isNotBlank(params.get("startTime"))) {
             query.ge(SysLogs::getCreateTime, params.get("startTime"));
         }

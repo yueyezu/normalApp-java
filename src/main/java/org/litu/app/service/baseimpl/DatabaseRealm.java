@@ -14,7 +14,7 @@ import org.litu.app.service.ISysRoleService;
 import org.litu.app.service.ISysUserService;
 import org.litu.app.service.ISysUserloginService;
 import org.litu.core.exception.LtServerException;
-import org.litu.core.login.ShiroSessionUtil;
+import org.litu.core.login.ShiroLoginUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +50,8 @@ public class DatabaseRealm extends AuthorizingRealm {
         if (StringUtils.isBlank(account)) {
             return authorizationInfo;
         }
-        List<String> userRoles = ShiroSessionUtil.getCurrentRoles();
-        List<String> userPermissions = ShiroSessionUtil.getCurrentPermission();
+        List<String> userRoles = ShiroLoginUtil.getCurrentRoles();
+        List<String> userPermissions = ShiroLoginUtil.getCurrentPermission();
 
         if (userRoles == null || userPermissions == null || userRoles.isEmpty() || userPermissions.isEmpty()) {
             try {
@@ -60,7 +60,7 @@ public class DatabaseRealm extends AuthorizingRealm {
                 userRoles = sysRoleService.userRoles(user.getId());
                 // 用户权限
                 userPermissions = sysMenuService.userPrivileges(user.getId(), SysContant.CURRENT_SYSTEM_CODE);
-                ShiroSessionUtil.setLoginMsg(userRoles, userPermissions);
+                ShiroLoginUtil.setLoginMsg(userRoles, userPermissions);
             } catch (LtServerException se) {
                 log.error(se.getMessage(), se);
             } catch (Exception e) {

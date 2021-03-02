@@ -15,7 +15,7 @@ import org.litu.app.service.ISysUserService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.litu.core.enums.ResultEnum;
 import org.litu.core.exception.LtServerException;
-import org.litu.core.login.LoginTokenUtil;
+import org.litu.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -230,11 +230,12 @@ public class SysAccesstokenServiceImpl extends BaseServiceImpl<SysAccesstokenMap
      * @return
      */
     private SysAccesstoken CreateAccessToken(SysAccesstoken accessToken) {
-        String token = LoginTokenUtil.getToken(accessToken.getClientType(), accessToken.getClientMac(), accessToken.getClientMcode());
+        // TODO 第三方的token，后续将该方法调整的token复杂度高些。
+        String token = Util.GuId32();
         accessToken.setToken(token);
         accessToken.setEnableTime(tokenEnableTime);
 
-        String refreshToken = LoginTokenUtil.getToken(accessToken.getClientType(), accessToken.getClientMac(), accessToken.getClientMcode());
+        String refreshToken = Util.GuId32();
         accessToken.setRefreshToken(refreshToken);
         accessToken.setEnableRefreshTime(refreshEnableTime);
 

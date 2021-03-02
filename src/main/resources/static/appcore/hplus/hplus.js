@@ -3,17 +3,18 @@ var lt = window.lt || {};
 lt.cache = (function ($) {
     var cache = {
         isInit: false,
+        token: null,
         userId: '0',
-        isDefaultPwd: false,
         dictItems: {},
         dictItemArr: {}
     };
     // 初始化方法
-    cache.init = function () {
+    cache.init = function (token) {
         // 如果缓存信息存在了，则直接返回
         if (lt.cache.isInit) {
             return;
         }
+        lt.cache.token = token;
         lt.cache.isInit = true;
 
         //初始化缓存信息
@@ -21,10 +22,10 @@ lt.cache = (function ($) {
             url: "/data",
             type: 'get',
             async: false,
+            headers: {auth: token},
             success: function (res) {
                 if (res.code == 200) {
                     var data = res.data;
-                    cache.isDefaultPwd = data.isDefaultPwd;
                     cache.userId = data.userId;
                     cache.dictItems = data.dictItems;
                     cache.dictItemArr = data.dictItemArr;
@@ -38,14 +39,17 @@ lt.cache = (function ($) {
         cache.userId = '0';
         cache.dictItems = {};
         cache.dictItemArr = {};
+        cache.token = null;
     }
 
     return cache;
 })(jQuery);
 
 $(function () {
+    debugger
+    var params = $.requestParams();
     // 初始化换成信息
-    lt.cache.init();
+    lt.cache.init(params.token);
     // 侧边栏高度
     var heightWithoutNavbar = $("body > #wrapper").height() - 61;
     $(".sidebard-panel").css("min-height", heightWithoutNavbar + "px");
@@ -282,7 +286,7 @@ $(function () {
     // 退出登录操作
     $('#btnLogout,#liLogout').click(function () {
         lt.confirm("确定要退出系统？", function () {
-            $.post("/logout", function () {
+            $.post("/public/logout", function () {
                 lt.cache.clear();
                 lt.alertSuccess("注销成功！", function () {
                     window.location = '/index'

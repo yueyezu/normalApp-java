@@ -3,11 +3,11 @@ package org.litu.app.service.baseimpl;
 import org.litu.app.constant.SysContant;
 import org.litu.app.entity.SysLogs;
 import org.litu.app.service.ISysLogsService;
-import org.litu.base.service.IBaseLogService;
+import org.litu.base.log.IBaseLogService;
+import org.litu.base.log.LtLogsVo;
 import org.litu.base.util.ThreadUtil;
-import org.litu.base.util.UserUtil;
-import org.litu.base.vo.LtLogsVo;
 import org.litu.core.exception.LtParamException;
+import org.litu.core.login.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,14 +26,14 @@ public class BaseLogService implements IBaseLogService {
     private LtLogsVo logsVo = null;
 
     @Override
-    public BaseLogService setLogs(String module, String optType, String optContent, String ip) {
+    public BaseLogService setLogs(UserInfo user, String module, String optType, String optContent, String ip) {
         LtLogsVo tempLogsVo = new LtLogsVo();
         tempLogsVo.setSystemCode(SysContant.CURRENT_SYSTEM_CODE);
         tempLogsVo.setModule(module);
         tempLogsVo.setOptcontent(optContent);
         tempLogsVo.setOpttype(optType);
         tempLogsVo.setIp(ip);
-        tempLogsVo.setUserId(UserUtil.getUserId());
+        tempLogsVo.setUserId(user.getId());
 
         this.logsVo = tempLogsVo;
         return this;
