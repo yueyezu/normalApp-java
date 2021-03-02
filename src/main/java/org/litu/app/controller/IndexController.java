@@ -49,8 +49,10 @@ public class IndexController extends BaseController {
      */
     @GetMapping("/index")
     public String index(String token, Model model) {
-        UserInfo user = nowUser(token);
+        if (StringUtils.isBlank(token))
+            return "login";
 
+        UserInfo user = nowUser(token);
         model.addAttribute("userMsg", user);
 
         if (StringUtils.isBlank(user.getPhoto()))

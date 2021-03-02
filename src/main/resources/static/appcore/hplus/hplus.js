@@ -286,7 +286,7 @@ $(function () {
     // 退出登录操作
     $('#btnLogout,#liLogout').click(function () {
         lt.confirm("确定要退出系统？", function () {
-            $.post("/public/logout", function () {
+            $.post("/public/logoutShiro", function () {
                 lt.cache.clear();
                 lt.alertSuccess("注销成功！", function () {
                     window.location = '/index'

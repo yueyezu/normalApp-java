@@ -8,7 +8,6 @@ import org.litu.app.constant.SysContant;
 import org.litu.app.vo.LoginUserMsg;
 import org.litu.base.log.IBaseLogService;
 import org.litu.base.log.LtLog;
-import org.litu.base.log.LtLogOperation;
 import org.litu.base.log.LtLogOperationEnum;
 import org.litu.base.service.ILoginService;
 import org.litu.core.base.ApiRes;
@@ -129,6 +128,33 @@ public class LoginController extends BaseController {
         return BaseRes.ok("登陆成功！").put("data", token);
     }
 
+    /**
+     * shiro登陆用户退出
+     *
+     * @return 成功则显示注销成功
+     */
+    @PostMapping("/public/logoutShiro")
+    @ResponseBody
+    @TokenCheck
+    public BaseRes logoutShiro() {
+        String token = token();
+        UserInfo user = nowUser(token);
+
+        boolean res = loginService.logoutShiro();
+        if (res) {
+            tokenUtil.delToken(token);
+
+            loginService.ChangeLoginStatus(user.getId(), SysContant.FLAG_FALSE);
+
+            // 更新userlogin表,记录日志(异步)
+            String ip = NetUtil.getIp(request);
+            optLogService.setLogs("用户模块", "退出", "退出登录", ip, user.getId()).addOptLogsRunnable();
+            return BaseRes.ok("注销成功！");
+        } else {
+            return BaseRes.error(ResultEnum.UpdateError, "注销失败！");
+        }
+    }
+
     /*======================== 以上为登陆使用 =================================*/
 
     /**
@@ -215,29 +241,18 @@ public class LoginController extends BaseController {
         }
     }
 
-
     /**
-     * 用户退出
+     * shiro登陆用户退出
      *
      * @return 成功则显示注销成功
      */
-    @LtLogOperation(operation = LtLogOperationEnum.LOGOUT)
     @PostMapping("/public/logout")
     @ResponseBody
     @TokenCheck
     public BaseRes logout() {
-        String userId = nowUser().getId();
-        String ip = NetUtil.getIp(request);
+        String token = token();
+        tokenUtil.delToken(token);
 
-        boolean res = loginService.logoutShiro();
-        if (res) {
-            loginService.ChangeLoginStatus(userId, SysContant.FLAG_FALSE);
-
-            // 更新userlogin表,记录日志(异步)
-            optLogService.setLogs("用户模块", "退出", "退出登录", ip, userId).addOptLogsRunnable();
-            return BaseRes.ok("注销成功！");
-        } else {
-            return BaseRes.error(ResultEnum.UpdateError, "注销失败！");
-        }
+        return BaseRes.ok("注销成功！");
     }
 }
