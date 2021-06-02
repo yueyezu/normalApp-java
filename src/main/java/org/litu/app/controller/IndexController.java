@@ -74,11 +74,7 @@ public class IndexController extends BaseController {
             menuTypes.add(SysContant.MENUTYPE_FUNCTION);
             List<SysMenu> tempMenus = sysMenuService.userMenus(userId, SysContant.CURRENT_SYSTEM_CODE, menuTypes);
 
-            List<SysMenu> menuTreeNodes = new ArrayList<>();
-            for (SysMenu sysMenu : tempMenus) {
-                menuTreeNodes.add(sysMenu);
-            }
-            menus = TreeUtil.build(menuTreeNodes);
+            menus = TreeUtil.build(tempMenus);
 
             ShiroLoginUtil.session(SysContant.SESSION_MENU, menus);
         }
@@ -163,5 +159,17 @@ public class IndexController extends BaseController {
         data.setDictItems(dictCache);
 
         return BaseRes.ok(data);
+    }
+
+    /* -------------------- 一下是公用的界面路由部分内容 ----------------------- */
+
+    /**
+     * 返回图标选择的
+     *
+     * @return
+     */
+    @GetMapping("/iconSelect")
+    public String iconSelect() {
+        return "core/icon";
     }
 }

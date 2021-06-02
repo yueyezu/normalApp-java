@@ -3,13 +3,12 @@ server:
 
 # ** 系统自定义配置项内容 **
 ltsystem:
+  file:
+    basePath: E:/0Temp/file/ # 文件存储的跟路径,绝对路径-直接使用,相对路径-项目运行目录下
   sysmsg:
-    title: 月夜开发框架java
-    desp: 本系统为月夜java项目开发的框架，使用可以大大缩减简单系统的开发时间。
-    host: localhost:8080
+    host: localhost:8081
   swagger:
     serviceUrl: localhost:8080/api/
-    serviceVersion: v1.2.1
 
 
 logging:
@@ -25,3 +24,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: qazwsx123
+  redis:
+    database: 2  # Redis数据库索引（默认为0）
+    host: 118.190.202.102 # Redis服务器地址
+    port: 6379 # Redis服务器连接端口
+    password: litugaoke01! # Redis服务器连接密码（默认为空）

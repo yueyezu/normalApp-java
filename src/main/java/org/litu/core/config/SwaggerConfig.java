@@ -205,7 +205,6 @@ public class SwaggerConfig {
                     .paths(PathSelectors.any()).build();
         }
 
-
         return docket.enable(true);    // 启用
     }
 

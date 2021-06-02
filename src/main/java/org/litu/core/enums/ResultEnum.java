@@ -1,7 +1,7 @@
 package org.litu.core.enums;
 
 public enum ResultEnum {
-    Success("200", "200", "提交成功！", "Success"),
+    Success("200", "200", "操作成功！", "Success"),
     ServerError("500", "-32603", "服务器内部错误！", "Internal error"),
     ParseError("405", "-32700", "协议解析错误!", "Parse error Invalid,Method not allowed"),
     Unauthorized("401", "-32600", "用户未提供身份验证凭据！", "Unauthorized"),

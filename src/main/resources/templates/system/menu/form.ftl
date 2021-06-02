@@ -104,7 +104,7 @@
                 }, "800px");
             });
             //菜单类型
-            var menuTypes = [{'id': 1, 'text': '模块'}, {'id': 4, 'text': '视图'}];
+            var menuTypes = [{'value': 1, 'label': '模块'}, {'value': 2, 'label': '功能'}, {'value': 3, 'label': '按钮'}, {'value': 4, 'label': '视图'}];
             $("#typeList").initSelect(menuTypes, {
                 disable_search: true
             }, data.type[0]);

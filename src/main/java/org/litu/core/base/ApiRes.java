@@ -8,6 +8,13 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 对外开放的接口返回实体类。主要是该类可以通过swagger直接转化。
+ * ApiRes的规范性要求更高。
+ * BaseRes的灵活性更高。
+ *
+ * @param <T>
+ */
 @ApiModel(value = "接口交互实体", description = "对于Api接口之间交互进行协议的定义！")
 public class ApiRes<T> implements Serializable {
 
@@ -17,7 +24,7 @@ public class ApiRes<T> implements Serializable {
      * 状态码
      */
     @ApiModelProperty(value = "状态码,200表示成功,500服务器错误，602参数错误，600授权错误，601未找到方法", required = true)
-    protected ResultEnum code;
+    protected ResultEnum res;
     /**
      * 说明信息
      */
@@ -30,7 +37,7 @@ public class ApiRes<T> implements Serializable {
     private T data;
 
     public ResultEnum getCode() {
-        return code;
+        return res;
     }
 
     public String getMsg() {
@@ -44,7 +51,7 @@ public class ApiRes<T> implements Serializable {
     /* --------------- 公开的错误Code静态信息 -------------- */
 
     public ApiRes() {
-        this.code = ResultEnum.Success;
+        this.res = ResultEnum.Success;
         this.msg = "操作成功";
         this.data = null;
     }
@@ -75,25 +82,25 @@ public class ApiRes<T> implements Serializable {
     /**
      * 返回对应错误编号的错误
      *
-     * @param code 错误枚举编号
+     * @param resEnum 错误枚举编号
      * @param <T>  类实例泛型
      * @return 对应错误编号的错误
      */
-    public static <T> ApiRes<T> error(ResultEnum code) {
-        return error(code, code.getText());
+    public static <T> ApiRes<T> error(ResultEnum resEnum) {
+        return error(resEnum, resEnum.getText());
     }
 
     /**
      * 返回对应错误编号的错误，相应的错误信息
      *
-     * @param code 错误枚举编号
+     * @param resEnum 错误枚举编号
      * @param msg  错误信息
      * @param <T>  类实例泛型
      * @return 错误编号对应的错误 和相关错误信息
      */
-    public static <T> ApiRes<T> error(ResultEnum code, String msg) {
+    public static <T> ApiRes<T> error(ResultEnum resEnum, String msg) {
         ApiRes<T> res = new ApiRes<>();
-        res.code = code;
+        res.res = resEnum;
         res.msg = msg;
         return res;
     }
@@ -159,12 +166,12 @@ public class ApiRes<T> implements Serializable {
         jsonRpc.put("jsonrpc", "2.0");
         jsonRpc.put("id", "");
 
-        if (code == ResultEnum.Success) {
+        if (res == ResultEnum.Success) {
             jsonRpc.put("result", data);
         } else {
             Map<String, String> jsonRpcError = new HashMap<>();
-            jsonRpcError.put("code", code.getRpcCode());
-            jsonRpcError.put("message", msg.isEmpty() ? code.getEnText() : msg);
+            jsonRpcError.put("code", res.getRpcCode());
+            jsonRpcError.put("message", msg.isEmpty() ? res.getEnText() : msg);
 
             jsonRpc.put("result", data);
         }

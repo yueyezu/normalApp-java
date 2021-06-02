@@ -218,6 +218,7 @@ public class LoginController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "systemCode", value = "系统编号", paramType = "query", required = true)
     })
+    @ResponseBody
     @TokenCheck
     public ApiRes<LoginUserMsg> loginToken(String systemCode) {
         if (StringUtils.isBlank(systemCode)) {

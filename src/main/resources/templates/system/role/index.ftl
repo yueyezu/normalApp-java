@@ -8,22 +8,22 @@
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-content">
-            	<@shiro.hasPermission name="funcRole-btnQuery">
-	                <form role="form" class="form-inline query-form">
-	                    <div class="input-group">
-	                        <input type="text" class="form-control" id="queryKeyword" placeholder="编号、名称"/>
-	                        <span class="input-group-btn">
+                <@shiro.hasPermission name="funcRole-btnQuery">
+                    <form role="form" class="form-inline query-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="queryKeyword" placeholder="编号、名称"/>
+                            <span class="input-group-btn">
 	                            <button type="button" class="btn btn-primary" onclick="refreshTable()"><i class="fa fa-search"></i>查询</button>
 	                        </span>
-	                    </div>
-	                </form>
+                        </div>
+                    </form>
                 </@shiro.hasPermission>
                 <@shiro.hasPermission name="funcRole-btnAdd">
-	                <div id="tableToolbar" role="group" class="t-bar">
-	                    <a class="btn btn-primary" title="添加" onclick="add()">
-	                        <i class="fa fa-plus" aria-hidden="true"></i>添加
-	                    </a>
-	                </div>
+                    <div id="tableToolbar" role="group" class="t-bar">
+                        <a class="btn btn-primary" title="添加" onclick="add()">
+                            <i class="fa fa-plus" aria-hidden="true"></i>添加
+                        </a>
+                    </div>
                 </@shiro.hasPermission>
                 <table id="dataTable" data-mobile-responsive="true"></table>
             </div>
@@ -41,9 +41,6 @@
 
         // 初始化查询条件
         function initQuery() {
-            $("#queryType").initSelect(top.lt.cache.dictItemArr.systemType, {
-                disable_search: true
-            });
         }
 
         // 初始化查询列表

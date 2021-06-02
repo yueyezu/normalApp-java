@@ -65,10 +65,6 @@
                     refreshTable();
                 }
             });
-
-            $("#queryType").initSelect(top.lt.cache.dictItemArr.systemType, {
-                disable_search: true
-            });
         }
 
         // 初始化查询列表

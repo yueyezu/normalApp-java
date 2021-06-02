@@ -33,20 +33,10 @@ public class SysLogController extends BaseViewFormController<SysLogs, ISysLogsSe
     @Autowired
     ISysSystemService sysSystemService;
 
-    /**
-     * 列表界面
-     *
-     * @param model 实体类
-     * @return 对应该类的index页面
-     */
-    @GetMapping("/index")
-    @TokenCheck(check = false)
     @Override
-    public String index(Model model) {
+    protected void beforeIndex(Model model) {
         List<SysSystem> systems = sysSystemService.listEnabled();
         model.addAttribute("systemList", systems);
-
-        return "system/log/index";
     }
 
     /**

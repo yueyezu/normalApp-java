@@ -1,5 +1,6 @@
 server:
-  #   servlet: context-path: /             #项目开放接口访问的名称
+  #  servlet: context-path: /             #项目开放接口访问的名称
+  #  port: 8080
   error:
     path: /core         # 错误界面的路径，根据错误号（404、500...）匹配,默认为/error
 
@@ -10,9 +11,17 @@ ltsystem:
     pattern: YYYY-MM/  # 存储目录的格式,日期格式YYYYMMddHHmmss,按照日期格式化来进行,为根目录下的一级
   sysmsg:
     code: normalApp #当前系统的编号，需要和数据库中的system表中的code对应起来，否则会发生不可预测的错误。
+    title: 月夜开发框架java
+    desp: 本系统为月夜java项目开发的框架，使用可以大大缩减简单系统的开发时间。
+  swagger:
+    serviceVersion: v1.2.1
   oauth:
     tokenEnableTime: 24  #单位小时
     refreshEnableTime: 30 # 单位天，如果为0，表示不会过期
+  token:
+    defPwd: 123123  # 默认的用户密码
+    duration: 6000  # token过期的时间，秒
+    tokenKey: auth  # token前后端交互，header中传输使用的key值
 
 spring:
   profiles:
@@ -57,6 +66,15 @@ spring:
             multi-statement-allow: true
           enabled: true
       filters: stat,slf4j
+  redis:
+    database: 0  # Redis数据库索引（默认为0）
+    timeout: 6000ms # 连接超时时间（毫秒）
+    lettuce:
+      pool:
+        max-active: 1000 # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms   # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10 # 连接池中的最大空闲连接
+        min-idle: 5  # 连接池中的最小空闲连接
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss    # 全局设置@JsonFormat的格式pattern
     locale: zh    # 当地时区
@@ -69,8 +87,8 @@ spring:
       ALLOW_UNQUOTED_CONTROL_CHARS: true      #允许出现特殊字符和转义符
 
 mybatis-plus:
-  mapper-locations: classpath:mybatis/*.xml
-  typeAliasesPackage: org.litu.*.entity
+  mapper-locations: classpath:mybatis/*.xml,classpath:/mybatis/*/*.xml
+  typeAliasesPackage: org.litu.*.entity.*
   global-config:
     banner: false
     db-config:

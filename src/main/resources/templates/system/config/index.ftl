@@ -35,9 +35,6 @@
 
         // 初始化查询条件
         function initQuery() {
-            $("#queryType").initSelect(top.lt.cache.dictItemArr.systemType, {
-                disable_search: true
-            });
         }
 
         // 初始化查询列表

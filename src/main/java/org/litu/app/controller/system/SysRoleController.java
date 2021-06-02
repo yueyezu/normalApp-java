@@ -40,7 +40,7 @@ public class SysRoleController extends BaseViewFormController<SysRole, ISysRoleS
      */
     @GetMapping(value = "/roleMenu/{roleId}")
     @TokenCheck(check = false)
-    public String userRole(@PathVariable(name = "roleId") String roleId, Model model) {
+    public String roleMenu(@PathVariable(name = "roleId") String roleId, Model model) {
         model.addAttribute("roleId", roleId);
 
         List<SysSystem> systems = sysSystemService.listEnabled();

@@ -6,14 +6,11 @@ import org.litu.app.entity.SysSystem;
 import org.litu.app.service.ISysMenuService;
 import org.litu.app.service.ISysSystemService;
 import org.litu.base.controller.BaseViewTreeController;
-import org.litu.base.log.LtLog;
 import org.litu.base.controller.PageBasePath;
-import org.litu.core.login.TokenCheck;
+import org.litu.base.log.LtLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -41,29 +38,24 @@ public class SysMenuController extends BaseViewTreeController<SysMenu, ISysMenuS
         model.addAttribute("systemList", systems);
     }
 
-
     /**
-     * 表单界面
+     * 返回界面前数据处理
      *
-     * @param model 实体类
-     * @return 对应该类的form页面
+     * @param model 前后端交互实体
+     * @param menu
      */
-    @GetMapping(value = {"/form", "/form/{id}"})
-    @TokenCheck(check = false)
     @Override
-    public String form(Model model, @PathVariable(value = "id", required = false) String id) {
+    protected void beforeForm(Model model, SysMenu menu) {
         Map<String, String> params = requestParams();
-        // 如果ID不为空，则认为是编辑界面，对界面的数据进行获取
-        model.addAttribute("systemCode", params.get("systemCode"));
+        model.addAttribute("systemCode", params.get("systemCode")); // 系统信息
+
         String parentId = "";
-        if (StringUtils.isNotBlank(id)) {   // 修改时的返回信息处理
-            SysMenu menu = service.detail(id);
-            model.addAttribute("data", menu);
-            model.addAttribute("type", menu.getType());
-            parentId = menu.getParentId();
-        } else {
+        if (menu == null) { // 为空，认为是添加界面
             model.addAttribute("type", params.get("type"));
             parentId = params.get("parentId");
+        } else { // 否则认为是修改界面
+            model.addAttribute("type", menu.getType());
+            parentId = menu.getParentId();
         }
 
         // 显示父级菜单的处理
@@ -75,7 +67,5 @@ public class SysMenuController extends BaseViewTreeController<SysMenu, ISysMenuS
             model.addAttribute("parentId", parentId);
             model.addAttribute("parentName", pMenu.getName());
         }
-
-        return "system/menu/form";
     }
 }

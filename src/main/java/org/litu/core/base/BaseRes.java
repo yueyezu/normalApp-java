@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 接口通用返回数据类型
- * 返回字段包括： code、msg、data
+ * 系统自身调用接口通用返回数据类型
+ * 默认返回字段包括： code、msg、data
+ * ApiRes的规范性要求更高。
+ * BaseRes的灵活性更高。
  *
  * @author ltgk
  */

@@ -130,9 +130,6 @@
                     refreshTable();
                 }
             });
-            $("#queryType").initSelect(top.lt.cache.dictItemArr.systemType, {
-                disable_search: true
-            });
             $("#startTime").datepicker({format: 'yyyy-mm-dd'});
             $("#endTime").datepicker({format: 'yyyy-mm-dd'});
         }
