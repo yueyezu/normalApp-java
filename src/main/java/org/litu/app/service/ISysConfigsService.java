@@ -2,7 +2,7 @@ package org.litu.app.service;
 
 import java.util.List;
 
-import org.litu.app.entity.SysConfigs;
+import org.litu.app.entity.system.SysConfigs;
 import org.litu.base.service.IBaseService;
 
 /**

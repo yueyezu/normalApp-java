@@ -1,4 +1,4 @@
-package org.litu.app.entity;
+package org.litu.app.entity.system;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;

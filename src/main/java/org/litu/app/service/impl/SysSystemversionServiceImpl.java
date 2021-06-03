@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.dao.SysSystemversionMapper;
-import org.litu.app.entity.SysSystemversion;
+import org.litu.app.entity.system.SysSystemversion;
 import org.litu.app.service.ISysSystemversionService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.litu.core.login.UserInfo;

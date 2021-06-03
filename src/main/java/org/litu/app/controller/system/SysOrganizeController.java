@@ -1,6 +1,6 @@
 package org.litu.app.controller.system;
 
-import org.litu.app.entity.SysOrganize;
+import org.litu.app.entity.system.SysOrganize;
 import org.litu.app.service.ISysOrganizeService;
 import org.litu.base.controller.BaseViewTreeController;
 import org.litu.base.log.LtLog;

@@ -129,7 +129,7 @@ public class MybatisPlusGenerator {
         strategy.setSuperMapperClass("org.litu.base.dao.BaseMapper");
         strategy.setSuperServiceClass("org.litu.base.service.IBaseService");
         strategy.setSuperServiceImplClass("org.litu.base.service.impl.BaseServiceImpl");
-        strategy.setSuperControllerClass("org.litu.base.controller.BaseFormController");
+        strategy.setSuperControllerClass("org.litu.base.controller.BaseViewFormController");
         return strategy;
     }
 

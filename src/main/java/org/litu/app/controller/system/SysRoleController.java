@@ -1,8 +1,8 @@
 package org.litu.app.controller.system;
 
 import org.apache.commons.lang3.StringUtils;
-import org.litu.app.entity.SysRole;
-import org.litu.app.entity.SysSystem;
+import org.litu.app.entity.system.SysRole;
+import org.litu.app.entity.system.SysSystem;
 import org.litu.app.service.ISysRoleService;
 import org.litu.app.service.ISysSystemService;
 import org.litu.base.controller.BaseViewFormController;

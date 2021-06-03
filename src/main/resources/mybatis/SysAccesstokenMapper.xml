@@ -3,7 +3,7 @@
 <mapper namespace="org.litu.app.dao.SysAccesstokenMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysAccesstoken">
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.system.SysAccesstoken">
         <id column="id" property="id"/>
         <result column="client_type" property="clientType"/>
         <result column="user_id" property="userId"/>

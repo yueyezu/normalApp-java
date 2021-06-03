@@ -1,6 +1,6 @@
 package org.litu.app.service;
 
-import org.litu.app.entity.SysMenu;
+import org.litu.app.entity.system.SysMenu;
 import org.litu.base.service.IBaseTreeService;
 
 import java.util.List;

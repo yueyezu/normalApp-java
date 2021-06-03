@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.dao.SysUserloginMapper;
-import org.litu.app.entity.SysUserlogin;
+import org.litu.app.entity.system.SysUserlogin;
 import org.litu.app.service.ISysUserloginService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;

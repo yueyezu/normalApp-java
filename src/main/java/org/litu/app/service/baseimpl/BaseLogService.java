@@ -1,7 +1,7 @@
 package org.litu.app.service.baseimpl;
 
 import org.litu.app.constant.SysContant;
-import org.litu.app.entity.SysLogs;
+import org.litu.app.entity.system.SysLogs;
 import org.litu.app.service.ISysLogsService;
 import org.litu.base.log.IBaseLogService;
 import org.litu.base.log.LtLogsVo;

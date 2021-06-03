@@ -1,4 +1,4 @@
-package org.litu.app.entity;
+package org.litu.app.entity.system;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,6 +1,6 @@
 package org.litu.app.dao;
 
-import org.litu.app.entity.SysOrganize;
+import org.litu.app.entity.system.SysOrganize;
 import org.litu.base.dao.BaseTreeMapper;
 
 /**

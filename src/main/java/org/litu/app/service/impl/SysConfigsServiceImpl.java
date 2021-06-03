@@ -3,7 +3,7 @@ package org.litu.app.service.impl;
 import java.util.List;
 
 import org.litu.app.dao.SysConfigsMapper;
-import org.litu.app.entity.SysConfigs;
+import org.litu.app.entity.system.SysConfigs;
 import org.litu.app.service.ISysConfigsService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;

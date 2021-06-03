@@ -1,7 +1,7 @@
 package org.litu.app.service.baseimpl;
 
 import org.litu.app.dao.SysUserMapper;
-import org.litu.app.entity.SysUser;
+import org.litu.app.entity.system.SysUser;
 import org.litu.base.service.IBaseUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

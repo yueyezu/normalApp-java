@@ -1,6 +1,6 @@
 package org.litu.app.controller.system;
 
-import org.litu.app.entity.SysDictitem;
+import org.litu.app.entity.system.SysDictitem;
 import org.litu.app.service.ISysDictitemService;
 import org.litu.base.controller.BaseViewFormController;
 import org.litu.base.log.LtLog;

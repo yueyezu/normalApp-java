@@ -1,8 +1,8 @@
 package org.litu.app.controller.system;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.litu.app.entity.SysLogs;
-import org.litu.app.entity.SysSystem;
+import org.litu.app.entity.system.SysLogs;
+import org.litu.app.entity.system.SysSystem;
 import org.litu.app.service.ISysLogsService;
 import org.litu.app.service.ISysSystemService;
 import org.litu.base.controller.BaseViewFormController;
@@ -11,11 +11,9 @@ import org.litu.base.controller.PageBasePath;
 import org.litu.core.base.BaseRes;
 import org.litu.base.log.LtLogOperationEnum;
 import org.litu.core.enums.ResultEnum;
-import org.litu.core.login.TokenCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

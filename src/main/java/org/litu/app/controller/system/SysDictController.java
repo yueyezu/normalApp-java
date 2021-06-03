@@ -1,6 +1,6 @@
 package org.litu.app.controller.system;
 
-import org.litu.app.entity.SysDict;
+import org.litu.app.entity.system.SysDict;
 import org.litu.app.service.ISysDictService;
 import org.litu.base.controller.BaseViewTreeController;
 import org.litu.base.controller.PageBasePath;

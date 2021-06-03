@@ -1,6 +1,6 @@
 package org.litu.app.service;
 
-import org.litu.app.entity.SysOrganize;
+import org.litu.app.entity.system.SysOrganize;
 import org.litu.base.service.IBaseTreeService;
 
 /**

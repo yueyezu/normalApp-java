@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.dao.SysFilesMapper;
-import org.litu.app.entity.SysFiles;
+import org.litu.app.entity.system.SysFiles;
 import org.litu.app.service.ISysFilesService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.litu.core.login.UserInfo;

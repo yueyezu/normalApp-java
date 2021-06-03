@@ -1,4 +1,4 @@
-package org.litu.app.entity;
+package org.litu.app.entity.system;
 
 import org.litu.core.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 权限角色表
+ * 用户角色表
  * </p>
  *
  * @author yueye
@@ -19,20 +19,17 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_RoleMenu")
-@ApiModel(value="SysRolemenu对象", description="权限角色表")
-public class SysRolemenu extends BaseEntity {
+@TableName("Sys_UserRole")
+@ApiModel(value="SysUserrole对象", description="用户角色表")
+public class SysUserrole extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "用户主键")
+    private String userId;
+
     @ApiModelProperty(value = "角色编号")
     private String roleId;
-
-    @ApiModelProperty(value = "权限编号")
-    private String menuId;
-
-    @ApiModelProperty(value = "排序码", example = "1")
-    private Integer sortNum;
 
 
 }

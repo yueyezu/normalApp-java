@@ -3,7 +3,7 @@
 <mapper namespace="org.litu.app.dao.SysConfigsMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysConfigs">
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.system.SysConfigs">
         <id column="id" property="id" />
         <result column="groups" property="groups" />
         <result column="name" property="name" />

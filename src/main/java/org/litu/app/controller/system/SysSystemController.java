@@ -1,6 +1,6 @@
 package org.litu.app.controller.system;
 
-import org.litu.app.entity.SysSystem;
+import org.litu.app.entity.system.SysSystem;
 import org.litu.app.service.ISysSystemService;
 import org.litu.base.controller.BaseViewFormController;
 import org.litu.base.controller.PageBasePath;

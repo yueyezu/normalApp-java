@@ -1,7 +1,7 @@
 package org.litu.app.controller.system;
 
 import org.apache.commons.lang3.StringUtils;
-import org.litu.app.entity.SysAccesstoken;
+import org.litu.app.entity.system.SysAccesstoken;
 import org.litu.app.service.ISysAccesstokenService;
 import org.litu.base.controller.BaseViewFormController;
 import org.litu.base.log.LtLog;

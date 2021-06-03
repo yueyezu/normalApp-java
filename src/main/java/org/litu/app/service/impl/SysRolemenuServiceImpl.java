@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.dao.SysRolemenuMapper;
-import org.litu.app.entity.SysRolemenu;
+import org.litu.app.entity.system.SysRolemenu;
 import org.litu.app.service.ISysRolemenuService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;

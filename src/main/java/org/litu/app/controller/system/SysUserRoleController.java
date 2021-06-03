@@ -2,7 +2,7 @@ package org.litu.app.controller.system;
 
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.service.ISysUserroleService;
-import org.litu.app.vo.UserRole;
+import org.litu.app.entity.vo.UserRole;
 import org.litu.core.base.BaseController;
 import org.litu.core.base.BaseRes;
 import org.litu.base.log.LtLog;

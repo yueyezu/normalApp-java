@@ -1,4 +1,4 @@
-package org.litu.app.entity;
+package org.litu.app.entity.system;
 
 import org.litu.core.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;

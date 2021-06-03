@@ -1,21 +1,21 @@
-package org.litu.app.entity;
+package org.litu.app.entity.system;
 
-import org.litu.core.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.litu.core.base.BaseTreeEntity;
+import org.litu.core.base.ITreeNode;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * <p>
- * 系统版本管理表
+ * 系统菜单表
  * </p>
  *
  * @author yueye
@@ -24,28 +24,29 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_SystemVersion")
-@ApiModel(value="SysSystemversion对象", description="系统版本管理表")
-public class SysSystemversion extends BaseEntity {
+@TableName("Sys_Menu")
+@ApiModel(value = "SysMenu对象", description = "系统菜单表")
+public class SysMenu extends BaseTreeEntity<SysMenu> implements ITreeNode<SysMenu> {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "系统类型的编码信息")
     private String systemCode;
 
-    @ApiModelProperty(value = "版本号")
-    private String version;
+    @ApiModelProperty(value = "模块、功能、按钮", example = "1")
+    private Integer type;
 
-    @ApiModelProperty(value = "更新时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date updateDate;
+    @ApiModelProperty(value = "权限标识")
+    private String code;
 
-    @ApiModelProperty(value = "对当前版本较上一版本更新的内容说明")
-    private String updateNote;
+    @ApiModelProperty(value = "图标")
+    private String icon;
 
-    @ApiModelProperty(value = "当前版本软件对应的下载地址，主要是对于app会有使用")
-    private String downloadPath;
+    @ApiModelProperty(value = "连接路径")
+    private String url;
+
+    @ApiModelProperty(value = "排序码", example = "1")
+    private Integer sortNum;
 
     @ApiModelProperty(value = "备注")
     private String remark;
@@ -65,6 +66,4 @@ public class SysSystemversion extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date modifyTime;
-
-
 }

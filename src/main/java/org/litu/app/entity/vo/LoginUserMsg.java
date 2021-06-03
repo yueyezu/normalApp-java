@@ -1,9 +1,9 @@
-package org.litu.app.vo;
+package org.litu.app.entity.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.litu.app.entity.SysMenu;
+import org.litu.app.entity.system.SysMenu;
 import org.litu.core.base.TreeUtil;
 import org.litu.core.login.UserInfo;
 

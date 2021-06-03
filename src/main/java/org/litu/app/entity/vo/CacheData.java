@@ -1,4 +1,4 @@
-package org.litu.app.vo;
+package org.litu.app.entity.vo;
 
 import lombok.Data;
 import org.litu.core.base.SelectVo;

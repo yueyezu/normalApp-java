@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.dao.SysSystemMapper;
-import org.litu.app.entity.SysSystem;
+import org.litu.app.entity.system.SysSystem;
 import org.litu.app.service.ISysSystemService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.litu.core.login.UserInfo;

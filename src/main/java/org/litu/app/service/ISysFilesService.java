@@ -1,6 +1,6 @@
 package org.litu.app.service;
 
-import org.litu.app.entity.SysFiles;
+import org.litu.app.entity.system.SysFiles;
 import org.litu.base.service.IBaseService;
 import org.litu.core.login.UserInfo;
 import org.springframework.web.bind.annotation.RequestParam;

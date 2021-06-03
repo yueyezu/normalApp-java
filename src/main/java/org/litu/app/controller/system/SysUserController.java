@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
-import org.litu.app.entity.*;
+import org.litu.app.entity.system.*;
 import org.litu.app.service.*;
 import org.litu.base.controller.BaseViewFormController;
 import org.litu.base.controller.PageBasePath;

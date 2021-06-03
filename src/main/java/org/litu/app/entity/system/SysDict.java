@@ -1,21 +1,21 @@
-package org.litu.app.entity;
+package org.litu.app.entity.system;
 
-import org.litu.core.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.litu.core.base.BaseTreeEntity;
+import org.litu.core.base.ITreeNode;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * <p>
- * 系统信息表
+ * 字典表
  * </p>
  *
  * @author yueye
@@ -24,43 +24,23 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_System")
-@ApiModel(value="SysSystem对象", description="系统信息表")
-public class SysSystem extends BaseEntity {
+@TableName("Sys_Dict")
+@ApiModel(value = "SysDict对象", description = "字典表")
+public class SysDict extends BaseTreeEntity<SysDict> implements ITreeNode<SysDict> {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "编码")
+    @ApiModelProperty(value = "编号")
     private String code;
 
-    @ApiModelProperty(value = "名称")
-    private String name;
+    @ApiModelProperty(value = "描述")
+    private String description;
 
-    @ApiModelProperty(value = "系统类型")
-    private String type;
-
-    @ApiModelProperty(value = "当前版本")
-    private String version;
-
-    @ApiModelProperty(value = "访问密码, 第三方访问时，认证使用")
-    private String secret;
-
-    @ApiModelProperty(value = "建设单位")
-    private String devOrg;
-
-    @ApiModelProperty(value = "建设时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date devTime;
-
-    @ApiModelProperty(value = "有效标志", example = "1")
-    private Integer enableFlag;
+    @ApiModelProperty(value = "排序码", example = "1")
+    private Integer sortNum;
 
     @ApiModelProperty(value = "允许删除", example = "1")
     private Integer enableDelete;
-
-    @ApiModelProperty(value = "备注")
-    private String remark;
 
     @ApiModelProperty(value = "创建人")
     private String createBy;
@@ -77,6 +57,4 @@ public class SysSystem extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date modifyTime;
-
-
 }

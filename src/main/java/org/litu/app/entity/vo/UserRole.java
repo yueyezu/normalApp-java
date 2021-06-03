@@ -1,9 +1,9 @@
-package org.litu.app.vo;
+package org.litu.app.entity.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.beanutils.BeanUtils;
-import org.litu.app.entity.SysRole;
+import org.litu.app.entity.system.SysRole;
 
 import java.lang.reflect.InvocationTargetException;
 

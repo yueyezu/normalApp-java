@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.dao.SysLogsMapper;
-import org.litu.app.entity.SysLogs;
+import org.litu.app.entity.system.SysLogs;
 import org.litu.app.service.ISysLogsService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.litu.core.login.UserInfo;

@@ -1,6 +1,6 @@
 package org.litu.app.service;
 
-import org.litu.app.entity.SysDictitem;
+import org.litu.app.entity.system.SysDictitem;
 import org.litu.base.service.IBaseService;
 
 /**

@@ -1,6 +1,6 @@
 package org.litu.app.service;
 
-import org.litu.app.entity.SysUserlogin;
+import org.litu.app.entity.system.SysUserlogin;
 import org.litu.base.service.IBaseService;
 
 /**

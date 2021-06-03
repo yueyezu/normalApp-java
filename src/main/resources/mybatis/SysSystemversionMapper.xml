@@ -3,7 +3,7 @@
 <mapper namespace="org.litu.app.dao.SysSystemversionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysSystemversion">
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.system.SysSystemversion">
         <id column="id" property="id" />
         <result column="system_code" property="systemCode" />
         <result column="version" property="version" />

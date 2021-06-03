@@ -3,7 +3,7 @@
 <mapper namespace="org.litu.app.dao.SysFilesMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysFiles">
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.system.SysFiles">
         <id column="id" property="id" />
         <result column="origin_name" property="originName" />
         <result column="location" property="location" />

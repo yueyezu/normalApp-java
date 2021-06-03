@@ -1,6 +1,6 @@
 package org.litu.app.service;
 
-import org.litu.app.entity.SysRole;
+import org.litu.app.entity.system.SysRole;
 import org.litu.base.service.IBaseService;
 
 import java.util.List;

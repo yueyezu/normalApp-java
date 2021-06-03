@@ -2,7 +2,7 @@ package org.litu.app.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.litu.app.dao.SysDictItemMapper;
-import org.litu.app.entity.SysDictitem;
+import org.litu.app.entity.system.SysDictitem;
 import org.litu.app.service.ISysDictitemService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.litu.core.login.UserInfo;

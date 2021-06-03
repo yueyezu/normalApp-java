@@ -3,7 +3,7 @@
 <mapper namespace="org.litu.app.dao.SysOrganizeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysOrganize">
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.system.SysOrganize">
         <id column="id" property="id" />
         <result column="parent_id" property="parentId" />
         <result column="layers" property="layers" />

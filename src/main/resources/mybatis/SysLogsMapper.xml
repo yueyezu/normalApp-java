@@ -3,7 +3,7 @@
 <mapper namespace="org.litu.app.dao.SysLogsMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysLogs">
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.system.SysLogs">
         <id column="id" property="id" />
         <result column="system_code" property="systemCode" />
         <result column="module" property="module" />

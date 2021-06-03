@@ -1,7 +1,7 @@
 package org.litu.app.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.litu.app.entity.SysMenu;
+import org.litu.app.entity.system.SysMenu;
 import org.litu.base.dao.BaseTreeMapper;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package org.litu.app.service;
 
-import org.litu.app.entity.SysLogs;
+import org.litu.app.entity.system.SysLogs;
 import org.litu.base.service.IBaseService;
 
 /**

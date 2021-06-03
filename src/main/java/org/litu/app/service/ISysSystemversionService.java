@@ -1,6 +1,6 @@
 package org.litu.app.service;
 
-import org.litu.app.entity.SysSystemversion;
+import org.litu.app.entity.system.SysSystemversion;
 import org.litu.base.service.IBaseService;
 
 /**

@@ -2,9 +2,8 @@ package org.litu.app.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.lang3.StringUtils;
-import org.litu.app.constant.SysContant;
 import org.litu.app.dao.SysOrganizeMapper;
-import org.litu.app.entity.SysOrganize;
+import org.litu.app.entity.system.SysOrganize;
 import org.litu.app.service.ISysOrganizeService;
 import org.litu.base.service.impl.BaseTreeServiceImpl;
 import org.springframework.stereotype.Service;

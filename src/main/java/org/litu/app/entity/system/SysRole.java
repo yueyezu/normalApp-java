@@ -1,4 +1,4 @@
-package org.litu.app.entity;
+package org.litu.app.entity.system;
 
 import org.litu.core.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 字典值表
+ * 角色岗位表
  * </p>
  *
  * @author yueye
@@ -24,32 +24,29 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_DictItem")
-@ApiModel(value="SysDictitem对象", description="字典值表")
-public class SysDictitem extends BaseEntity {
+@TableName("Sys_Role")
+@ApiModel(value="SysRole对象", description="角色岗位表")
+public class SysRole extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "字典主键")
-    private String dictId;
-
-    @ApiModelProperty(value = "编码")
+    @ApiModelProperty(value = "编号")
     private String code;
 
     @ApiModelProperty(value = "名称")
     private String name;
 
-    @ApiModelProperty(value = "描述")
+    @ApiModelProperty(value = "说明")
     private String description;
 
-    @ApiModelProperty(value = "有效标志", example = "1")
-    private Integer enableFlag;
-
-    @ApiModelProperty(value = "是否默认", example = "1")
-    private Integer isDefault;
+    @ApiModelProperty(value = "分类：1、角色，2、岗位", example = "1")
+    private Integer type;
 
     @ApiModelProperty(value = "排序码", example = "1")
     private Integer sortNum;
+
+    @ApiModelProperty(value = "备注")
+    private String remark;
 
     @ApiModelProperty(value = "创建人")
     private String createBy;

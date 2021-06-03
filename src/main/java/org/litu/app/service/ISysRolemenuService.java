@@ -2,7 +2,7 @@ package org.litu.app.service;
 
 import java.util.List;
 
-import org.litu.app.entity.SysRolemenu;
+import org.litu.app.entity.system.SysRolemenu;
 import org.litu.base.service.IBaseService;
 
 /**

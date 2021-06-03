@@ -1,7 +1,7 @@
 package org.litu.app.service;
 
-import org.litu.app.entity.SysAccesstoken;
-import org.litu.app.entity.SysAccesstokenEx;
+import org.litu.app.entity.system.SysAccesstoken;
+import org.litu.app.entity.system.SysAccesstokenEx;
 import org.litu.base.service.IBaseService;
 
 /**

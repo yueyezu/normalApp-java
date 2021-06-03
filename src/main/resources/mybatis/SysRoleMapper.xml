@@ -3,7 +3,7 @@
 <mapper namespace="org.litu.app.dao.SysRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysRole">
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.system.SysRole">
         <id column="id" property="id" />
         <result column="code" property="code" />
         <result column="name" property="name" />

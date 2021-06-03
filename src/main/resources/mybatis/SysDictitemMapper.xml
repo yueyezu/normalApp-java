@@ -3,7 +3,7 @@
 <mapper namespace="org.litu.app.dao.SysDictItemMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.litu.app.entity.SysDictitem">
+    <resultMap id="BaseResultMap" type="org.litu.app.entity.system.SysDictitem">
         <id column="id" property="id" />
         <result column="dict_id" property="dictId" />
         <result column="code" property="code" />

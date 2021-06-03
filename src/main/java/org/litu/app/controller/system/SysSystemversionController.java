@@ -1,6 +1,6 @@
 package org.litu.app.controller.system;
 
-import org.litu.app.entity.SysSystemversion;
+import org.litu.app.entity.system.SysSystemversion;
 import org.litu.app.service.ISysSystemversionService;
 import org.litu.base.controller.BaseViewFormController;
 import org.litu.base.log.LtLog;
