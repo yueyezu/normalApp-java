@@ -6,9 +6,9 @@ ltsystem:
   file:
     basePath: E:/0Temp/file/ # 文件存储的跟路径,绝对路径-直接使用,相对路径-项目运行目录下
   sysmsg:
-    host: 118.190.202.102:6033
+    host: 47.94.198.207:6033
   swagger:
-    serviceUrl: 118.190.202.102:6033/api/
+    serviceUrl: 47.94.198.207:6033/api/
 
 logging:
   level:
