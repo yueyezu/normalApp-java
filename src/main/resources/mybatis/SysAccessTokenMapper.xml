@@ -26,15 +26,10 @@
     </sql>
 
     <select id="selectPage" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT
-        sat.id,
-        su.account as user_id,
-        sat.client_mcode,
-        sat.client_ip,
-        sat.client_mac,
-        sat.enable_flag
-        FROM Sys_AccessToken sat
-        LEFT JOIN Sys_User su ON sat.user_id=su.id
+        SELECT sat.id,su.account as user_id,sat.client_mcode,
+        sat.client_ip,sat.client_mac,sat.enable_flag
+        FROM sys_access_token sat
+        LEFT JOIN sys_user su ON sat.user_id=su.id
         <where>
             ${ew.sqlSegment}
         </where>

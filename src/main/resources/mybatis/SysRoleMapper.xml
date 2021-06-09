@@ -4,22 +4,29 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.litu.app.entity.system.SysRole">
-        <id column="id" property="id" />
-        <result column="code" property="code" />
-        <result column="name" property="name" />
-        <result column="description" property="description" />
-        <result column="type" property="type" />
-        <result column="sort_num" property="sortNum" />
-        <result column="remark" property="remark" />
-        <result column="create_by" property="createBy" />
-        <result column="create_time" property="createTime" />
-        <result column="modify_by" property="modifyBy" />
-        <result column="modify_time" property="modifyTime" />
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="type" property="type"/>
+        <result column="sort_num" property="sortNum"/>
+        <result column="remark" property="remark"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_by" property="modifyBy"/>
+        <result column="modify_time" property="modifyTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, code, name, description, type, sort_num, remark, create_by, create_time, modify_by, modify_time
     </sql>
+
+    <select id="userRoles" resultMap="BaseResultMap">
+        select r.*
+        from sys_role r
+        inner join sys_user_role ur on r.id = ur.role_id
+        where ur.user_id = #{userId}
+    </select>
 
 </mapper>

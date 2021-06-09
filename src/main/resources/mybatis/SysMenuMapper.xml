@@ -28,10 +28,10 @@
 
     <!-- 获取当前用户的权限信息,登陆验证使用 -->
     <select id="userMenus" resultMap="BaseResultMap">
-        select m.* from Sys_Menu m
-        inner join Sys_RoleMenu rm on m.id = rm.menu_id
-        inner join Sys_Role r on r.id = rm.role_id
-        inner join Sys_UserRole ur on r.id = ur.role_id
+        select m.* from sys_menu m
+        inner join sys_role_menu rm on m.id = rm.menu_id
+        inner join sys_role r on r.id = rm.role_id
+        inner join sys_user_role ur on r.id = ur.role_id
         <where>
             <if test="userId!=null and userId!=''">ur.user_id = #{userId}</if>
             <if test="systemCode!=null and systemCode!=''">and m.system_code = #{systemCode}</if>
@@ -51,11 +51,11 @@
         m.id, m.parent_id, m.layers, m.system_code, m.type,
         case when m.type=3 then concat(mf.code,'-',m.code) else m.code end as code,
         m.name, m.icon, m.url, m.sort_num
-        from Sys_Menu m
-        left join Sys_Menu mf on m.parent_id = mf.id and mf.type=2
-        inner join Sys_RoleMenu rm on m.id = rm.menu_id
-        inner join Sys_Role r on r.id = rm.role_id
-        inner join Sys_UserRole ur on r.id = ur.role_id
+        from sys_menu m
+        left join sys_menu mf on m.parent_id = mf.id and mf.type=2
+        inner join sys_role_menu rm on m.id = rm.menu_id
+        inner join sys_role r on r.id = rm.role_id
+        inner join sys_user_role ur on r.id = ur.role_id
         where ur.user_id = #{userId} and m.system_code = #{systemCode}
         order by m.sort_num ASC
     </select>
