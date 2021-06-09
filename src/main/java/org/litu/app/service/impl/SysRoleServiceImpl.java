@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.litu.app.dao.SysRoleMapper;
-import org.litu.app.dao.SysRolemenuMapper;
-import org.litu.app.dao.SysUserroleMapper;
+import org.litu.app.dao.SysRoleMenuMapper;
+import org.litu.app.dao.SysUserRoleMapper;
 import org.litu.app.entity.system.SysRole;
-import org.litu.app.entity.system.SysRolemenu;
-import org.litu.app.entity.system.SysUserrole;
+import org.litu.app.entity.system.SysRoleMenu;
+import org.litu.app.entity.system.SysUserRole;
 import org.litu.app.service.ISysRoleService;
 import org.litu.base.service.impl.BaseServiceImpl;
 import org.litu.core.exception.LtParamException;
@@ -32,9 +32,9 @@ import java.util.Map;
 public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
     @Autowired
-    SysUserroleMapper userRoleMapper;
+    SysUserRoleMapper userRoleMapper;
     @Autowired
-    SysRolemenuMapper roleMenuMapper;
+    SysRoleMenuMapper roleMenuMapper;
 
     @Override
     public void beforeList(UserInfo user, SysRole entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysRole> query) {
@@ -57,16 +57,16 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
         if (result) {
             // 校验没有使用中
-            LambdaQueryWrapper<SysUserrole> userroleQueryWrapper = Wrappers.lambdaQuery();
-            userroleQueryWrapper.eq(SysUserrole::getRoleId, id);
+            LambdaQueryWrapper<SysUserRole> userroleQueryWrapper = Wrappers.lambdaQuery();
+            userroleQueryWrapper.eq(SysUserRole::getRoleId, id);
             int urNum = userRoleMapper.selectCount(userroleQueryWrapper);
             if (urNum > 0) {
                 throw new LtParamException("当前角色信息使用中，不允许删除!");
             }
 
             // 删除该角色对应的菜单关联信息
-            LambdaQueryWrapper<SysRolemenu> rolemenuQueryWrapper = Wrappers.lambdaQuery();
-            rolemenuQueryWrapper.eq(SysRolemenu::getRoleId, id);
+            LambdaQueryWrapper<SysRoleMenu> rolemenuQueryWrapper = Wrappers.lambdaQuery();
+            rolemenuQueryWrapper.eq(SysRoleMenu::getRoleId, id);
             result = roleMenuMapper.delete(rolemenuQueryWrapper) >= 0;
         }
 

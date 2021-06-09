@@ -30,16 +30,17 @@ public class MybatisPlusGenerator {
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUrl("jdbc:mysql://47.94.198.207:3306/normalappdb?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
+        dsc.setUrl("jdbc:mysql://47.94.198.207:3306/appdb?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
         dsc.setUsername("root");
         dsc.setPassword("qazwsx123");
 
         // 所有要进行生成的表和模块信息
         List<moduleConfig> moduleConfigs = new ArrayList<>();
         moduleConfigs.add(new moduleConfig("系统管理", "system",
-                new String[]{"Sys_DictItem", "Sys_Dict", "Sys_AccessToken", "Sys_RoleMenu",
-                        "Sys_UserLogin", "Sys_User", "Sys_UserRole", "Sys_System", "Sys_SystemVersion", "Sys_Logs",
-                        "Sys_Menu", "Sys_Configs", "Sys_Files", "Sys_RoleOrganize", "Sys_Organize", "Sys_Role"}));
+                new String[]{"sys_user_role", "sys_user_login", "sys_user", "sys_system_version",
+                        "sys_system", "sys_role_organize", "sys_role_menu", "sys_role", "sys_organize",
+                        "sys_menu", "sys_logs", "sys_files", "sys_dict_item", "sys_dict",
+                        "sys_configs", "sys_access_token"}));
 
         for (moduleConfig module : moduleConfigs) {
             AutoGenerator mpg = new AutoGenerator();

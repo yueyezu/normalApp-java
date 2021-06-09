@@ -6,8 +6,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.apiController.vo.AccessTokenVo;
-import org.litu.app.entity.system.SysAccesstoken;
-import org.litu.app.service.ISysAccesstokenService;
+import org.litu.app.entity.system.SysAccessToken;
+import org.litu.app.service.ISysAccessTokenService;
 import org.litu.app.entity.vo.LoginUserMsg;
 import org.litu.base.log.IBaseLogService;
 import org.litu.base.service.ILoginService;
@@ -39,7 +39,7 @@ public class OAuthController extends BaseController {
     @Autowired
     private IBaseLogService optLogService;
     @Autowired
-    private ISysAccesstokenService tokenService;
+    private ISysAccessTokenService tokenService;
 
     /**
      * 获取授权码，——password模式 需要将用户设备的机器码发过来，用于认证使用。
@@ -84,7 +84,7 @@ public class OAuthController extends BaseController {
             }
 
             // 组建授权Token对象信息
-            SysAccesstoken accessToken = new SysAccesstoken();
+            SysAccessToken accessToken = new SysAccessToken();
             accessToken.setClientType(client_id);
             accessToken.setUserId(user.getId());
             accessToken.setClientMcode(m_code);
@@ -135,7 +135,7 @@ public class OAuthController extends BaseController {
         if (!hasClient) {
             return ApiRes.error(ResultEnum.ClientError, "客户端ID和密码错误，请联系系统管理员。");
         }
-        SysAccesstoken accessToken = tokenService.refreshToken(client_id, refresh_token);
+        SysAccessToken accessToken = tokenService.refreshToken(client_id, refresh_token);
 
         AccessTokenVo accessTokenVo = new AccessTokenVo();
         accessTokenVo.setAccess_token(accessToken.getToken());
@@ -175,7 +175,7 @@ public class OAuthController extends BaseController {
             return ApiRes.error(ResultEnum.ClientError, "客户端ID和密码错误，请联系系统管理员。");
         }
 
-        SysAccesstoken accesstoken = tokenService.checkToken(client_id, token, m_code);
+        SysAccessToken accesstoken = tokenService.checkToken(client_id, token, m_code);
         // 授权码未获取到。
         if (accesstoken == null) {
             return ApiRes.error(ResultEnum.TokenError, "授权码错误,请重新获取。");

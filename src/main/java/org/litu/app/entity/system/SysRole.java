@@ -24,7 +24,6 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_Role")
 @ApiModel(value="SysRole对象", description="角色岗位表")
 public class SysRole extends BaseEntity {
 

@@ -1,13 +1,12 @@
 package org.litu.app.controller.system;
 
 import org.apache.commons.lang3.StringUtils;
-import org.litu.app.service.ISysRolemenuService;
+import org.litu.app.service.ISysRoleMenuService;
 import org.litu.core.base.BaseController;
 import org.litu.core.base.BaseRes;
 import org.litu.base.log.LtLog;
 import org.litu.base.log.LtLogOperation;
 import org.litu.core.enums.ResultEnum;
-import org.litu.core.login.TokenCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,7 @@ import java.util.List;
 public class SysRoleMenuController extends BaseController {
 
     @Autowired
-    private ISysRolemenuService sysRolemenuService;
+    private ISysRoleMenuService sysRolemenuService;
 
     /**
      * 获取角色的所有菜单ID信息

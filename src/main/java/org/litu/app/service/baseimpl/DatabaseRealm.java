@@ -8,11 +8,11 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.litu.app.constant.SysContant;
 import org.litu.app.entity.system.SysUser;
-import org.litu.app.entity.system.SysUserlogin;
+import org.litu.app.entity.system.SysUserLogin;
 import org.litu.app.service.ISysMenuService;
 import org.litu.app.service.ISysRoleService;
 import org.litu.app.service.ISysUserService;
-import org.litu.app.service.ISysUserloginService;
+import org.litu.app.service.ISysUserLoginService;
 import org.litu.core.exception.LtServerException;
 import org.litu.core.login.ShiroLoginUtil;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ import java.util.List;
 public class DatabaseRealm extends AuthorizingRealm {
 
     @Autowired
-    private ISysUserloginService sysUserLoginService;
+    private ISysUserLoginService sysUserLoginService;
     @Autowired
     private ISysUserService userService;
     @Autowired
@@ -94,7 +94,7 @@ public class DatabaseRealm extends AuthorizingRealm {
             // 获取用户名密码
             SysUser user = userService.getByAccount(userName);
             // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
-            SysUserlogin userLogin = sysUserLoginService.getByUserId(user.getId());
+            SysUserLogin userLogin = sysUserLoginService.getByUserId(user.getId());
             simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, userLogin.getPassword(), getName());
 
         } catch (LtServerException se) {

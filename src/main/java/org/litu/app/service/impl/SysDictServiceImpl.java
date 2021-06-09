@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.litu.app.dao.SysDictMapper;
 import org.litu.app.dao.SysDictItemMapper;
 import org.litu.app.entity.system.SysDict;
-import org.litu.app.entity.system.SysDictitem;
+import org.litu.app.entity.system.SysDictItem;
 import org.litu.app.service.ISysDictService;
 import org.litu.base.service.impl.BaseTreeServiceImpl;
 import org.litu.core.exception.LtParamException;
@@ -45,9 +45,9 @@ public class SysDictServiceImpl extends BaseTreeServiceImpl<SysDictMapper, SysDi
     @Override
     public boolean beforeDelete(String id, Map<String, String> params, SysDict entity) {
         // 判断当前字段是否存在下级字段，如果存在，则不允许删除
-        LambdaQueryWrapper<SysDictitem> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(SysDictitem::getDictId, id);
-        List<SysDictitem> dictItems = dictItemMapper.selectList(queryWrapper);
+        LambdaQueryWrapper<SysDictItem> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(SysDictItem::getDictId, id);
+        List<SysDictItem> dictItems = dictItemMapper.selectList(queryWrapper);
         if (CollectionUtils.isNotEmpty(dictItems)) {
             throw new LtParamException("当前字典非空!");
         }

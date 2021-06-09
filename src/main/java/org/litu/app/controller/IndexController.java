@@ -40,7 +40,7 @@ public class IndexController extends BaseController {
     @Autowired
     private ISysDictService sysDictService;
     @Autowired
-    private ISysDictitemService sysDictitemService;
+    private ISysDictItemService sysDictItemService;
 
     /**
      * 主界面
@@ -135,16 +135,16 @@ public class IndexController extends BaseController {
         LambdaQueryWrapper<SysDict> dictWrapper = Wrappers.lambdaQuery();
         dictWrapper.orderByAsc(SysDict::getSortNum);
         List<SysDict> dicts = sysDictService.list(dictWrapper);
-        LambdaQueryWrapper<SysDictitem> dictitemWrapper = Wrappers.lambdaQuery();
-        dictitemWrapper.orderByAsc(SysDictitem::getSortNum);
-        List<SysDictitem> alldictitems = sysDictitemService.list(dictitemWrapper);
+        LambdaQueryWrapper<SysDictItem> dictitemWrapper = Wrappers.lambdaQuery();
+        dictitemWrapper.orderByAsc(SysDictItem::getSortNum);
+        List<SysDictItem> alldictitems = sysDictItemService.list(dictitemWrapper);
         // 转化为需要返回的实体类
         Map<String, List<SelectVo>> dictArrCache = new LinkedHashMap<>();
         Map<String, Map<String, String>> dictCache = new LinkedHashMap<>();
         for (SysDict dict : dicts) {
             List<SelectVo> dictitems = new ArrayList<>();
             Map<String, String> dictItemMap = new LinkedHashMap<>();
-            for (SysDictitem dictitem : alldictitems) {
+            for (SysDictItem dictitem : alldictitems) {
                 if (dictitem.getDictId().equals(dict.getId())) {
                     SelectVo selectVo = new SelectVo(dictitem.getCode(), dictitem.getName());
                     dictitems.add(selectVo);

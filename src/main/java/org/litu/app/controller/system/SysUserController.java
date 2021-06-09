@@ -35,13 +35,13 @@ import java.util.List;
 public class SysUserController extends BaseViewFormController<SysUser, ISysUserService> {
 
     @Autowired
-    private ISysUserloginService sysUserLoginService;
+    private ISysUserLoginService sysUserLoginService;
     @Autowired
     private ISysOrganizeService sysOrganizeService;
     @Autowired
     private ISysRoleService sysRoleService;
     @Autowired
-    private ISysUserroleService sysUserroleService;
+    private ISysUserRoleService sysUserroleService;
     @Autowired
     private ISysUserService sysUserService;
 
@@ -63,9 +63,9 @@ public class SysUserController extends BaseViewFormController<SysUser, ISysUserS
             List<SysRole> roleList = sysRoleService.list(queryWrapper);
             model.addAttribute("roleList", roleList);
             // 用户角色列表
-            List<SysUserrole> userrolesList = sysUserroleService.getByUserId(userId);
+            List<SysUserRole> userrolesList = sysUserroleService.getByUserId(userId);
             List<String> userRoleIds = new ArrayList<>();
-            for (SysUserrole sysUserrole : userrolesList) {
+            for (SysUserRole sysUserrole : userrolesList) {
                 userRoleIds.add(sysUserrole.getRoleId());
             }
             model.addAttribute("userRoleIds", userRoleIds);
@@ -142,7 +142,7 @@ public class SysUserController extends BaseViewFormController<SysUser, ISysUserS
         }
         try {
             UserInfo user = nowUser();
-            SysUserlogin userLogin = sysUserLoginService.getByUserId(user.getId());
+            SysUserLogin userLogin = sysUserLoginService.getByUserId(user.getId());
             if (!userLogin.getPassword().equals(PasswordUtil.GetDbPassword(userLogin.getSecretKey(), oldPwd))) {
                 return BaseRes.error(ResultEnum.ParamError, "原密码不正确!");
             }
@@ -173,7 +173,7 @@ public class SysUserController extends BaseViewFormController<SysUser, ISysUserS
         if (StringUtils.isBlank(userId)) {
             return BaseRes.error(ResultEnum.ParamError, "userId不能为空!");
         }
-        SysUserlogin userLogin = sysUserLoginService.getByUserId(userId);
+        SysUserLogin userLogin = sysUserLoginService.getByUserId(userId);
         String sKey = PasswordUtil.GetSecretkey();
         userLogin.setSecretKey(sKey);
         userLogin.setPassword(PasswordUtil.GetDbPassword(sKey));

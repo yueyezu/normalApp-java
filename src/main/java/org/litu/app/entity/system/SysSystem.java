@@ -24,7 +24,6 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_System")
 @ApiModel(value="SysSystem对象", description="系统信息表")
 public class SysSystem extends BaseEntity {
 

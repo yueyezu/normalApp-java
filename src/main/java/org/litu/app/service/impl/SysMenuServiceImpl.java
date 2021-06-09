@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.dao.SysMenuMapper;
-import org.litu.app.dao.SysRolemenuMapper;
+import org.litu.app.dao.SysRoleMenuMapper;
 import org.litu.app.entity.system.SysMenu;
-import org.litu.app.entity.system.SysRolemenu;
+import org.litu.app.entity.system.SysRoleMenu;
 import org.litu.app.service.ISysMenuService;
 import org.litu.base.service.impl.BaseTreeServiceImpl;
 import org.litu.core.exception.LtParamException;
@@ -29,7 +29,7 @@ import java.util.Map;
 public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
     @Autowired
-    SysRolemenuMapper roleMenuMapper;
+    SysRoleMenuMapper roleMenuMapper;
 
     @Override
     public void beforeTree(SysMenu entity, String keyword, Map<String, String> params, LambdaQueryWrapper<SysMenu> query) {
@@ -64,8 +64,8 @@ public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMe
     public boolean beforeDelete(String id, Map<String, String> params, SysMenu entity) {
         boolean result = super.beforeDelete(id, params, entity);
         if (result) {
-            LambdaQueryWrapper<SysRolemenu> rolemenuQueryWrapper = Wrappers.lambdaQuery();
-            rolemenuQueryWrapper.eq(SysRolemenu::getMenuId, id);
+            LambdaQueryWrapper<SysRoleMenu> rolemenuQueryWrapper = Wrappers.lambdaQuery();
+            rolemenuQueryWrapper.eq(SysRoleMenu::getMenuId, id);
             int rmNum = roleMenuMapper.selectCount(rolemenuQueryWrapper);
             if (rmNum > 0) {
                 throw new LtParamException("当前菜单在角色中已经设置，请检查后再删除！");

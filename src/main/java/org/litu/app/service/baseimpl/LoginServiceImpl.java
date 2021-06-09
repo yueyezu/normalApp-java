@@ -6,7 +6,7 @@ import org.litu.app.constant.SysContant;
 import org.litu.app.entity.system.SysMenu;
 import org.litu.app.entity.system.SysSystem;
 import org.litu.app.entity.system.SysUser;
-import org.litu.app.entity.system.SysUserlogin;
+import org.litu.app.entity.system.SysUserLogin;
 import org.litu.app.service.*;
 import org.litu.app.entity.vo.LoginUserMsg;
 import org.litu.base.service.ILoginService;
@@ -28,7 +28,7 @@ public class LoginServiceImpl implements ILoginService<LoginUserMsg> {
     @Autowired
     private ISysUserService sysUserService;
     @Autowired
-    private ISysUserloginService sysUserLoginService;
+    private ISysUserLoginService sysUserLoginService;
     @Autowired
     private ISysRoleService sysRoleService;
     @Autowired
@@ -62,7 +62,7 @@ public class LoginServiceImpl implements ILoginService<LoginUserMsg> {
             throw new LtServerException(ResultEnum.UserNotEnable);
         }
         // 验证密码
-        SysUserlogin sysUserLogin = sysUserLoginService.getByUserId(user.getId());
+        SysUserLogin sysUserLogin = sysUserLoginService.getByUserId(user.getId());
         // 是否允许登录
         if (sysUserLogin.getEnableLogin().intValue() == SysContant.FLAG_FALSE) {
             throw new LtServerException(ResultEnum.UserNotEnable);
@@ -146,7 +146,7 @@ public class LoginServiceImpl implements ILoginService<LoginUserMsg> {
         }
         // 验证密码
         String userId = user.getId();
-        SysUserlogin sysUserLogin = sysUserLoginService.getByUserId(userId);
+        SysUserLogin sysUserLogin = sysUserLoginService.getByUserId(userId);
 
         // 是否允许登录
         if (sysUserLogin.getEnableLogin().intValue() == SysContant.FLAG_FALSE) {
@@ -220,7 +220,7 @@ public class LoginServiceImpl implements ILoginService<LoginUserMsg> {
      */
     @Override
     public boolean ChangeLoginStatus(String userId, Integer loginStatus) {
-        SysUserlogin sysUserLogin = sysUserLoginService.getByUserId(userId);
+        SysUserLogin sysUserLogin = sysUserLoginService.getByUserId(userId);
         sysUserLogin.setLoginStatus(loginStatus);
         if (loginStatus.equals(SysContant.FLAG_TRUE)) {
             sysUserLogin.setLastVisitTime(new Date());

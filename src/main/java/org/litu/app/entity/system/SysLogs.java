@@ -24,7 +24,6 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_Logs")
 @ApiModel(value="SysLogs对象", description="系统日志表")
 public class SysLogs extends BaseEntity {
 

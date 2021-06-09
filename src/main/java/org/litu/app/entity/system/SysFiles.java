@@ -23,7 +23,6 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_Files")
 @ApiModel(value = "SysFiles对象", description = "系统附件表")
 public class SysFiles extends BaseEntity {
 

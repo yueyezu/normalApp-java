@@ -1,6 +1,5 @@
 package org.litu.app.entity.system;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,7 +23,6 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_Dict")
 @ApiModel(value = "SysDict对象", description = "字典表")
 public class SysDict extends BaseTreeEntity<SysDict> implements ITreeNode<SysDict> {
 

@@ -24,7 +24,6 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_User")
 @ApiModel(value = "SysUser对象", description = "用户表")
 public class SysUser extends BaseEntity {
 

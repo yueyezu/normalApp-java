@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.litu.app.constant.SysContant;
 import org.litu.app.dao.SysUserMapper;
-import org.litu.app.dao.SysUserloginMapper;
+import org.litu.app.dao.SysUserLoginMapper;
 import org.litu.app.entity.system.SysUser;
-import org.litu.app.entity.system.SysUserlogin;
+import org.litu.app.entity.system.SysUserLogin;
 import org.litu.app.service.ISysFilesService;
 import org.litu.app.service.ISysUserService;
 import org.litu.base.service.impl.BaseServiceImpl;
@@ -36,7 +36,7 @@ import java.util.Map;
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     @Autowired
-    private SysUserloginMapper sysUserloginMapper;
+    private SysUserLoginMapper sysUserloginMapper;
     @Autowired
     private ISysFilesService sysFilesService;
 
@@ -74,7 +74,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             throw new LtParamException("用户信息保存失败！");
         }
         // 创建用户的密码信息
-        SysUserlogin sysUserLogin = new SysUserlogin();
+        SysUserLogin sysUserLogin = new SysUserLogin();
         String sKey = PasswordUtil.GetSecretkey();
         sysUserLogin.setSecretKey(sKey);
         try {

@@ -25,7 +25,6 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_Configs")
 @ApiModel(value = "SysConfigs对象", description = "系统配置表 对于系统的配置信息存储到数据库中的表 主要是为了给用户提供一个可以通过界面管理的功能")
 public class SysConfigs extends BaseEntity {
 

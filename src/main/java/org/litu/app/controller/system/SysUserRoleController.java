@@ -1,7 +1,7 @@
 package org.litu.app.controller.system;
 
 import org.apache.commons.lang3.StringUtils;
-import org.litu.app.service.ISysUserroleService;
+import org.litu.app.service.ISysUserRoleService;
 import org.litu.app.entity.vo.UserRole;
 import org.litu.core.base.BaseController;
 import org.litu.core.base.BaseRes;
@@ -29,7 +29,7 @@ import java.util.List;
 public class SysUserRoleController extends BaseController {
 
     @Autowired
-    private ISysUserroleService sysUserRoleService;
+    private ISysUserRoleService sysUserRoleService;
 
     /**
      * 用户分配角色

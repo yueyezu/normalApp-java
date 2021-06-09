@@ -24,7 +24,6 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("Sys_Menu")
 @ApiModel(value = "SysMenu对象", description = "系统菜单表")
 public class SysMenu extends BaseTreeEntity<SysMenu> implements ITreeNode<SysMenu> {
 
