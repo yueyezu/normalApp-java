@@ -1,5 +1,8 @@
 package org.litu.util.cache;
 
+import org.litu.util.transform.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.util.CollectionUtils;
@@ -17,6 +20,8 @@ import java.util.concurrent.TimeUnit;
  * 针对所有的List 都是以l开头的方法
  */
 public class RedisUtil {
+    private static final Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+
     private final RedisTemplate<String, Object> redisTemplate;
 
     private RedisUtil(RedisTemplate<String, Object> redisTemplate) {
@@ -43,7 +48,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("redis指定缓存时间错误", e);
             return false;
         }
     }
@@ -68,7 +73,7 @@ public class RedisUtil {
         try {
             return redisTemplate.hasKey(key);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("redis 检查key是否存在错误", e);
             return false;
         }
     }
@@ -113,7 +118,7 @@ public class RedisUtil {
             redisTemplate.opsForValue().set(key, value);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("redis 插入数据错误", e);
             return false;
         }
 
@@ -136,7 +141,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("redis 插入数据错误", e);
             return false;
         }
     }
@@ -225,7 +230,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("redis 插入数据错误", e);
             return false;
         }
     }
@@ -243,7 +248,7 @@ public class RedisUtil {
             redisTemplate.opsForHash().put(key, item, value);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("redis 插入数据错误", e);
             return false;
         }
     }
@@ -265,7 +270,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("redis 插入数据错误", e);
             return false;
         }
     }
