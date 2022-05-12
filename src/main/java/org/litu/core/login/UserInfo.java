@@ -27,7 +27,7 @@ public class UserInfo {
      * 用户账号
      */
     @ApiModelProperty(value = "账号")
-    private String account; // 帐号
+    private String account;
     /**
      * 用户名称
      */
@@ -47,12 +47,12 @@ public class UserInfo {
      * 微信
      */
     @ApiModelProperty(value = "微信", required = true)
-    private String wechat; // 微信
+    private String wechat;
     /**
      * 头像
      */
     @ApiModelProperty(value = "头像")
-    private String photo; // 头像
+    private String photo;
     /**
      * 组织Code
      */
@@ -68,13 +68,4 @@ public class UserInfo {
      */
     @ApiModelProperty(value = "角色Code列表")
     private List<String> roles = new ArrayList<>();
-
-    /**
-     * 添加一个角色Code信息
-     *
-     * @param role
-     */
-    public void addRole(String role) {
-        roles.add(role);
-    }
 }
